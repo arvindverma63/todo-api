@@ -460,6 +460,36 @@ if ($route === '' || $route === 'index.php' || $route === 'api') {
             </div>
         </div>
 
+        <!-- POST /api/login-google -->
+        <div class="endpoint-card">
+            <div class="endpoint-header" onclick="toggleDetails(this)">
+                <span class="method-badge post">POST</span>
+                <span class="endpoint-path">/api/login-google</span>
+                <span class="endpoint-desc">Authenticate/Provision account using Google OAuth ID</span>
+            </div>
+            <div class="endpoint-details">
+                <div class="detail-row">
+                    <div class="detail-title">Request Body Template</div>
+                    <pre>{
+  "googleId": "google_oauth_sub_id",
+  "email": "user@gmail.com",
+  "displayName": "User Name"
+}</pre>
+                </div>
+                <div class="testing-section">
+                    <div class="detail-title">Test Endpoint</div>
+                    <div class="testing-form">
+                        <textarea class="body-input" id="body-login-google">{
+  "googleId": "1000343378364",
+  "email": "tester@gmail.com",
+  "displayName": "API Sandbox Tester"
+}</textarea>
+                        <button class="btn" onclick="testRequest('POST', '/api/login-google', 'body-login-google')">Send Request</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- 1. Attendance & Helpers -->
         <h2 class="section-title">Helper Attendance Management</h2>
         
