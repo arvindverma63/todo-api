@@ -812,6 +812,55 @@ switch ($route) {
         }
         break;
 
+    case 'update-profile':
+        if ($requestMethod !== 'POST') {
+            sendError('Method Not Allowed', 405);
+        }
+        if (!$input || empty($input['username'])) {
+            sendError('Username is required');
+        }
+        $newUsername = trim($input['username']);
+        
+        // Verify unique username if changed
+        if ($newUsername !== $activeUserObj['username']) {
+            $stmt = $pdo->prepare("SELECT COUNT(*) FROM users WHERE username = ?");
+            $stmt->execute([$newUsername]);
+            if ($stmt->fetchColumn() > 0) {
+                sendError('Username is already taken');
+            }
+        }
+        
+        if (!empty($input['password'])) {
+            $hashedPassword = password_hash($input['password'], PASSWORD_BCRYPT);
+            $stmtUpdate = $pdo->prepare("UPDATE users SET username = ?, password = ? WHERE id = ?");
+            $stmtUpdate->execute([$newUsername, $hashedPassword, $userId]);
+        } else {
+            $stmtUpdate = $pdo->prepare("UPDATE users SET username = ? WHERE id = ?");
+            $stmtUpdate->execute([$newUsername, $userId]);
+        }
+        
+        sendResponse([
+            'success' => true,
+            'username' => $newUsername
+        ]);
+        break;
+
+    case 'update-subscription':
+        if ($requestMethod !== 'POST') {
+            sendError('Method Not Allowed', 405);
+        }
+        
+        // Upgrade user to registered/premium status
+        $stmtUpdate = $pdo->prepare("UPDATE users SET userType = 'registered', expiresAt = NULL WHERE id = ?");
+        $stmtUpdate->execute([$userId]);
+        
+        sendResponse([
+            'success' => true,
+            'userType' => 'registered',
+            'expiresAt' => null
+        ]);
+        break;
+
     // Employees REST
     case 'employees':
         if ($requestMethod === 'GET') {
