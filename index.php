@@ -684,6 +684,47 @@ if ($route === 'convert-guest' && $requestMethod === 'POST') {
     ]);
 }
 
+if ($route === 'login-google' && $requestMethod === 'POST') {
+    if (!$input || empty($input['googleId']) || empty($input['email'])) {
+        sendError('Google ID and email are required');
+    }
+    
+    $googleUserId = 'google_' . $input['googleId'];
+    
+    // Check if user exists
+    $stmt = $pdo->prepare("SELECT * FROM users WHERE id = ?");
+    $stmt->execute([$googleUserId]);
+    $userObj = $stmt->fetch();
+    
+    if ($userObj) {
+        sendResponse([
+            'success' => true,
+            'userId' => $userObj['id'],
+            'username' => $userObj['username'],
+            'userType' => $userObj['userType'],
+            'expiresAt' => $userObj['expiresAt']
+        ]);
+    } else {
+        // Create new user profile linked to Google ID
+        $createdAt = date('c');
+        $stmt = $pdo->prepare("INSERT INTO users (id, username, password, userType, createdAt, expiresAt) VALUES (?, ?, NULL, ?, ?, NULL)");
+        $stmt->execute([
+            $googleUserId,
+            $input['email'],
+            'registered',
+            $createdAt
+        ]);
+        
+        sendResponse([
+            'success' => true,
+            'userId' => $googleUserId,
+            'username' => $input['email'],
+            'userType' => 'registered',
+            'expiresAt' => null
+        ]);
+    }
+}
+
 // -----------------------------------------------------------------------------
 // Verify Scoped Endpoints Header
 if (!$userId) {
