@@ -610,23 +610,24 @@ if ($route === 'register' && $requestMethod === 'POST') {
     $userId = uniqid('user_', true);
     $hashedPassword = password_hash($input['password'], PASSWORD_BCRYPT);
     $createdAt = date('c');
+    $expiresAt = date('c', strtotime('+30 days'));
     
     $stmt = $pdo->prepare("INSERT INTO users (id, username, password, userType, createdAt, expiresAt) VALUES (?, ?, ?, ?, ?, ?)");
     $stmt->execute([
         $userId,
         $input['username'],
         $hashedPassword,
-        'registered',
+        'guest',
         $createdAt,
-        null
+        $expiresAt
     ]);
     
     sendResponse([
         'success' => true,
         'userId' => $userId,
         'username' => $input['username'],
-        'userType' => 'registered',
-        'expiresAt' => null,
+        'userType' => 'guest',
+        'expiresAt' => $expiresAt,
         'profilePic' => null
     ]);
 }
@@ -740,20 +741,22 @@ if ($route === 'login-google' && $requestMethod === 'POST') {
     } else {
         // Create new user profile linked to Google ID
         $createdAt = date('c');
-        $stmt = $pdo->prepare("INSERT INTO users (id, username, password, userType, createdAt, expiresAt) VALUES (?, ?, NULL, ?, ?, NULL)");
+        $expiresAt = date('c', strtotime('+30 days'));
+        $stmt = $pdo->prepare("INSERT INTO users (id, username, password, userType, createdAt, expiresAt) VALUES (?, ?, NULL, ?, ?, ?)");
         $stmt->execute([
             $googleUserId,
             $input['email'],
-            'registered',
-            $createdAt
+            'guest',
+            $createdAt,
+            $expiresAt
         ]);
         
         sendResponse([
             'success' => true,
             'userId' => $googleUserId,
             'username' => $input['email'],
-            'userType' => 'registered',
-            'expiresAt' => null,
+            'userType' => 'guest',
+            'expiresAt' => $expiresAt,
             'profilePic' => null
         ]);
     }
