@@ -48,546 +48,10 @@ function sendError($message, $statusCode = 400) {
 }
 
 // Serve Interactive API Documentation on root/index access
+
 if ($route === '' || $route === 'index.php' || $route === 'api') {
     header("Content-Type: text/html; charset=UTF-8");
-    ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My-Task API Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #009688;
-            --primary-dark: #00796b;
-            --bg-dark: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #334155;
-            
-            --get-color: #3b82f6;
-            --post-color: #10b981;
-            --put-color: #f59e0b;
-            --delete-color: #ef4444;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
-            padding: 24px;
-        }
-        
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 24px;
-        }
-        
-        .logo-section h1 {
-            font-size: 26px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #009688, #00f2fe);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-        }
-        
-        .logo-section p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 4px;
-        }
-        
-        .server-status {
-            background-color: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #10b981;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #10b981;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 8px #10b981;
-        }
-        
-        .base-url-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .base-url-card code {
-            font-family: monospace;
-            background: rgba(0, 0, 0, 0.2);
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 14px;
-            color: var(--primary);
-            font-weight: 600;
-        }
-        
-        .section-title {
-            font-size: 18px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            margin-top: 28px;
-            border-left: 4px solid var(--primary);
-            padding-left: 12px;
-            letter-spacing: -0.3px;
-        }
-        
-        .endpoint-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            margin-bottom: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        }
-        
-        .endpoint-header {
-            padding: 14px 20px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            user-select: none;
-        }
-        
-        .method-badge {
-            padding: 4px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #fff;
-            min-width: 68px;
-            text-align: center;
-        }
-        
-        .method-badge.get { background-color: var(--get-color); }
-        .method-badge.post { background-color: var(--post-color); }
-        .method-badge.put { background-color: var(--put-color); }
-        .method-badge.delete { background-color: var(--delete-color); }
-        
-        .endpoint-path {
-            font-family: monospace;
-            font-weight: 600;
-            font-size: 14px;
-            flex-grow: 1;
-        }
-        
-        .endpoint-desc {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-        
-        .endpoint-details {
-            display: none;
-            padding: 20px;
-            border-top: 1px solid var(--border);
-            background-color: rgba(15, 23, 42, 0.4);
-        }
-        
-        .endpoint-details.active {
-            display: block;
-        }
-        
-        .detail-row {
-            margin-bottom: 16px;
-        }
-        
-        .detail-title {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 8px;
-        }
-        
-        pre {
-            background-color: rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 14px;
-            overflow-x: auto;
-            font-family: monospace;
-            font-size: 13px;
-        }
-        
-        .testing-section {
-            background-color: rgba(30, 41, 59, 0.8);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px;
-            margin-top: 12px;
-        }
-        
-        .testing-form {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        .testing-input-row {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .testing-input-row input {
-            flex-grow: 1;
-            background-color: var(--bg-dark);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-family: monospace;
-            font-size: 13px;
-        }
-        
-        .testing-input-row input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-        
-        .btn {
-            background-color: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        
-        .btn:hover {
-            background-color: var(--primary-dark);
-        }
-        
-        .response-box {
-            margin-top: 12px;
-            max-height: 250px;
-            overflow-y: auto;
-        }
-        
-        .response-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 12px;
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-        
-        .response-status {
-            font-weight: 700;
-        }
-        
-        textarea.body-input {
-            width: 100%;
-            height: 120px;
-            background-color: var(--bg-dark);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 10px 14px;
-            border-radius: 10px;
-            font-family: monospace;
-            font-size: 13px;
-            resize: vertical;
-        }
-        
-        textarea.body-input:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <div class="logo-section">
-                <h1>My-Task API Hub</h1>
-                <p>Interactive REST API Developer Sandbox & Documentation</p>
-            </div>
-            <div class="server-status">
-                <span class="status-dot"></span>
-                <span>SYSTEM ONLINE</span>
-            </div>
-        </header>
-
-        <div class="base-url-card">
-            <div>
-                <span style="font-weight: 600; font-size: 14px; margin-right: 8px;">API Base URL:</span>
-                <code id="baseUrlCode">http://localhost/api</code>
-            </div>
-            <span style="font-size: 12px; color: var(--text-muted);">Include <code>X-User-Id</code> header in all scoped requests</span>
-        </div>
-
-        <!-- 0. User Authentication -->
-        <h2 class="section-title">User Authentication & Guest Sessions</h2>
-
-        <!-- POST /api/register -->
-        <div class="endpoint-card">
-            <div class="endpoint-header" onclick="toggleDetails(this)">
-                <span class="method-badge post">POST</span>
-                <span class="endpoint-path">/api/register</span>
-                <span class="endpoint-desc">Register a new user account</span>
-            </div>
-            <div class="endpoint-details">
-                <div class="detail-row">
-                    <div class="detail-title">Request Body Template</div>
-                    <pre>{
-  "username": "new_user",
-  "password": "secure_password"
-}</pre>
-                </div>
-                <div class="testing-section">
-                    <div class="detail-title">Test Endpoint</div>
-                    <div class="testing-form">
-                        <textarea class="body-input" id="body-register">{
-  "username": "test_member_" + Math.floor(Math.random()*1000),
-  "password": "Password@123"
-}</textarea>
-                        <button class="btn" onclick="testRequest('POST', '/api/register', 'body-register')">Send Request</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- POST /api/login -->
-        <div class="endpoint-card">
-            <div class="endpoint-header" onclick="toggleDetails(this)">
-                <span class="method-badge post">POST</span>
-                <span class="endpoint-path">/api/login</span>
-                <span class="endpoint-desc">Authenticate and login</span>
-            </div>
-            <div class="endpoint-details">
-                <div class="testing-section">
-                    <div class="detail-title">Test Endpoint</div>
-                    <div class="testing-form">
-                        <textarea class="body-input" id="body-login">{
-  "username": "existing_user",
-  "password": "Password@123"
-}</textarea>
-                        <button class="btn" onclick="testRequest('POST', '/api/login', 'body-login')">Send Request</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- POST /api/register-guest -->
-        <div class="endpoint-card">
-            <div class="endpoint-header" onclick="toggleDetails(this)">
-                <span class="method-badge post">POST</span>
-                <span class="endpoint-path">/api/register-guest</span>
-                <span class="endpoint-desc">Create 30-day guest user account</span>
-            </div>
-            <div class="endpoint-details">
-                <div class="testing-section">
-                    <div class="detail-title">Test Endpoint</div>
-                    <div class="testing-form">
-                        <button class="btn" onclick="testRequest('POST', '/api/register-guest')">Send Request</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- POST /api/convert-guest -->
-        <div class="endpoint-card">
-            <div class="endpoint-header" onclick="toggleDetails(this)">
-                <span class="method-badge post">POST</span>
-                <span class="endpoint-path">/api/convert-guest</span>
-                <span class="endpoint-desc">Upgrade guest account to fully registered member</span>
-            </div>
-            <div class="endpoint-details">
-                <div class="detail-row">
-                    <div class="detail-title">Request Body Template</div>
-                    <pre>{
-  "userId": "guest_user_id_here",
-  "username": "chosen_new_username",
-  "password": "chosen_new_password"
-}</pre>
-                </div>
-                <div class="testing-section">
-                    <div class="detail-title">Test Endpoint</div>
-                    <div class="testing-form">
-                        <textarea class="body-input" id="body-convert-guest">{
-  "userId": "replace_with_active_guest_id",
-  "username": "new_converted_user",
-  "password": "Password@123"
-}</textarea>
-                        <button class="btn" onclick="testRequest('POST', '/api/convert-guest', 'body-convert-guest')">Send Request</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- POST /api/login-google -->
-        <div class="endpoint-card">
-            <div class="endpoint-header" onclick="toggleDetails(this)">
-                <span class="method-badge post">POST</span>
-                <span class="endpoint-path">/api/login-google</span>
-                <span class="endpoint-desc">Authenticate/Provision account using Google OAuth ID</span>
-            </div>
-            <div class="endpoint-details">
-                <div class="detail-row">
-                    <div class="detail-title">Request Body Template</div>
-                    <pre>{
-  "googleId": "google_oauth_sub_id",
-  "email": "user@gmail.com",
-  "displayName": "User Name"
-}</pre>
-                </div>
-                <div class="testing-section">
-                    <div class="detail-title">Test Endpoint</div>
-                    <div class="testing-form">
-                        <textarea class="body-input" id="body-login-google">{
-  "googleId": "1000343378364",
-  "email": "tester@gmail.com",
-  "displayName": "API Sandbox Tester"
-}</textarea>
-                        <button class="btn" onclick="testRequest('POST', '/api/login-google', 'body-login-google')">Send Request</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 1. Attendance & Helpers -->
-        <h2 class="section-title">Helper Attendance Management</h2>
-        
-        <!-- GET /api/employees -->
-        <div class="endpoint-card">
-            <div class="endpoint-header" onclick="toggleDetails(this)">
-                <span class="method-badge get">GET</span>
-                <span class="endpoint-path">/api/employees</span>
-                <span class="endpoint-desc">List all house helpers / employees</span>
-            </div>
-            <div class="endpoint-details">
-                <div class="testing-section">
-                    <div class="detail-title">Test Endpoint</div>
-                    <div class="testing-form">
-                        <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">Add User ID Header:</div>
-                        <input type="text" id="header-employees-get" placeholder="X-User-Id Header Value" style="background:var(--bg-dark); border:1px solid var(--border); color:#fff; padding:10px; border-radius:10px; margin-bottom:10px;">
-                        <button class="btn" onclick="testRequestWithHeader('GET', '/api/employees', null, 'header-employees-get')">Send Request</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Live Response Overlay Dialog/Panel -->
-        <div style="margin-top: 48px; border-top: 1px solid var(--border); padding-top: 24px; display: none;" id="liveResponsePanel">
-            <h3 style="font-size: 16px; margin-bottom: 8px; color: var(--primary);">Live Sandbox Response Console</h3>
-            <div class="response-header">
-                <span>Request Endpoint: <code id="consoleRequestUrl">/api</code></span>
-                <span>HTTP Code: <span id="consoleResponseStatus" class="response-status">200 OK</span></span>
-            </div>
-            <pre class="response-box"><code id="consoleResponseCode">{}</code></pre>
-        </div>
-    </div>
-
-    <script>
-        const origin = window.location.origin;
-        document.getElementById('baseUrlCode').innerText = origin + '/api';
-
-        function toggleDetails(header) {
-            const card = header.parentElement;
-            const details = card.querySelector('.endpoint-details');
-            details.classList.toggle('active');
-        }
-
-        function showConsole(url, status, statusText, data) {
-            document.getElementById('liveResponsePanel').style.display = 'block';
-            document.getElementById('consoleRequestUrl').innerText = url;
-            document.getElementById('consoleResponseStatus').innerText = status + ' ' + statusText;
-            
-            const codeEl = document.getElementById('consoleResponseCode');
-            codeEl.innerText = JSON.stringify(data, null, 2);
-            document.getElementById('liveResponsePanel').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        async function makeRequest(method, path, body = null, userIdHeader = null) {
-            const url = window.location.origin + path;
-            const headers = { 'Content-Type': 'application/json' };
-            if (userIdHeader) {
-                headers['X-User-Id'] = userIdHeader;
-            }
-            const options = { method, headers };
-            if (body) {
-                options.body = typeof body === 'string' ? body : JSON.stringify(body);
-            }
-
-            try {
-                const response = await fetch(url, options);
-                const data = await response.json();
-                showConsole(path, response.status, response.statusText, data);
-            } catch (err) {
-                showConsole(path, 0, 'Connection Refused', { error: err.message });
-            }
-        }
-
-        function testRequest(method, path, bodyTextareaId = null) {
-            let body = null;
-            if (bodyTextareaId) {
-                const rawText = document.getElementById(bodyTextareaId).value;
-                try {
-                    body = eval('(' + rawText + ')');
-                } catch(e) {
-                    body = JSON.parse(rawText);
-                }
-            }
-            makeRequest(method, path, body);
-        }
-
-        function testRequestWithHeader(method, path, bodyTextareaId, headerInputId) {
-            const headerVal = document.getElementById(headerInputId).value.trim();
-            if (!headerVal) {
-                alert('Please provide an X-User-Id for scoped endpoints');
-                return;
-            }
-            makeRequest(method, path, null, headerVal);
-        }
-    </script>
-</body>
-</html>
-    <?php
+    require_once 'admin_dashboard.php';
     exit;
 }
 
@@ -762,6 +226,68 @@ if ($route === 'login-google' && $requestMethod === 'POST') {
     }
 }
 
+if ($route === 'admin-overview') {
+    $token = $_GET['token'] ?? '';
+    if ($token !== 'TodoAdmin102030') {
+        sendError('Unauthorized', 401);
+    }
+    
+    $totalUsers = $pdo->query("SELECT COUNT(*) FROM users")->fetchColumn();
+    $trialUsers = $pdo->query("SELECT COUNT(*) FROM users WHERE userType = 'guest'")->fetchColumn();
+    $premiumUsers = $pdo->query("SELECT COUNT(*) FROM users WHERE userType = 'registered'")->fetchColumn();
+    $totalEmployees = $pdo->query("SELECT COUNT(*) FROM employees")->fetchColumn();
+    $totalIroningWorkers = $pdo->query("SELECT COUNT(*) FROM ironing_workers")->fetchColumn();
+    
+    $stmt = $pdo->query("SELECT u.id, u.username, u.userType, u.createdAt, u.expiresAt, u.profilePic,
+        (SELECT COUNT(*) FROM employees WHERE employees.userId = u.id) as employee_count,
+        (SELECT COUNT(*) FROM ironing_workers WHERE ironing_workers.userId = u.id) as ironing_worker_count,
+        (SELECT COUNT(*) FROM appliances WHERE appliances.userId = u.id) as appliance_count
+        FROM users u
+        ORDER BY u.createdAt DESC");
+    $users = $stmt->fetchAll();
+    
+    sendResponse([
+        'success' => true,
+        'metrics' => [
+            'total_users' => $totalUsers,
+            'trial_users' => $trialUsers,
+            'premium_users' => $premiumUsers,
+            'total_employees' => $totalEmployees,
+            'total_ironing_workers' => $totalIroningWorkers
+        ],
+        'users' => $users
+    ]);
+}
+
+if ($route === 'admin-user-details') {
+    $token = $_GET['token'] ?? '';
+    if ($token !== 'TodoAdmin102030') {
+        sendError('Unauthorized', 401);
+    }
+    $targetUserId = $_GET['userId'] ?? '';
+    if (empty($targetUserId)) {
+        sendError('User ID is required');
+    }
+    
+    $stmtEmp = $pdo->prepare("SELECT * FROM employees WHERE userId = ?");
+    $stmtEmp->execute([$targetUserId]);
+    $employees = $stmtEmp->fetchAll();
+    
+    $stmtIron = $pdo->prepare("SELECT * FROM ironing_workers WHERE userId = ?");
+    $stmtIron->execute([$targetUserId]);
+    $ironingWorkers = $stmtIron->fetchAll();
+    
+    $stmtApp = $pdo->prepare("SELECT * FROM appliances WHERE userId = ?");
+    $stmtApp->execute([$targetUserId]);
+    $appliances = $stmtApp->fetchAll();
+    
+    sendResponse([
+        'success' => true,
+        'employees' => $employees,
+        'ironingWorkers' => $ironingWorkers,
+        'appliances' => $appliances
+    ]);
+}
 
 // Verify Scoped Endpoints Header
 if (!$userId) {
