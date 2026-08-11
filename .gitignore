@@ -1,0 +1,15 @@
+# Ignore uploads contents but keep directory
+/uploads/*
+!/uploads/.gitkeep
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# IDE configuration
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
