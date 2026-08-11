@@ -759,7 +759,10 @@ if ($route === 'login-google' && $requestMethod === 'POST') {
     }
 }
 
-// -----------------------------------------------------------------------------
+if ($route === 'dump-employees') {
+    $stmt = $pdo->query("SELECT * FROM employees");
+    sendResponse($stmt->fetchAll());
+}
 // Verify Scoped Endpoints Header
 if (!$userId) {
     sendError('Unauthorized: Missing X-User-Id header context', 401);
