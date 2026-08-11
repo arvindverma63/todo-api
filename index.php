@@ -626,7 +626,8 @@ if ($route === 'register' && $requestMethod === 'POST') {
         'userId' => $userId,
         'username' => $input['username'],
         'userType' => 'registered',
-        'expiresAt' => null
+        'expiresAt' => null,
+        'profilePic' => null
     ]);
 }
 
@@ -648,7 +649,8 @@ if ($route === 'login' && $requestMethod === 'POST') {
         'userId' => $userObj['id'],
         'username' => $userObj['username'],
         'userType' => $userObj['userType'],
-        'expiresAt' => $userObj['expiresAt']
+        'expiresAt' => $userObj['expiresAt'],
+        'profilePic' => $userObj['profilePic']
     ]);
 }
 
@@ -732,7 +734,8 @@ if ($route === 'login-google' && $requestMethod === 'POST') {
             'userId' => $userObj['id'],
             'username' => $userObj['username'],
             'userType' => $userObj['userType'],
-            'expiresAt' => $userObj['expiresAt']
+            'expiresAt' => $userObj['expiresAt'],
+            'profilePic' => $userObj['profilePic']
         ]);
     } else {
         // Create new user profile linked to Google ID
@@ -750,7 +753,8 @@ if ($route === 'login-google' && $requestMethod === 'POST') {
             'userId' => $googleUserId,
             'username' => $input['email'],
             'userType' => 'registered',
-            'expiresAt' => null
+            'expiresAt' => null,
+            'profilePic' => null
         ]);
     }
 }
@@ -812,6 +816,20 @@ switch ($route) {
         }
         break;
 
+    case 'get-profile':
+        if ($requestMethod !== 'GET') {
+            sendError('Method Not Allowed', 405);
+        }
+        sendResponse([
+            'success' => true,
+            'userId' => $activeUserObj['id'],
+            'username' => $activeUserObj['username'],
+            'userType' => $activeUserObj['userType'],
+            'profilePic' => $activeUserObj['profilePic'],
+            'expiresAt' => $activeUserObj['expiresAt']
+        ]);
+        break;
+
     case 'update-profile':
         if ($requestMethod !== 'POST') {
             sendError('Method Not Allowed', 405);
@@ -820,6 +838,7 @@ switch ($route) {
             sendError('Username is required');
         }
         $newUsername = trim($input['username']);
+        $profilePic = isset($input['profilePic']) ? trim($input['profilePic']) : $activeUserObj['profilePic'];
         
         // Verify unique username if changed
         if ($newUsername !== $activeUserObj['username']) {
@@ -832,16 +851,17 @@ switch ($route) {
         
         if (!empty($input['password'])) {
             $hashedPassword = password_hash($input['password'], PASSWORD_BCRYPT);
-            $stmtUpdate = $pdo->prepare("UPDATE users SET username = ?, password = ? WHERE id = ?");
-            $stmtUpdate->execute([$newUsername, $hashedPassword, $userId]);
+            $stmtUpdate = $pdo->prepare("UPDATE users SET username = ?, password = ?, profilePic = ? WHERE id = ?");
+            $stmtUpdate->execute([$newUsername, $hashedPassword, $profilePic, $userId]);
         } else {
-            $stmtUpdate = $pdo->prepare("UPDATE users SET username = ? WHERE id = ?");
-            $stmtUpdate->execute([$newUsername, $userId]);
+            $stmtUpdate = $pdo->prepare("UPDATE users SET username = ?, profilePic = ? WHERE id = ?");
+            $stmtUpdate->execute([$newUsername, $profilePic, $userId]);
         }
         
         sendResponse([
             'success' => true,
-            'username' => $newUsername
+            'username' => $newUsername,
+            'profilePic' => $profilePic
         ]);
         break;
 
