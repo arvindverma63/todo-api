@@ -913,30 +913,82 @@ switch ($route) {
                 sendResponse($stmt->fetchAll());
             } elseif ($requestMethod === 'POST') {
                 if (!$input) sendError('Invalid JSON input');
-                $stmt = $pdo->prepare("INSERT INTO employees (id, userId, name, contact, joiningDate, baseSalary, salaryBasis) VALUES (?, ?, ?, ?, ?, ?, ?)");
-                $stmt->execute([
-                    $input['id'],
-                    $userId,
-                    $input['name'],
-                    $input['contact'] ?? null,
-                    $input['joiningDate'] ?? null,
-                    $input['baseSalary'] ?? 0.0,
-                    $input['salaryBasis'] ?? 'monthly'
-                ]);
+                try {
+                    $stmt = $pdo->prepare("INSERT INTO employees (id, userId, name, contact, joiningDate, baseSalary, salaryBasis, photoPath, relievingDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    $stmt->execute([
+                        $input['id'],
+                        $userId,
+                        $input['name'],
+                        $input['contact'] ?? null,
+                        $input['joiningDate'] ?? null,
+                        $input['baseSalary'] ?? 0.0,
+                        $input['salaryBasis'] ?? 'monthly',
+                        $input['photoPath'] ?? null,
+                        $input['relievingDate'] ?? null
+                    ]);
+                } catch (\PDOException $ex) {
+                    if ($ex->getCode() === '42S22' || strpos($ex->getMessage(), '1054') !== false) {
+                        try {
+                            $pdo->exec("ALTER TABLE employees ADD COLUMN photoPath VARCHAR(255) NULL, ADD COLUMN relievingDate VARCHAR(30) NULL");
+                        } catch (\PDOException $alterEx) {
+                            // ignore if columns already exist
+                        }
+                        $stmt = $pdo->prepare("INSERT INTO employees (id, userId, name, contact, joiningDate, baseSalary, salaryBasis, photoPath, relievingDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                        $stmt->execute([
+                            $input['id'],
+                            $userId,
+                            $input['name'],
+                            $input['contact'] ?? null,
+                            $input['joiningDate'] ?? null,
+                            $input['baseSalary'] ?? 0.0,
+                            $input['salaryBasis'] ?? 'monthly',
+                            $input['photoPath'] ?? null,
+                            $input['relievingDate'] ?? null
+                        ]);
+                    } else {
+                        throw $ex;
+                    }
+                }
                 sendResponse(['success' => true]);
             } elseif ($requestMethod === 'PUT') {
                 if (!$id) sendError('Employee ID required');
                 if (!$input) sendError('Invalid JSON input');
-                $stmt = $pdo->prepare("UPDATE employees SET name = ?, contact = ?, joiningDate = ?, baseSalary = ?, salaryBasis = ? WHERE id = ? AND userId = ?");
-                $stmt->execute([
-                    $input['name'],
-                    $input['contact'] ?? null,
-                    $input['joiningDate'] ?? null,
-                    $input['baseSalary'] ?? 0.0,
-                    $input['salaryBasis'] ?? 'monthly',
-                    $id,
-                    $userId
-                ]);
+                try {
+                    $stmt = $pdo->prepare("UPDATE employees SET name = ?, contact = ?, joiningDate = ?, baseSalary = ?, salaryBasis = ?, photoPath = ?, relievingDate = ? WHERE id = ? AND userId = ?");
+                    $stmt->execute([
+                        $input['name'],
+                        $input['contact'] ?? null,
+                        $input['joiningDate'] ?? null,
+                        $input['baseSalary'] ?? 0.0,
+                        $input['salaryBasis'] ?? 'monthly',
+                        $input['photoPath'] ?? null,
+                        $input['relievingDate'] ?? null,
+                        $id,
+                        $userId
+                    ]);
+                } catch (\PDOException $ex) {
+                    if ($ex->getCode() === '42S22' || strpos($ex->getMessage(), '1054') !== false) {
+                        try {
+                            $pdo->exec("ALTER TABLE employees ADD COLUMN photoPath VARCHAR(255) NULL, ADD COLUMN relievingDate VARCHAR(30) NULL");
+                        } catch (\PDOException $alterEx) {
+                            // ignore
+                        }
+                        $stmt = $pdo->prepare("UPDATE employees SET name = ?, contact = ?, joiningDate = ?, baseSalary = ?, salaryBasis = ?, photoPath = ?, relievingDate = ? WHERE id = ? AND userId = ?");
+                        $stmt->execute([
+                            $input['name'],
+                            $input['contact'] ?? null,
+                            $input['joiningDate'] ?? null,
+                            $input['baseSalary'] ?? 0.0,
+                            $input['salaryBasis'] ?? 'monthly',
+                            $input['photoPath'] ?? null,
+                            $input['relievingDate'] ?? null,
+                            $id,
+                            $userId
+                        ]);
+                    } else {
+                        throw $ex;
+                    }
+                }
                 sendResponse(['success' => true]);
             } elseif ($requestMethod === 'DELETE') {
                 if (!$id) sendError('Employee ID required');
