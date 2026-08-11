@@ -859,7 +859,26 @@ switch ($route) {
                 $stmtUpdate->execute([$newUsername, $profilePic, $userId]);
             }
         } catch (\PDOException $e) {
-            sendError('Database update failed: ' . $e->getMessage(), 500);
+            // Check if column is missing (SQLSTATE 42S22 or 1054)
+            if ($e->getCode() === '42S22' || strpos($e->getMessage(), '1054') !== false) {
+                try {
+                    // Self-heal table schema
+                    $pdo->exec("ALTER TABLE users ADD COLUMN profilePic VARCHAR(255) NULL");
+                    
+                    // Retry statement
+                    if (!empty($input['password'])) {
+                        $stmtUpdate = $pdo->prepare("UPDATE users SET username = ?, password = ?, profilePic = ? WHERE id = ?");
+                        $stmtUpdate->execute([$newUsername, $hashedPassword, $profilePic, $userId]);
+                    } else {
+                        $stmtUpdate = $pdo->prepare("UPDATE users SET username = ?, profilePic = ? WHERE id = ?");
+                        $stmtUpdate->execute([$newUsername, $profilePic, $userId]);
+                    }
+                } catch (\PDOException $ex) {
+                    sendError('Database auto-heal alteration failed: ' . $ex->getMessage(), 500);
+                }
+            } else {
+                sendError('Database update failed: ' . $e->getMessage(), 500);
+            }
         }
         
         sendResponse([
