@@ -906,44 +906,48 @@ switch ($route) {
 
     // Employees REST
     case 'employees':
-        if ($requestMethod === 'GET') {
-            $stmt = $pdo->prepare("SELECT * FROM employees WHERE userId = ?");
-            $stmt->execute([$userId]);
-            sendResponse($stmt->fetchAll());
-        } elseif ($requestMethod === 'POST') {
-            if (!$input) sendError('Invalid JSON input');
-            $stmt = $pdo->prepare("INSERT INTO employees (id, userId, name, contact, joiningDate, baseSalary, salaryBasis) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->execute([
-                $input['id'],
-                $userId,
-                $input['name'],
-                $input['contact'] ?? null,
-                $input['joiningDate'] ?? null,
-                $input['baseSalary'] ?? 0.0,
-                $input['salaryBasis'] ?? 'monthly'
-            ]);
-            sendResponse(['success' => true]);
-        } elseif ($requestMethod === 'PUT') {
-            if (!$id) sendError('Employee ID required');
-            if (!$input) sendError('Invalid JSON input');
-            $stmt = $pdo->prepare("UPDATE employees SET name = ?, contact = ?, joiningDate = ?, baseSalary = ?, salaryBasis = ? WHERE id = ? AND userId = ?");
-            $stmt->execute([
-                $input['name'],
-                $input['contact'] ?? null,
-                $input['joiningDate'] ?? null,
-                $input['baseSalary'] ?? 0.0,
-                $input['salaryBasis'] ?? 'monthly',
-                $id,
-                $userId
-            ]);
-            sendResponse(['success' => true]);
-        } elseif ($requestMethod === 'DELETE') {
-            if (!$id) sendError('Employee ID required');
-            $stmt = $pdo->prepare("DELETE FROM employees WHERE id = ? AND userId = ?");
-            $stmt->execute([$id, $userId]);
-            // Clean up scoped attendance
-            $pdo->prepare("DELETE FROM attendance WHERE employeeId = ? AND userId = ?")->execute([$id, $userId]);
-            sendResponse(['success' => true]);
+        try {
+            if ($requestMethod === 'GET') {
+                $stmt = $pdo->prepare("SELECT * FROM employees WHERE userId = ?");
+                $stmt->execute([$userId]);
+                sendResponse($stmt->fetchAll());
+            } elseif ($requestMethod === 'POST') {
+                if (!$input) sendError('Invalid JSON input');
+                $stmt = $pdo->prepare("INSERT INTO employees (id, userId, name, contact, joiningDate, baseSalary, salaryBasis) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt->execute([
+                    $input['id'],
+                    $userId,
+                    $input['name'],
+                    $input['contact'] ?? null,
+                    $input['joiningDate'] ?? null,
+                    $input['baseSalary'] ?? 0.0,
+                    $input['salaryBasis'] ?? 'monthly'
+                ]);
+                sendResponse(['success' => true]);
+            } elseif ($requestMethod === 'PUT') {
+                if (!$id) sendError('Employee ID required');
+                if (!$input) sendError('Invalid JSON input');
+                $stmt = $pdo->prepare("UPDATE employees SET name = ?, contact = ?, joiningDate = ?, baseSalary = ?, salaryBasis = ? WHERE id = ? AND userId = ?");
+                $stmt->execute([
+                    $input['name'],
+                    $input['contact'] ?? null,
+                    $input['joiningDate'] ?? null,
+                    $input['baseSalary'] ?? 0.0,
+                    $input['salaryBasis'] ?? 'monthly',
+                    $id,
+                    $userId
+                ]);
+                sendResponse(['success' => true]);
+            } elseif ($requestMethod === 'DELETE') {
+                if (!$id) sendError('Employee ID required');
+                $stmt = $pdo->prepare("DELETE FROM employees WHERE id = ? AND userId = ?");
+                $stmt->execute([$id, $userId]);
+                // Clean up scoped attendance
+                $pdo->prepare("DELETE FROM attendance WHERE employeeId = ? AND userId = ?")->execute([$id, $userId]);
+                sendResponse(['success' => true]);
+            }
+        } catch (\PDOException $e) {
+            sendError('Database operation failed: ' . $e->getMessage(), 500);
         }
         break;
 
