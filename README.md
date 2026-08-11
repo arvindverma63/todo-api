@@ -19,11 +19,7 @@ The API will be accessible at: `http://localhost:8000/api`
 
 ## MySQL Remote Connection Configuration
 
-The database configuration in `db.php` is configured to connect to:
-- **Host**: `193.203.184.228`
-- **Database**: `u793412290_todo`
-- **Username**: `u793412290_todo`
-- **Password**: `Todo@102030`
+The remote database connection is configured in [db.php](file:///d:/github/todo-api/db.php). Update the configuration variables at the top of that file to point to your target MySQL host, database name, user, and password.
 
 ## API Endpoints
 
