@@ -849,13 +849,17 @@ switch ($route) {
             }
         }
         
-        if (!empty($input['password'])) {
-            $hashedPassword = password_hash($input['password'], PASSWORD_BCRYPT);
-            $stmtUpdate = $pdo->prepare("UPDATE users SET username = ?, password = ?, profilePic = ? WHERE id = ?");
-            $stmtUpdate->execute([$newUsername, $hashedPassword, $profilePic, $userId]);
-        } else {
-            $stmtUpdate = $pdo->prepare("UPDATE users SET username = ?, profilePic = ? WHERE id = ?");
-            $stmtUpdate->execute([$newUsername, $profilePic, $userId]);
+        try {
+            if (!empty($input['password'])) {
+                $hashedPassword = password_hash($input['password'], PASSWORD_BCRYPT);
+                $stmtUpdate = $pdo->prepare("UPDATE users SET username = ?, password = ?, profilePic = ? WHERE id = ?");
+                $stmtUpdate->execute([$newUsername, $hashedPassword, $profilePic, $userId]);
+            } else {
+                $stmtUpdate = $pdo->prepare("UPDATE users SET username = ?, profilePic = ? WHERE id = ?");
+                $stmtUpdate->execute([$newUsername, $profilePic, $userId]);
+            }
+        } catch (\PDOException $e) {
+            sendError('Database update failed: ' . $e->getMessage(), 500);
         }
         
         sendResponse([
