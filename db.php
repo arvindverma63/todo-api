@@ -29,9 +29,34 @@ function createTable($pdo, $sql) {
     }
 }
 
+// Helper to add userId column to existing tables if missing
+function addUserIdColumnIfNeeded($pdo, $tableName) {
+    try {
+        $stmt = $pdo->query("SHOW COLUMNS FROM `$tableName` LIKE 'userId'");
+        $exists = $stmt->fetch();
+        if (!$exists) {
+            $pdo->exec("ALTER TABLE `$tableName` ADD COLUMN userId VARCHAR(50) NULL");
+            $pdo->exec("ALTER TABLE `$tableName` ADD INDEX (userId)");
+        }
+    } catch (\PDOException $e) {
+        // Table might not exist yet; createTable will handle it
+    }
+}
+
+// 0. Users Table
+createTable($pdo, "CREATE TABLE IF NOT EXISTS users (
+    id VARCHAR(50) PRIMARY KEY,
+    username VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(255) NULL,
+    userType VARCHAR(20) NOT NULL,
+    createdAt VARCHAR(30) NOT NULL,
+    expiresAt VARCHAR(30) NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
 // 1. Employees Table
 createTable($pdo, "CREATE TABLE IF NOT EXISTS employees (
     id VARCHAR(50) PRIMARY KEY,
+    userId VARCHAR(50) NULL,
     name VARCHAR(100) NOT NULL,
     contact VARCHAR(20),
     joiningDate VARCHAR(30),
@@ -42,6 +67,7 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS employees (
 // 2. Attendance Table
 createTable($pdo, "CREATE TABLE IF NOT EXISTS attendance (
     id VARCHAR(50) PRIMARY KEY,
+    userId VARCHAR(50) NULL,
     employeeId VARCHAR(50) NOT NULL,
     date VARCHAR(30) NOT NULL,
     status VARCHAR(20) NOT NULL,
@@ -54,6 +80,7 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS attendance (
 // 3. Ironing Workers Table
 createTable($pdo, "CREATE TABLE IF NOT EXISTS ironing_workers (
     id VARCHAR(50) PRIMARY KEY,
+    userId VARCHAR(50) NULL,
     name VARCHAR(100) NOT NULL,
     contact VARCHAR(20),
     joiningDate VARCHAR(30)
@@ -62,6 +89,7 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS ironing_workers (
 // 4. Ironing Rates Table
 createTable($pdo, "CREATE TABLE IF NOT EXISTS ironing_rates (
     id VARCHAR(50) PRIMARY KEY,
+    userId VARCHAR(50) NULL,
     workerId VARCHAR(50) NOT NULL,
     clothingType VARCHAR(50) NOT NULL,
     rate DECIMAL(10,2) NOT NULL,
@@ -71,6 +99,7 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS ironing_rates (
 // 5. Ironing Records Table
 createTable($pdo, "CREATE TABLE IF NOT EXISTS ironing_records (
     id VARCHAR(50) PRIMARY KEY,
+    userId VARCHAR(50) NULL,
     workerId VARCHAR(50) NOT NULL,
     date VARCHAR(30) NOT NULL,
     clothesCount TEXT,
@@ -81,6 +110,7 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS ironing_records (
 // 6. Ironing Payments Table
 createTable($pdo, "CREATE TABLE IF NOT EXISTS ironing_payments (
     id VARCHAR(50) PRIMARY KEY,
+    userId VARCHAR(50) NULL,
     workerId VARCHAR(50) NOT NULL,
     date VARCHAR(30) NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
@@ -91,6 +121,7 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS ironing_payments (
 // 7. Appliances Table
 createTable($pdo, "CREATE TABLE IF NOT EXISTS appliances (
     id VARCHAR(50) PRIMARY KEY,
+    userId VARCHAR(50) NULL,
     name VARCHAR(100) NOT NULL,
     type VARCHAR(50),
     brand VARCHAR(50),
@@ -104,6 +135,7 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS appliances (
 // 8. Service Records Table
 createTable($pdo, "CREATE TABLE IF NOT EXISTS service_records (
     id VARCHAR(50) PRIMARY KEY,
+    userId VARCHAR(50) NULL,
     applianceId VARCHAR(50) NOT NULL,
     serviceDate VARCHAR(30) NOT NULL,
     price DECIMAL(10,2) NOT NULL,
@@ -111,3 +143,18 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS service_records (
     billPath VARCHAR(255),
     createdAt VARCHAR(30)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+// Run Migrations for existing databases to ensure they have the userId column
+$tables = [
+    'employees',
+    'attendance',
+    'ironing_workers',
+    'ironing_rates',
+    'ironing_records',
+    'ironing_payments',
+    'appliances',
+    'service_records'
+];
+foreach ($tables as $t) {
+    addUserIdColumnIfNeeded($pdo, $t);
+}
