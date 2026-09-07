@@ -731,105 +731,7 @@
             align-items: center;
         }
 
-        /* API Studio Console */
-        .api-studio {
-            display: grid;
-            gap: 16px;
-        }
 
-        .endpoint-item {
-            background: var(--bg-surface);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            margin-bottom: 10px;
-            overflow: hidden;
-        }
-
-        .endpoint-bar {
-            padding: 12px 16px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            gap: 12px;
-            user-select: none;
-        }
-
-        .method-tag {
-            font-family: 'Roboto Mono', monospace;
-            font-weight: 800;
-            font-size: 11px;
-            padding: 3px 8px;
-            border-radius: 4px;
-            min-width: 60px;
-            text-align: center;
-            color: #FFFFFF;
-        }
-
-        .method-tag.get { background: var(--info); }
-        .method-tag.post { background: var(--success); }
-        .method-tag.put { background: var(--warning); }
-        .method-tag.delete { background: var(--danger); }
-
-        .endpoint-route {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 12.5px;
-            font-weight: 600;
-            color: var(--text-main);
-            flex: 1;
-        }
-
-        .endpoint-info {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        .endpoint-body {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.25s ease;
-            background: #F8FAFC;
-            border-top: 1px solid transparent;
-        }
-
-        .endpoint-body.open {
-            max-height: 1000px;
-            border-top-color: var(--border);
-            padding: 16px;
-        }
-
-        .code-box {
-            width: 100%;
-            height: 90px;
-            background: #FFFFFF;
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            padding: 10px;
-            border-radius: var(--radius-sm);
-            font-family: 'Roboto Mono', monospace;
-            font-size: 12px;
-            margin-bottom: 10px;
-            outline: none;
-        }
-
-        .code-box:focus {
-            border-color: var(--primary);
-        }
-
-        .console-output-box {
-            background: #0F172A;
-            color: #FFFFFF;
-            border-radius: var(--radius-md);
-            padding: 16px;
-            margin-top: 20px;
-        }
-
-        pre code {
-            font-family: 'Roboto Mono', monospace;
-            font-size: 12px;
-            color: #34D399;
-            white-space: pre-wrap;
-            word-break: break-all;
-        }
 
         /* Proper Login Screen (Red & White Theme) */
         .login-gate {
@@ -1046,9 +948,6 @@
             <button class="nav-tab-btn active" onclick="switchTab('tab-roster')">
                 <i class="fa-solid fa-users"></i> Users & Roster
             </button>
-            <button class="nav-tab-btn" onclick="switchTab('tab-api')">
-                <i class="fa-solid fa-code"></i> API Studio Console
-            </button>
             <button class="nav-tab-btn" onclick="switchTab('tab-health')">
                 <i class="fa-solid fa-heart-pulse"></i> System Diagnostics
             </button>
@@ -1145,128 +1044,7 @@
             </div>
         </div>
 
-        <!-- Tab 2: API Studio Console -->
-        <div id="tab-api" class="view-pane">
-            <div class="table-card" style="padding:14px 20px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-                <div>
-                    <div style="font-weight:700; color:var(--text-main); font-size:13px;">Active Scoped Context Header (<code>X-User-Id</code>)</div>
-                    <div style="font-size:11.5px; color:var(--text-muted);">Scoped endpoints will inject this user context automatically:</div>
-                </div>
-                <input type="text" id="activeTestUserId" class="search-field" style="max-width:280px; font-family:'Roboto Mono', monospace;" placeholder="user_... / guest_...">
-            </div>
 
-            <div class="api-studio">
-                <!-- Group 1: Authentication -->
-                <h4 style="font-size:12.5px; font-weight:700; color:var(--primary); text-transform:uppercase; margin-bottom:4px;">1. Authentication & Sessions</h4>
-                
-                <div class="endpoint-item">
-                    <div class="endpoint-bar" onclick="toggleApiAccordion(this)">
-                        <span class="method-tag post">POST</span>
-                        <span class="endpoint-route">/api/register-guest</span>
-                        <span class="endpoint-info">Create 30-day Free Trial guest session</span>
-                    </div>
-                    <div class="endpoint-body">
-                        <button class="btn btn-primary" onclick="runApiCall('POST', '/api/register-guest')">
-                            <i class="fa-solid fa-play"></i> Execute Sandbox Request
-                        </button>
-                    </div>
-                </div>
-
-                <div class="endpoint-item">
-                    <div class="endpoint-bar" onclick="toggleApiAccordion(this)">
-                        <span class="method-tag post">POST</span>
-                        <span class="endpoint-route">/api/login</span>
-                        <span class="endpoint-info">Authenticate registered user credentials</span>
-                    </div>
-                    <div class="endpoint-body">
-                        <textarea id="payload-login" class="code-box">{
-  "username": "arvind",
-  "password": "password123"
-}</textarea>
-                        <button class="btn btn-primary" onclick="runApiCall('POST', '/api/login', 'payload-login')">
-                            <i class="fa-solid fa-play"></i> Execute Request
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Group 2: User Profile & Plans -->
-                <h4 style="font-size:12.5px; font-weight:700; color:var(--primary); text-transform:uppercase; margin: 12px 0 4px;">2. Profile & Subscriptions</h4>
-
-                <div class="endpoint-item">
-                    <div class="endpoint-bar" onclick="toggleApiAccordion(this)">
-                        <span class="method-tag get">GET</span>
-                        <span class="endpoint-route">/api/get-profile</span>
-                        <span class="endpoint-info">Fetch profile & remaining subscription validity</span>
-                    </div>
-                    <div class="endpoint-body">
-                        <button class="btn btn-primary" onclick="runApiCall('GET', '/api/get-profile', null, true)">
-                            <i class="fa-solid fa-play"></i> Execute Scoped Request
-                        </button>
-                    </div>
-                </div>
-
-                <div class="endpoint-item">
-                    <div class="endpoint-bar" onclick="toggleApiAccordion(this)">
-                        <span class="method-tag post">POST</span>
-                        <span class="endpoint-route">/api/update-subscription</span>
-                        <span class="endpoint-info">Upgrade account to Lifetime Premium tier</span>
-                    </div>
-                    <div class="endpoint-body">
-                        <button class="btn btn-primary" onclick="runApiCall('POST', '/api/update-subscription', null, true)">
-                            <i class="fa-solid fa-play"></i> Execute Scoped Request
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Group 3: Helpers & Attendance -->
-                <h4 style="font-size:12.5px; font-weight:700; color:var(--primary); text-transform:uppercase; margin: 12px 0 4px;">3. Helpers & Attendance</h4>
-
-                <div class="endpoint-item">
-                    <div class="endpoint-bar" onclick="toggleApiAccordion(this)">
-                        <span class="method-tag get">GET</span>
-                        <span class="endpoint-route">/api/employees</span>
-                        <span class="endpoint-info">List all house helpers & wage rates</span>
-                    </div>
-                    <div class="endpoint-body">
-                        <button class="btn btn-primary" onclick="runApiCall('GET', '/api/employees', null, true)">
-                            <i class="fa-solid fa-play"></i> Execute Scoped Request
-                        </button>
-                    </div>
-                </div>
-
-                <div class="endpoint-item">
-                    <div class="endpoint-bar" onclick="toggleApiAccordion(this)">
-                        <span class="method-tag get">GET</span>
-                        <span class="endpoint-route">/api/attendance</span>
-                        <span class="endpoint-info">Retrieve attendance records and advance history</span>
-                    </div>
-                    <div class="endpoint-body">
-                        <button class="btn btn-primary" onclick="runApiCall('GET', '/api/attendance', null, true)">
-                            <i class="fa-solid fa-play"></i> Execute Scoped Request
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Console Output Box -->
-            <div id="apiConsoleOutput" class="console-output-box" style="display:none;">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:6px;">
-                    <div>
-                        <span style="font-weight:700; color:#fff;">Target:</span> <code id="consoleTargetUrl" style="color:#38BDF8;">/api/...</code>
-                    </div>
-                    <div>
-                        <span style="font-size:11px; color:#94A3B8; margin-right:10px;" id="consoleTiming">0 ms</span>
-                        <span id="consoleStatus" class="plan-tag" style="background:#10B98125; color:#10B981;">200 OK</span>
-                    </div>
-                </div>
-                <div style="display:flex; justify-content:flex-end; margin-bottom:6px;">
-                    <button class="btn" style="background:rgba(255,255,255,0.05); color:#fff; padding:3px 8px; font-size:11px; border:1px solid rgba(255,255,255,0.1);" onclick="copyConsoleJson()">
-                        <i class="fa-regular fa-copy"></i> Copy JSON
-                    </button>
-                </div>
-                <pre><code id="consoleResponse">{}</code></pre>
-            </div>
-        </div>
 
         <!-- Tab 3: System Diagnostics -->
         <div id="tab-health" class="view-pane">
@@ -1579,9 +1357,6 @@
                             <button class="icon-btn inspect" title="Inspect Workspace" onclick="inspectUser('${u.id}')">
                                 <i class="fa-solid fa-folder-open"></i>
                             </button>
-                            <button class="icon-btn" title="Set Active Testing Context" onclick="setContextUser('${u.id}')">
-                                <i class="fa-solid fa-flask"></i>
-                            </button>
                             <button class="icon-btn delete" title="Purge User" onclick="deleteUser('${u.id}', '${u.username}')">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
@@ -1793,60 +1568,7 @@
             }
         }
 
-        // API Studio Logic
-        function toggleApiAccordion(bar) {
-            const body = bar.nextElementSibling;
-            body.classList.toggle('open');
-        }
 
-        async function runApiCall(method, path, payloadId = null, scoped = false) {
-            const t0 = performance.now();
-            const headers = { 'Content-Type': 'application/json' };
-
-            if (scoped) {
-                const uid = document.getElementById('activeTestUserId').value.trim();
-                if (!uid) {
-                    alert('Please provide a User ID in the active context input');
-                    return;
-                }
-                headers['X-User-Id'] = uid;
-            }
-
-            const options = { method, headers };
-            if (payloadId) {
-                try {
-                    options.body = JSON.stringify(JSON.parse(document.getElementById(payloadId).value));
-                } catch (e) {
-                    alert('Invalid JSON in payload');
-                    return;
-                }
-            }
-
-            const consoleBox = document.getElementById('apiConsoleOutput');
-            consoleBox.style.display = 'block';
-            document.getElementById('consoleTargetUrl').innerText = path;
-
-            try {
-                const res = await fetch(API_BASE + path, options);
-                const elapsed = Math.round(performance.now() - t0);
-                const resData = await res.json();
-
-                document.getElementById('consoleTiming').innerText = `${elapsed} ms`;
-                const st = document.getElementById('consoleStatus');
-                st.innerText = `${res.status} ${res.statusText || ''}`;
-                st.style.color = res.ok ? '#10B981' : '#DC2626';
-
-                document.getElementById('consoleResponse').innerText = JSON.stringify(resData, null, 2);
-                consoleBox.scrollIntoView({ behavior: 'smooth' });
-            } catch (err) {
-                document.getElementById('consoleResponse').innerText = JSON.stringify({ error: err.message }, null, 2);
-            }
-        }
-
-        function copyConsoleJson() {
-            navigator.clipboard.writeText(document.getElementById('consoleResponse').innerText);
-            showToast('JSON copied');
-        }
     </script>
 </body>
 </html>
