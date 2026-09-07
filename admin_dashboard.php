@@ -3,323 +3,621 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My-Task Management Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>My-Task Enterprise Management & API Console</title>
+    <!-- Modern Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome 6 Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <style>
         :root {
-            --primary: #009688;
-            --primary-dark: #00796b;
-            --bg-dark: #0f172a;
-            --card-bg: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #334155;
+            --bg-base: #090d16;
+            --bg-surface: #0f172a;
+            --bg-card: #141e33;
+            --bg-card-hover: #1a2744;
+            --bg-input: #0b1120;
             
-            --get-color: #3b82f6;
-            --post-color: #10b981;
-            --put-color: #f59e0b;
-            --delete-color: #ef4444;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --border-focus: rgba(6, 182, 212, 0.5);
             
-            --glass-bg: rgba(30, 41, 59, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            
+            --primary: #06b6d4;
+            --primary-glow: rgba(6, 182, 212, 0.25);
+            --primary-dark: #0891b2;
+            
+            --accent-indigo: #6366f1;
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            
+            --method-get: #38bdf8;
+            --method-post: #10b981;
+            --method-put: #f59e0b;
+            --method-delete: #f43f5e;
+            
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 26px;
         }
-        
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
-        
+
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--text-main);
-            line-height: 1.6;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            line-height: 1.5;
+            min-height: 100vh;
             padding: 24px;
-            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.07) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.07) 0%, transparent 40%);
+            background-attachment: fixed;
         }
-        
+
         .container {
-            max-width: 1200px;
+            max-width: 1320px;
             margin: 0 auto;
         }
-        
-        /* Glassmorphism Header */
+
+        /* Glass App Header */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 24px;
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            margin-bottom: 28px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+            padding: 18px 26px;
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
         }
-        
-        .logo-section h1 {
-            font-size: 26px;
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #06b6d4, #6366f1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #fff;
+            box-shadow: 0 0 20px var(--primary-glow);
+        }
+
+        .logo-text h1 {
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
             font-weight: 800;
-            background: linear-gradient(135deg, #009688, #00f2fe);
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #f8fafc, #94a3b8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        .logo-section p {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-top: 4px;
+
+        .version-badge {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            background: rgba(6, 182, 212, 0.15);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 6px;
+            -webkit-text-fill-color: var(--primary);
         }
-        
-        .server-status {
-            background-color: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #10b981;
-            padding: 6px 12px;
-            border-radius: 20px;
+
+        .logo-text p {
             font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .status-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 14px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--accent-emerald);
+        }
+
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--accent-emerald);
+            box-shadow: 0 0 10px var(--accent-emerald);
+            animation: pulseAnim 2s infinite;
+        }
+
+        @keyframes pulseAnim {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.6; }
+        }
+
+        .btn-logout {
+            background: rgba(244, 63, 94, 0.12);
+            border: 1px solid rgba(244, 63, 94, 0.25);
+            color: var(--accent-rose);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-size: 13px;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 6px;
+            transition: all 0.2s ease;
         }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            background-color: #10b981;
-            border-radius: 50%;
-            display: inline-block;
-            box-shadow: 0 0 8px #10b981;
+
+        .btn-logout:hover {
+            background: rgba(244, 63, 94, 0.22);
+            transform: translateY(-1px);
         }
-        
-        /* Premium Tab Switcher */
-        .tabs {
+
+        /* Top Navigation Tabs */
+        .nav-tabs {
             display: flex;
-            gap: 12px;
-            margin-bottom: 28px;
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
+            gap: 8px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--border-subtle);
             padding: 6px;
-            border-radius: 14px;
+            border-radius: var(--radius-md);
+            margin-bottom: 24px;
             width: fit-content;
         }
-        
-        .tab-btn {
+
+        .nav-tab-btn {
             background: transparent;
             border: none;
-            color: var(--text-muted);
-            padding: 10px 20px;
-            border-radius: 10px;
+            color: var(--text-secondary);
+            padding: 9px 20px;
+            border-radius: var(--radius-sm);
             cursor: pointer;
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 13.5px;
             font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.25s ease;
         }
-        
-        .tab-btn.active {
-            background: var(--primary);
+
+        .nav-tab-btn:hover {
+            color: var(--text-primary);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: #fff;
-            box-shadow: 0 4px 14px rgba(0, 150, 136, 0.3);
+            box-shadow: 0 4px 14px var(--primary-glow);
         }
-        
-        .tab-content {
+
+        /* View Sections */
+        .tab-view {
             display: none;
-            animation: fadeIn 0.4s ease;
+            animation: viewFadeIn 0.3s ease;
         }
-        
-        .tab-content.active {
+
+        .tab-view.active {
             display: block;
         }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
+
+        @keyframes viewFadeIn {
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        /* Stats Dashboard Grid */
-        .metrics-grid {
+
+        /* Metrics KPI Grid */
+        .kpi-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-bottom: 32px;
+            gap: 16px;
+            margin-bottom: 24px;
         }
-        
-        .metric-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 24px;
+
+        .kpi-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease;
-        }
-        
-        .metric-card:hover {
-            transform: translateY(-4px);
-        }
-        
-        .metric-card .icon-wrapper {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            margin-bottom: 16px;
-        }
-        
-        .metric-card.total .icon-wrapper { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
-        .metric-card.trial .icon-wrapper { background: rgba(148, 163, 184, 0.15); color: #94a3b8; }
-        .metric-card.premium .icon-wrapper { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
-        .metric-card.employees .icon-wrapper { background: rgba(16, 185, 129, 0.15); color: #10b981; }
-        
-        .metric-card h3 {
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-muted);
-            font-weight: 500;
-            margin-bottom: 8px;
-        }
-        
-        .metric-card .value {
-            font-size: 32px;
-            font-weight: 800;
-            color: #fff;
-        }
-        
-        /* Table Glass Styling */
-        .table-container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--glass-border);
-            border-radius: 24px;
+            position: relative;
             overflow: hidden;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, border-color 0.2s ease;
         }
-        
-        .table-header {
-            padding: 24px;
-            border-bottom: 1px solid var(--border);
+
+        .kpi-card:hover {
+            transform: translateY(-3px);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .kpi-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--kpi-accent, var(--primary));
+        }
+
+        .kpi-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 12px;
         }
-        
-        .table-header h2 {
-            font-size: 18px;
-            font-weight: 700;
+
+        .kpi-title {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-weight: 600;
+            color: var(--text-secondary);
         }
-        
+
+        .kpi-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--kpi-accent, var(--primary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+
+        .kpi-value {
+            font-family: 'Outfit', sans-serif;
+            font-size: 30px;
+            font-weight: 800;
+            color: #fff;
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+
+        .kpi-sub {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Filter Toolbar */
+        .table-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: #fff;
+            padding: 10px 14px 10px 38px;
+            border-radius: var(--radius-sm);
+            font-size: 13.5px;
+            font-family: inherit;
+            transition: all 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .filter-chip {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            padding: 7px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .filter-chip:hover {
+            color: var(--text-primary);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .filter-chip.active {
+            background: rgba(6, 182, 212, 0.15);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-action {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-primary);
+            padding: 8px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action:hover {
+            background: var(--bg-card-hover);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #fff;
+            border: none;
+            box-shadow: 0 4px 14px var(--primary-glow);
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            transform: translateY(-1px);
+        }
+
+        /* Glass Table */
+        .glass-panel {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
         }
-        
+
+        thead {
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
         th {
-            padding: 16px 24px;
-            font-weight: 600;
-            color: var(--text-muted);
-            font-size: 13px;
-            border-bottom: 1px solid var(--border);
+            padding: 14px 20px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.6px;
         }
-        
+
         td {
-            padding: 18px 24px;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
-            color: var(--text-main);
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 13.5px;
+            color: var(--text-primary);
+            vertical-align: middle;
         }
-        
+
         tr:last-child td {
             border-bottom: none;
         }
-        
+
         tr:hover td {
             background: rgba(255, 255, 255, 0.02);
         }
-        
-        .user-id-badge {
-            font-family: monospace;
+
+        .user-cell {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent-indigo));
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            flex-shrink: 0;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .user-meta-name {
+            font-weight: 600;
+            color: #fff;
+            font-size: 14px;
+        }
+
+        .user-meta-created {
+            font-size: 11.5px;
+            color: var(--text-muted);
+        }
+
+        .id-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
             background: rgba(255, 255, 255, 0.05);
             padding: 4px 8px;
             border-radius: 6px;
-            color: var(--text-muted);
-            font-size: 12px;
-        }
-        
-        .plan-badge {
+            color: var(--text-secondary);
             display: inline-flex;
             align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .id-badge:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .plan-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
             padding: 4px 10px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.4px;
         }
-        
-        .plan-badge.trial {
-            background: rgba(148, 163, 184, 0.15);
-            border: 1px solid rgba(148, 163, 184, 0.3);
-            color: var(--text-muted);
+
+        .plan-tag.trial {
+            background: rgba(148, 163, 184, 0.12);
+            border: 1px solid rgba(148, 163, 184, 0.25);
+            color: #cbd5e1;
         }
-        
-        .plan-badge.premium {
+
+        .plan-tag.premium {
             background: rgba(245, 158, 11, 0.15);
             border: 1px solid rgba(245, 158, 11, 0.3);
-            color: #f59e0b;
+            color: var(--accent-amber);
         }
-        
-        .btn {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 8px 16px;
+
+        .count-pill {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 12px;
+            color: var(--text-secondary);
+            display: inline-block;
+        }
+
+        .action-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-icon-action {
+            width: 32px;
+            height: 32px;
             border-radius: 8px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-subtle);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 13px;
+            font-size: 12px;
             transition: all 0.2s ease;
         }
-        
-        .btn:hover {
-            background: var(--primary-dark);
-            transform: translateY(-1px);
+
+        .btn-icon-action:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
         }
-        
-        .btn.outline {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-main);
+
+        .btn-icon-action.inspect:hover {
+            background: rgba(6, 182, 212, 0.2);
+            color: var(--primary);
+            border-color: var(--primary);
         }
-        
-        .btn.outline:hover {
-            border-color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.05);
+
+        .btn-icon-action.delete:hover {
+            background: rgba(244, 63, 94, 0.2);
+            color: var(--accent-rose);
+            border-color: var(--accent-rose);
         }
-        
-        /* Modal Window glass styling */
-        .modal-overlay {
+
+        /* Modal Overlays */
+        .modal-backdrop {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(8px);
+            background: rgba(9, 13, 22, 0.85);
+            backdrop-filter: blur(12px);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -327,625 +625,1309 @@
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
+            padding: 20px;
         }
-        
-        .modal-overlay.active {
+
+        .modal-backdrop.active {
             opacity: 1;
             pointer-events: auto;
         }
-        
-        .modal-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            width: 90%;
-            max-width: 700px;
-            max-height: 80vh;
+
+        .modal-window {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            width: 100%;
+            max-width: 860px;
+            max-height: 88vh;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
             transform: scale(0.95);
-            transition: transform 0.3s ease;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
         }
-        
-        .modal-overlay.active .modal-card {
+
+        .modal-backdrop.active .modal-window {
             transform: scale(1);
         }
-        
+
         .modal-header {
-            padding: 24px;
-            border-bottom: 1px solid var(--border);
+            padding: 20px 26px;
+            border-bottom: 1px solid var(--border-subtle);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(255, 255, 255, 0.02);
         }
-        
+
         .modal-header h3 {
+            font-family: 'Outfit', sans-serif;
             font-size: 18px;
             font-weight: 700;
         }
-        
-        .modal-body {
-            padding: 24px;
-            overflow-y: auto;
-        }
-        
-        .modal-close {
+
+        .modal-close-btn {
             background: transparent;
             border: none;
             color: var(--text-muted);
-            font-size: 24px;
+            font-size: 18px;
             cursor: pointer;
+            padding: 4px;
+            transition: color 0.2s ease;
         }
-        
-        .detail-item-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
+
+        .modal-close-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 24px 26px;
+            overflow-y: auto;
+        }
+
+        /* Modal Subtabs */
+        .modal-subtabs {
+            display: flex;
+            gap: 6px;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .modal-subtab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .modal-subtab-btn.active {
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--primary);
+        }
+
+        .detail-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
             padding: 14px 18px;
-            border-radius: 14px;
             margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
-        
+
+        /* Interactive API Studio */
+        .api-studio-wrap {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .context-selector-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .endpoint-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: border-color 0.2s ease;
+        }
+
+        .endpoint-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .endpoint-header {
+            padding: 14px 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            gap: 14px;
+        }
+
+        .method-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 800;
+            font-size: 11px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            min-width: 68px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .method-badge.get { background-color: var(--method-get); }
+        .method-badge.post { background-color: var(--method-post); }
+        .method-badge.put { background-color: var(--method-put); }
+        .method-badge.delete { background-color: var(--method-delete); }
+
+        .endpoint-path {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #fff;
+            flex: 1;
+        }
+
+        .endpoint-summary {
+            font-size: 12.5px;
+            color: var(--text-secondary);
+        }
+
+        .endpoint-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            border-top: 1px solid transparent;
+        }
+
+        .endpoint-details.active {
+            max-height: 1200px;
+            border-top-color: var(--border-subtle);
+            padding: 20px;
+        }
+
+        .code-textarea {
+            width: 100%;
+            height: 100px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-subtle);
+            color: #38bdf8;
+            padding: 12px;
+            border-radius: var(--radius-sm);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12.5px;
+            margin-bottom: 12px;
+            resize: vertical;
+        }
+
+        .code-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .response-console {
+            background: #000;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            margin-top: 24px;
+            position: relative;
+        }
+
+        .console-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        pre code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12.5px;
+            color: #34d399;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
         /* Login Overlay */
-        .login-overlay {
+        .auth-gate-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: var(--bg-dark);
+            background: var(--bg-base);
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 2000;
+            z-index: 9999;
+            padding: 20px;
         }
-        
-        .login-card {
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 28px;
+
+        .auth-gate-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
             padding: 40px;
             width: 100%;
-            max-width: 420px;
+            max-width: 440px;
             text-align: center;
-            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            position: relative;
         }
-        
-        .login-card h2 {
+
+        .auth-gate-card::before {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+
+        .auth-gate-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            background: rgba(6, 182, 212, 0.15);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: 24px;
-            margin-bottom: 8px;
-            font-weight: 700;
+            margin: 0 auto 20px;
+            box-shadow: 0 0 24px var(--primary-glow);
         }
-        
-        .login-card p {
-            color: var(--text-muted);
-            font-size: 13px;
-            margin-bottom: 28px;
-        }
-        
-        .input-group {
+
+        .form-group {
             margin-bottom: 20px;
             text-align: left;
         }
-        
-        .input-group label {
+
+        .form-group label {
             display: block;
             font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted);
-            margin-bottom: 8px;
+            font-weight: 700;
             text-transform: uppercase;
-        }
-        
-        .input-group input {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            color: #fff;
-            padding: 12px 16px;
-            border-radius: 10px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 14px;
-        }
-        
-        .input-group input:focus {
-            border-color: var(--primary);
-            outline: none;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
         }
 
-        /* Dev Docs Specific Styling */
-        .api-docs-container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .base-url-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px 20px;
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .endpoint-card {
-            background-color: var(--card-bg);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            margin-bottom: 16px;
-            overflow: hidden;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        .endpoint-header {
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-        }
-        .endpoint-method {
-            font-weight: 800;
-            font-size: 12px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            margin-right: 16px;
+        .form-control {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border-subtle);
             color: #fff;
-            min-width: 70px;
-            text-align: center;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            font-family: inherit;
+            transition: all 0.2s ease;
         }
-        .endpoint-method.get { background-color: var(--get-color); }
-        .endpoint-method.post { background-color: var(--post-color); }
-        .endpoint-method.put { background-color: var(--put-color); }
-        .endpoint-method.delete { background-color: var(--delete-color); }
-        .endpoint-path { font-family: monospace; font-weight: 600; font-size: 14px; color: var(--text-main); flex-grow: 1; }
-        .endpoint-desc { font-size: 13px; color: var(--text-muted); }
-        .endpoint-details { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background-color: rgba(255,255,255,0.01); }
-        .endpoint-details.active { max-height: 1000px; }
-        .testing-section { padding: 20px; border-top: 1px solid var(--border); }
-        .detail-title { font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .testing-form { background: rgba(0,0,0,0.2); padding: 16px; border-radius: 12px; border: 1px solid var(--border); }
-        .response-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; font-size: 13px; color: var(--text-muted); }
-        .response-box { background: #000; padding: 16px; border-radius: 12px; overflow-x: auto; max-height: 400px; border: 1px solid var(--border); }
-        .response-box code { font-family: monospace; font-size: 13px; color: #10B981; }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 12px var(--primary-glow);
+        }
+
+        /* Toast notification */
+        #toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            color: #fff;
+            padding: 12px 20px;
+            border-radius: var(--radius-md);
+            font-size: 13.5px;
+            font-weight: 600;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 12px; }
+            header { flex-direction: column; gap: 16px; align-items: flex-start; }
+            .header-actions { width: 100%; justify-content: space-between; }
+            .table-toolbar { flex-direction: column; align-items: stretch; }
+            .search-box { max-width: 100%; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- Token Authentication Overlay -->
-    <div id="loginOverlay" class="login-overlay">
-        <div class="login-card">
-            <h2>Admin Security Gate</h2>
-            <p>Please enter the administrative credentials to view user rosters, registries, and system metrics.</p>
-            <div class="input-group">
-                <label for="adminToken">Admin Token</label>
-                <input type="password" id="adminToken" placeholder="Enter Token Key" onkeydown="if(event.key === 'Enter') attemptLogin()">
+    <!-- Security Gate Login Overlay -->
+    <div id="authGate" class="auth-gate-overlay">
+        <div class="auth-gate-card">
+            <div class="auth-gate-icon">
+                <i class="fa-solid fa-shield-halved"></i>
             </div>
-            <button class="btn" style="width: 100%; padding: 12px;" onclick="attemptLogin()">Enter Management Hub</button>
-            <div id="loginError" style="color:var(--delete-color); font-size:12px; margin-top:12px; font-weight:600; display:none;">Invalid Token. Please try again.</div>
+            <h2 style="font-family:'Outfit', sans-serif; font-size:24px; font-weight:800; margin-bottom:8px;">Admin Security Gate</h2>
+            <p style="color:var(--text-secondary); font-size:13px; margin-bottom:28px;">Authenticate with system credentials to access user registries, telemetry & API consoles.</p>
+            
+            <div class="form-group">
+                <label for="adminTokenInput">Administrator Key</label>
+                <input type="password" id="adminTokenInput" class="form-control" placeholder="Enter Token Key (e.g. TodoAdmin102030)" onkeydown="if(event.key === 'Enter') loginAdmin()">
+            </div>
+
+            <button class="btn-action btn-primary" style="width:100%; justify-content:center; padding:12px;" onclick="loginAdmin()">
+                <i class="fa-solid fa-key"></i> Authenticate & Enter
+            </button>
+
+            <div id="authErrorMsg" style="color:var(--accent-rose); font-size:12.5px; font-weight:600; margin-top:14px; display:none;">
+                <i class="fa-solid fa-circle-exclamation"></i> Invalid administrative token.
+            </div>
         </div>
     </div>
 
+    <!-- Main App Container -->
     <div class="container">
-        <!-- Header -->
+        <!-- Top App Header -->
         <header>
-            <div class="logo-section">
-                <h1>My-Task Management Hub</h1>
-                <p>Cloud Server Administration Console</p>
+            <div class="logo-wrap">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-layer-group"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>My-Task Hub <span class="version-badge">Enterprise Cloud</span></h1>
+                    <p>Central Operations & Multi-Tenant Registry Suite</p>
+                </div>
             </div>
-            <div class="server-status">
-                <span class="status-dot"></span>
-                <span>Active Server Online</span>
+            <div class="header-actions">
+                <div class="status-pill">
+                    <span class="pulse-dot"></span>
+                    <span id="headerLatencyText">Cloud Online</span>
+                </div>
+                <button class="btn-logout" onclick="logoutAdmin()">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Exit
+                </button>
             </div>
         </header>
 
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('admin-panel')">Roster & Metrics</button>
-            <button class="tab-btn" onclick="switchTab('api-docs')">API Console</button>
+        <!-- Top Navigation -->
+        <div class="nav-tabs">
+            <button class="nav-tab-btn active" onclick="switchNavTab('roster-view')">
+                <i class="fa-solid fa-users"></i> Users & Roster
+            </button>
+            <button class="nav-tab-btn" onclick="switchNavTab('api-view')">
+                <i class="fa-solid fa-terminal"></i> API Console Studio
+            </button>
+            <button class="nav-tab-btn" onclick="switchNavTab('diagnostics-view')">
+                <i class="fa-solid fa-chart-line"></i> Server Diagnostics
+            </button>
         </div>
 
-        <!-- Tab Content 1: Admin Panel -->
-        <div id="admin-panel" class="tab-content active">
-            <!-- Metrics Summary Grid -->
-            <div class="metrics-grid">
-                <div class="metric-card total">
-                    <div class="icon-wrapper">👤</div>
-                    <h3>Total Users</h3>
-                    <div class="value" id="metric-total-users">0</div>
+        <!-- 1. Roster & Executive View -->
+        <div id="roster-view" class="tab-view active">
+            <!-- Metrics KPI Grid -->
+            <div class="kpi-grid">
+                <div class="kpi-card" style="--kpi-accent: #06b6d4;">
+                    <div class="kpi-top">
+                        <span class="kpi-title">Total Users</span>
+                        <div class="kpi-icon"><i class="fa-solid fa-user-group"></i></div>
+                    </div>
+                    <div class="kpi-value" id="kpi-total-users">0</div>
+                    <div class="kpi-sub"><i class="fa-solid fa-arrow-trend-up"></i> Registered Accounts</div>
                 </div>
-                <div class="metric-card trial">
-                    <div class="icon-wrapper">🕒</div>
-                    <h3>Free Trials</h3>
-                    <div class="value" id="metric-trial-users">0</div>
+
+                <div class="kpi-card" style="--kpi-accent: #f59e0b;">
+                    <div class="kpi-top">
+                        <span class="kpi-title">Active Trials</span>
+                        <div class="kpi-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                    </div>
+                    <div class="kpi-value" id="kpi-trial-users">0</div>
+                    <div class="kpi-sub"><span id="kpi-expired-trials">0</span> Expired</div>
                 </div>
-                <div class="metric-card premium">
-                    <div class="icon-wrapper">⭐️</div>
-                    <h3>Premium Lifetime</h3>
-                    <div class="value" id="metric-premium-users">0</div>
+
+                <div class="kpi-card" style="--kpi-accent: #10b981;">
+                    <div class="kpi-top">
+                        <span class="kpi-title">Premium Lifetime</span>
+                        <div class="kpi-icon"><i class="fa-solid fa-crown"></i></div>
+                    </div>
+                    <div class="kpi-value" id="kpi-premium-users">0</div>
+                    <div class="kpi-sub">Uncapped Members</div>
                 </div>
-                <div class="metric-card employees">
-                    <div class="icon-wrapper">💼</div>
-                    <h3>Registered Helpers</h3>
-                    <div class="value" id="metric-total-employees">0</div>
+
+                <div class="kpi-card" style="--kpi-accent: #6366f1;">
+                    <div class="kpi-top">
+                        <span class="kpi-title">Helpers & Attendance</span>
+                        <div class="kpi-icon"><i class="fa-solid fa-user-nurse"></i></div>
+                    </div>
+                    <div class="kpi-value" id="kpi-total-helpers">0</div>
+                    <div class="kpi-sub"><span id="kpi-total-attendance">0</span> Logs recorded</div>
+                </div>
+
+                <div class="kpi-card" style="--kpi-accent: #38bdf8;">
+                    <div class="kpi-top">
+                        <span class="kpi-title">Ironing Registry</span>
+                        <div class="kpi-icon"><i class="fa-solid fa-shirt"></i></div>
+                    </div>
+                    <div class="kpi-value" id="kpi-ironing-workers">0</div>
+                    <div class="kpi-sub"><span id="kpi-ironing-records">0</span> Work logs</div>
+                </div>
+
+                <div class="kpi-card" style="--kpi-accent: #ec4899;">
+                    <div class="kpi-top">
+                        <span class="kpi-title">Appliances & Repairs</span>
+                        <div class="kpi-icon"><i class="fa-solid fa-plug"></i></div>
+                    </div>
+                    <div class="kpi-value" id="kpi-appliances">0</div>
+                    <div class="kpi-sub">₹<span id="kpi-service-spend">0</span> Maintenance</div>
                 </div>
             </div>
 
-            <!-- Users Table -->
-            <div class="table-container">
-                <div class="table-header">
-                    <h2>Roster Directory</h2>
-                    <button class="btn outline" onclick="loadAdminData()">Refresh Directory</button>
+            <!-- Table & Filters Section -->
+            <div class="table-toolbar">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="rosterSearchInput" class="search-input" placeholder="Search by username, user ID or date..." oninput="filterRoster()">
                 </div>
-                <div style="overflow-x: auto;">
+                <div class="filter-group">
+                    <button class="filter-chip active" onclick="setPlanFilter('all', this)">All</button>
+                    <button class="filter-chip" onclick="setPlanFilter('active-trial', this)">Active Trial</button>
+                    <button class="filter-chip" onclick="setPlanFilter('expired', this)">Expired</button>
+                    <button class="filter-chip" onclick="setPlanFilter('premium', this)">Premium</button>
+                    <button class="btn-action" onclick="fetchAdminData()">
+                        <i class="fa-solid fa-rotate"></i> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- Roster Table Panel -->
+            <div class="glass-panel">
+                <div class="table-responsive">
                     <table>
                         <thead>
                             <tr>
-                                <th>User Profile</th>
+                                <th>User Account</th>
                                 <th>Account ID</th>
-                                <th>Plan Class</th>
-                                <th>Validity / Expiry</th>
-                                <th>Helpers</th>
-                                <th>Workers</th>
-                                <th>Trackers</th>
-                                <th>Management</th>
+                                <th>Tier Class</th>
+                                <th>Validity & Expiry</th>
+                                <th style="text-align:center;">Helpers</th>
+                                <th style="text-align:center;">Ironing</th>
+                                <th style="text-align:center;">Appliances</th>
+                                <th style="text-align:right;">Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="userTableBody">
-                            <!-- Dynamic user rows will be inserted here -->
+                        <tbody id="rosterTableBody">
+                            <!-- Dynamic User Rows -->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
 
-        <!-- Tab Content 2: API Documentation -->
-        <div id="api-docs" class="tab-content">
-            <div class="api-docs-container">
-                <div class="base-url-card">
+        <!-- 2. Interactive API Studio Console -->
+        <div id="api-view" class="tab-view">
+            <div class="api-studio-wrap">
+                <!-- Context Injector Banner -->
+                <div class="context-selector-card">
                     <div>
-                        <div style="font-size: 12px; color: var(--text-muted); text-transform: uppercase; font-weight:600;">Root Endpoint DSN</div>
-                        <div style="font-size: 18px; font-weight: 700; font-family: monospace; margin-top: 4px;" id="baseUrlCode">/api</div>
+                        <div style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--text-secondary); margin-bottom:4px;">
+                            Active Testing Context (<code style="color:var(--primary);">X-User-Id</code>)
+                        </div>
+                        <div style="font-size:13px; color:var(--text-muted);">Select or enter a User ID from the roster to test scoped endpoints:</div>
+                    </div>
+                    <div style="display:flex; gap:8px;">
+                        <input type="text" id="globalTestUserId" class="form-control" style="width:280px; padding:8px 12px; font-family:'JetBrains Mono', monospace;" placeholder="user_60a... / guest_...">
                     </div>
                 </div>
 
-                <!-- Endpoint Group: Authentication -->
-                <h3 style="font-size:16px; margin: 24px 0 12px 0; color:var(--primary); font-weight:700;">Account Authentication</h3>
-                
-                <!-- Register Guest -->
-                <div class="endpoint-card">
-                    <div class="endpoint-header" onclick="toggleDetails(this)">
-                        <span class="endpoint-method post">POST</span>
-                        <span class="endpoint-path">/api/register-guest</span>
-                        <span class="endpoint-desc">Initiates 30-day Guest Account</span>
-                    </div>
-                    <div class="endpoint-details">
-                        <div class="testing-section">
-                            <div class="detail-title">Try Sandbox Sandbox</div>
-                            <div class="testing-form">
-                                <button class="btn" onclick="testRequest('POST', '/api/register-guest')">Test Endpoint</button>
-                            </div>
+                <!-- Endpoint Groups Accordion -->
+                <div id="endpointsAccordion">
+                    
+                    <!-- Group: Authentication -->
+                    <h3 style="font-size:14px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.6px; margin: 18px 0 10px;">
+                        <i class="fa-solid fa-lock"></i> 1. Authentication & Accounts
+                    </h3>
+
+                    <!-- POST /api/register-guest -->
+                    <div class="endpoint-card">
+                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+                            <span class="method-badge post">POST</span>
+                            <span class="endpoint-path">/api/register-guest</span>
+                            <span class="endpoint-summary">Initiates a 30-day Free Trial guest session</span>
+                        </div>
+                        <div class="endpoint-details">
+                            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">No payload required. Generates an instant guest ID with 30-day trial expiry timestamp.</p>
+                            <button class="btn-action btn-primary" onclick="executeApiCall('POST', '/api/register-guest')">
+                                <i class="fa-solid fa-play"></i> Run Sandbox Test
+                            </button>
                         </div>
                     </div>
-                </div>
 
-                <!-- Google Auth -->
-                <div class="endpoint-card">
-                    <div class="endpoint-header" onclick="toggleDetails(this)">
-                        <span class="endpoint-method post">POST</span>
-                        <span class="endpoint-path">/api/login-google</span>
-                        <span class="endpoint-desc">Google OAuth validation & sync</span>
-                    </div>
-                    <div class="endpoint-details">
-                        <div class="testing-section">
-                            <div class="detail-title">Test Endpoint</div>
-                            <div class="testing-form">
-                                <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">Request Payload:</div>
-                                <textarea id="body-login-google" style="width:100%; height:80px; background:var(--bg-dark); border:1px solid var(--border); color:#fff; padding:10px; border-radius:10px; font-family:monospace; margin-bottom:10px;">{
-  "googleId": "123456789",
-  "email": "user@example.com"
+                    <!-- POST /api/login -->
+                    <div class="endpoint-card">
+                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+                            <span class="method-badge post">POST</span>
+                            <span class="endpoint-path">/api/login</span>
+                            <span class="endpoint-summary">Standard user login with username & password</span>
+                        </div>
+                        <div class="endpoint-details">
+                            <label style="font-size:12px; font-weight:700; color:var(--text-secondary);">Request Payload (JSON):</label>
+                            <textarea id="payload-login" class="code-textarea">{
+  "username": "arvind",
+  "password": "password123"
 }</textarea>
-                                <button class="btn" onclick="testRequest('POST', '/api/login-google', 'body-login-google')">Send Request</button>
-                            </div>
+                            <button class="btn-action btn-primary" onclick="executeApiCall('POST', '/api/login', 'payload-login')">
+                                <i class="fa-solid fa-play"></i> Run Sandbox Test
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- POST /api/login-google -->
+                    <div class="endpoint-card">
+                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+                            <span class="method-badge post">POST</span>
+                            <span class="endpoint-path">/api/login-google</span>
+                            <span class="endpoint-summary">Google OAuth authentication & sync</span>
+                        </div>
+                        <div class="endpoint-details">
+                            <label style="font-size:12px; font-weight:700; color:var(--text-secondary);">Request Payload (JSON):</label>
+                            <textarea id="payload-google" class="code-textarea">{
+  "googleId": "109823741982734",
+  "email": "user@gmail.com"
+}</textarea>
+                            <button class="btn-action btn-primary" onclick="executeApiCall('POST', '/api/login-google', 'payload-google')">
+                                <i class="fa-solid fa-play"></i> Run Sandbox Test
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Group: Profile & Subscriptions -->
+                    <h3 style="font-size:14px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.6px; margin: 24px 0 10px;">
+                        <i class="fa-solid fa-id-card"></i> 2. Profile & Plan Management
+                    </h3>
+
+                    <!-- GET /api/get-profile -->
+                    <div class="endpoint-card">
+                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+                            <span class="method-badge get">GET</span>
+                            <span class="endpoint-path">/api/get-profile</span>
+                            <span class="endpoint-summary">Fetch active profile info, validity, and plan</span>
+                        </div>
+                        <div class="endpoint-details">
+                            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">Requires <code>X-User-Id</code> header.</p>
+                            <button class="btn-action btn-primary" onclick="executeApiCall('GET', '/api/get-profile', null, true)">
+                                <i class="fa-solid fa-play"></i> Run Scoped Test
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- POST /api/update-subscription -->
+                    <div class="endpoint-card">
+                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+                            <span class="method-badge post">POST</span>
+                            <span class="endpoint-path">/api/update-subscription</span>
+                            <span class="endpoint-summary">Upgrade active account to Lifetime Premium</span>
+                        </div>
+                        <div class="endpoint-details">
+                            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">Upgrades the scoped user context to <code>registered</code> tier with no expiration date.</p>
+                            <button class="btn-action btn-primary" onclick="executeApiCall('POST', '/api/update-subscription', null, true)">
+                                <i class="fa-solid fa-play"></i> Run Scoped Test
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Group: House Helpers -->
+                    <h3 style="font-size:14px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.6px; margin: 24px 0 10px;">
+                        <i class="fa-solid fa-user-nurse"></i> 3. House Helpers & Attendance
+                    </h3>
+
+                    <!-- GET /api/employees -->
+                    <div class="endpoint-card">
+                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+                            <span class="method-badge get">GET</span>
+                            <span class="endpoint-path">/api/employees</span>
+                            <span class="endpoint-summary">List all helpers registered in user workspace</span>
+                        </div>
+                        <div class="endpoint-details">
+                            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">Returns helper cards with wage details, joining dates, and photos.</p>
+                            <button class="btn-action btn-primary" onclick="executeApiCall('GET', '/api/employees', null, true)">
+                                <i class="fa-solid fa-play"></i> Run Scoped Test
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- GET /api/attendance -->
+                    <div class="endpoint-card">
+                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+                            <span class="method-badge get">GET</span>
+                            <span class="endpoint-path">/api/attendance</span>
+                            <span class="endpoint-summary">Retrieve attendance history and advances</span>
+                        </div>
+                        <div class="endpoint-details">
+                            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">Query parameter <code>?employeeId=...</code> can be appended to filter by helper.</p>
+                            <button class="btn-action btn-primary" onclick="executeApiCall('GET', '/api/attendance', null, true)">
+                                <i class="fa-solid fa-play"></i> Run Scoped Test
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Group: Ironing Hub -->
+                    <h3 style="font-size:14px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.6px; margin: 24px 0 10px;">
+                        <i class="fa-solid fa-shirt"></i> 4. Ironing Registry & Logs
+                    </h3>
+
+                    <!-- GET /api/ironing-workers -->
+                    <div class="endpoint-card">
+                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+                            <span class="method-badge get">GET</span>
+                            <span class="endpoint-path">/api/ironing-workers</span>
+                            <span class="endpoint-summary">List all registered dhobi / ironing workers</span>
+                        </div>
+                        <div class="endpoint-details">
+                            <button class="btn-action btn-primary" onclick="executeApiCall('GET', '/api/ironing-workers', null, true)">
+                                <i class="fa-solid fa-play"></i> Run Scoped Test
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Group: Appliances Hub -->
+                    <h3 style="font-size:14px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.6px; margin: 24px 0 10px;">
+                        <i class="fa-solid fa-plug"></i> 5. Appliances & Service Records
+                    </h3>
+
+                    <!-- GET /api/appliances -->
+                    <div class="endpoint-card">
+                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+                            <span class="method-badge get">GET</span>
+                            <span class="endpoint-path">/api/appliances</span>
+                            <span class="endpoint-summary">List appliances, warranty details, and bills</span>
+                        </div>
+                        <div class="endpoint-details">
+                            <button class="btn-action btn-primary" onclick="executeApiCall('GET', '/api/appliances', null, true)">
+                                <i class="fa-solid fa-play"></i> Run Scoped Test
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- GET /api/service-records -->
+                    <div class="endpoint-card">
+                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
+                            <span class="method-badge get">GET</span>
+                            <span class="endpoint-path">/api/service-records</span>
+                            <span class="endpoint-summary">List appliance service logs and repair prices</span>
+                        </div>
+                        <div class="endpoint-details">
+                            <button class="btn-action btn-primary" onclick="executeApiCall('GET', '/api/service-records', null, true)">
+                                <i class="fa-solid fa-play"></i> Run Scoped Test
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Endpoint Group: Core Scoped APIs -->
-                <h3 style="font-size:16px; margin: 24px 0 12px 0; color:var(--primary); font-weight:700;">Scoped Resource Registers</h3>
-
-                <!-- Employees List -->
-                <div class="endpoint-card">
-                    <div class="endpoint-header" onclick="toggleDetails(this)">
-                        <span class="endpoint-method get">GET</span>
-                        <span class="endpoint-path">/api/employees</span>
-                        <span class="endpoint-desc">List all house helpers / employees</span>
-                    </div>
-                    <div class="endpoint-details">
-                        <div class="testing-section">
-                            <div class="detail-title">Test Scoped Endpoint</div>
-                            <div class="testing-form">
-                                <div style="font-size:12px; color:var(--text-muted); margin-bottom:8px;">Provide active X-User-Id:</div>
-                                <input type="text" id="header-employees-get" placeholder="X-User-Id Header Value" style="background:var(--bg-dark); border:1px solid var(--border); color:#fff; padding:10px; border-radius:10px; margin-bottom:10px; width: 100%;">
-                                <button class="btn" onclick="testRequestWithHeader('GET', '/api/employees', null, 'header-employees-get')">Send Request</button>
-                            </div>
+                <!-- Live Response Inspector Console -->
+                <div id="apiConsoleOutput" class="response-console" style="display:none;">
+                    <div class="console-top">
+                        <div>
+                            <span style="font-weight:700; color:#fff;">Target:</span> <code id="consoleTargetUrl" style="color:var(--primary);">/api/...</code>
+                        </div>
+                        <div>
+                            <span style="margin-right:12px;" id="consoleTiming">0 ms</span>
+                            <span id="consoleStatusBadge" class="plan-tag" style="background:#10b98120; color:#10b981; border:1px solid #10b98140;">200 OK</span>
                         </div>
                     </div>
+                    <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
+                        <button class="btn-action" style="padding:4px 10px; font-size:11px;" onclick="copyConsoleJson()">
+                            <i class="fa-solid fa-copy"></i> Copy JSON
+                        </button>
+                    </div>
+                    <pre><code id="consoleJsonBody">{}</code></pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Server & Database Diagnostics View -->
+        <div id="diagnostics-view" class="tab-view">
+            <div class="kpi-grid" style="margin-bottom:24px;">
+                <div class="kpi-card" style="--kpi-accent: #10b981;">
+                    <div class="kpi-top">
+                        <span class="kpi-title">Database Latency</span>
+                        <div class="kpi-icon"><i class="fa-solid fa-bolt"></i></div>
+                    </div>
+                    <div class="kpi-value"><span id="diag-db-latency">0</span> <span style="font-size:16px;">ms</span></div>
+                    <div class="kpi-sub">Hostinger MySQL Direct Ping</div>
                 </div>
 
-                <!-- Live Response Overlay Dialog/Panel -->
-                <div style="margin-top: 48px; border-top: 1px solid var(--border); padding-top: 24px; display: none;" id="liveResponsePanel">
-                    <h3 style="font-size: 16px; margin-bottom: 8px; color: var(--primary);">Live Response Sandbox Console</h3>
-                    <div class="response-header">
-                        <span>Request Endpoint: <code id="consoleRequestUrl">/api</code></span>
-                        <span>HTTP Code: <span id="consoleResponseStatus" class="response-status">200 OK</span></span>
+                <div class="kpi-card" style="--kpi-accent: #6366f1;">
+                    <div class="kpi-top">
+                        <span class="kpi-title">Upload Storage</span>
+                        <div class="kpi-icon"><i class="fa-solid fa-hard-drive"></i></div>
                     </div>
-                    <pre class="response-box"><code id="consoleResponseCode">{}</code></pre>
+                    <div class="kpi-value"><span id="diag-upload-size">0</span> <span style="font-size:16px;">MB</span></div>
+                    <div class="kpi-sub"><span id="diag-upload-files">0</span> Invoices & Photos</div>
+                </div>
+
+                <div class="kpi-card" style="--kpi-accent: #38bdf8;">
+                    <div class="kpi-top">
+                        <span class="kpi-title">PHP Runtime</span>
+                        <div class="kpi-icon"><i class="fa-brands fa-php"></i></div>
+                    </div>
+                    <div class="kpi-value" id="diag-php-version" style="font-size:22px;">PHP 8.2</div>
+                    <div class="kpi-sub">PDO MySQL Driver Active</div>
+                </div>
+            </div>
+
+            <!-- Database Tables Matrix Panel -->
+            <div class="glass-panel" style="padding:24px;">
+                <h3 style="font-family:'Outfit', sans-serif; font-size:18px; font-weight:700; margin-bottom:16px;">
+                    <i class="fa-solid fa-database" style="color:var(--primary); margin-right:8px;"></i>
+                    Cloud Database Table Breakdown
+                </h3>
+                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:14px;" id="diagTablesList">
+                    <!-- Dynamic Table Stats -->
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- User Details Modal overlay -->
-    <div id="detailsModal" class="modal-overlay" onclick="if(event.target === this) closeDetailsModal()">
-        <div class="modal-card">
+    <!-- Workspace Deep Inspector Modal -->
+    <div id="inspectorModal" class="modal-backdrop" onclick="if(event.target === this) closeInspector()">
+        <div class="modal-window">
             <div class="modal-header">
-                <h3 id="modalUserTitle">User Workspace Details</h3>
-                <button class="modal-close" onclick="closeDetailsModal()">&times;</button>
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div class="avatar" id="modalUserAvatar">U</div>
+                    <div>
+                        <h3 id="modalUserName">User Workspace</h3>
+                        <div style="font-size:12px; color:var(--text-muted); font-family:monospace;" id="modalUserId">user_id</div>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="closeInspector()"><i class="fa-solid fa-xmark"></i></button>
             </div>
-            <div class="modal-body" id="modalUserContent">
-                <!-- User resource logs will load here -->
+
+            <!-- Modal Quick Action Ribbon -->
+            <div style="padding:12px 26px; background:rgba(0,0,0,0.25); border-bottom:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                <div style="font-size:13px; color:var(--text-secondary);">
+                    Current Plan: <span id="modalPlanBadge" class="plan-tag">Trial</span> 
+                    <span id="modalExpiryText" style="margin-left:8px; font-size:12px; color:var(--text-muted);"></span>
+                </div>
+                <div style="display:flex; gap:8px;">
+                    <button class="btn-action" style="padding:5px 12px; font-size:12px;" onclick="extendModalUserTrial()">
+                        <i class="fa-solid fa-calendar-plus"></i> +30 Days
+                    </button>
+                    <button class="btn-action btn-primary" style="padding:5px 12px; font-size:12px;" onclick="upgradeModalUserPremium()">
+                        <i class="fa-solid fa-crown"></i> Make Lifetime
+                    </button>
+                    <button class="btn-action" style="padding:5px 12px; font-size:12px; color:var(--accent-rose);" onclick="deleteModalUser()">
+                        <i class="fa-solid fa-trash"></i> Purge
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-subtabs">
+                    <button class="modal-subtab-btn active" onclick="switchModalSubtab('subtab-helpers', this)">Helpers & Wages</button>
+                    <button class="modal-subtab-btn" onclick="switchModalSubtab('subtab-ironing', this)">Ironing Hub</button>
+                    <button class="modal-subtab-btn" onclick="switchModalSubtab('subtab-appliances', this)">Appliances & Bills</button>
+                    <button class="modal-subtab-btn" onclick="switchModalSubtab('subtab-json', this)">Raw Workspace JSON</button>
+                </div>
+
+                <div id="subtab-helpers" class="modal-subtab-content">
+                    <div id="modalHelpersContent">Loading helper data...</div>
+                </div>
+
+                <div id="subtab-ironing" class="modal-subtab-content" style="display:none;">
+                    <div id="modalIroningContent">Loading ironing records...</div>
+                </div>
+
+                <div id="subtab-appliances" class="modal-subtab-content" style="display:none;">
+                    <div id="modalAppliancesContent">Loading appliance assets...</div>
+                </div>
+
+                <div id="subtab-json" class="modal-subtab-content" style="display:none;">
+                    <pre style="background:#000; padding:16px; border-radius:12px; max-height:400px; overflow:auto;"><code id="modalRawJson" style="color:#38bdf8;">{}</code></pre>
+                </div>
             </div>
         </div>
     </div>
 
+    <!-- Toast Component -->
+    <div id="toast"><i class="fa-solid fa-circle-check" style="color:var(--accent-emerald);"></i> <span id="toastMsg">Action complete</span></div>
+
+    <!-- Application Script -->
     <script>
-        const origin = window.location.origin;
-        document.getElementById('baseUrlCode').innerText = origin + '/api';
-
+        const API_BASE = window.location.origin + '/api';
         let adminToken = localStorage.getItem('todo_admin_token') || '';
+        let currentRoster = [];
+        let currentFilter = 'all';
+        let inspectedUserObj = null;
+
+        // Initialize
         if (adminToken) {
-            document.getElementById('loginOverlay').style.display = 'none';
-            loadAdminData();
+            document.getElementById('authGate').style.display = 'none';
+            fetchAdminData();
+            fetchDiagnostics();
         }
 
-        function attemptLogin() {
-            const tokenInput = document.getElementById('adminToken').value.trim();
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        function loginAdmin() {
+            const tokenInput = document.getElementById('adminTokenInput').value.trim();
             if (!tokenInput) return;
-            
             adminToken = tokenInput;
-            loadAdminData(true);
+            fetchAdminData(true);
         }
 
-        async function loadAdminData(isFirstAttempt = false) {
+        function logoutAdmin() {
+            localStorage.removeItem('todo_admin_token');
+            window.location.reload();
+        }
+
+        function switchNavTab(viewId) {
+            document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-view').forEach(view => view.classList.remove('active'));
+            
+            event.currentTarget.classList.add('active');
+            document.getElementById(viewId).classList.add('active');
+
+            if (viewId === 'diagnostics-view') {
+                fetchDiagnostics();
+            }
+        }
+
+        async function fetchAdminData(isLoginAttempt = false) {
+            const startTime = performance.now();
             try {
-                const response = await fetch(`${origin}/api/admin-overview?token=${adminToken}`);
-                if (response.status === 401) {
+                const res = await fetch(`${API_BASE}/admin-overview?token=${adminToken}`);
+                if (res.status === 401) {
                     localStorage.removeItem('todo_admin_token');
-                    document.getElementById('loginOverlay').style.display = 'flex';
-                    if (!isFirstAttempt) {
-                        document.getElementById('loginError').style.display = 'block';
+                    document.getElementById('authGate').style.display = 'flex';
+                    if (isLoginAttempt) {
+                        document.getElementById('authErrorMsg').style.display = 'block';
                     }
                     return;
                 }
-                
-                const data = await response.json();
+
+                const data = await res.json();
                 if (data.success) {
+                    const elapsed = Math.round(performance.now() - startTime);
+                    document.getElementById('headerLatencyText').innerText = `Cloud Online (${elapsed}ms)`;
                     localStorage.setItem('todo_admin_token', adminToken);
-                    document.getElementById('loginOverlay').style.display = 'none';
-                    document.getElementById('loginError').style.display = 'none';
-                    
-                    // Render Metrics
-                    document.getElementById('metric-total-users').innerText = data.metrics.total_users;
-                    document.getElementById('metric-trial-users').innerText = data.metrics.trial_users;
-                    document.getElementById('metric-premium-users').innerText = data.metrics.premium_users;
-                    document.getElementById('metric-total-employees').innerText = data.metrics.total_employees;
-                    
-                    // Render Table rows
-                    const tableBody = document.getElementById('userTableBody');
-                    tableBody.innerHTML = '';
-                    
-                    data.users.forEach(user => {
-                        const tr = document.createElement('tr');
-                        const createdDate = new Date(user.createdAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'});
-                        
-                        let expiryText = 'Lifetime access';
-                        if (user.userType === 'guest' && user.expiresAt) {
-                            const expires = new Date(user.expiresAt);
-                            const diffDays = Math.ceil((expires - new Date()) / (1000 * 60 * 60 * 24));
-                            expiryText = diffDays > 0 ? `${diffDays} Days Left` : 'Expired';
+                    document.getElementById('authGate').style.display = 'none';
+
+                    // Update KPIs
+                    document.getElementById('kpi-total-users').innerText = data.metrics.total_users;
+                    document.getElementById('kpi-trial-users').innerText = data.metrics.active_trials;
+                    document.getElementById('kpi-expired-trials').innerText = data.metrics.expired_trials;
+                    document.getElementById('kpi-premium-users').innerText = data.metrics.premium_users;
+                    document.getElementById('kpi-total-helpers').innerText = data.metrics.total_employees;
+                    document.getElementById('kpi-total-attendance').innerText = data.metrics.total_attendance;
+                    document.getElementById('kpi-ironing-workers').innerText = data.metrics.total_ironing_workers;
+                    document.getElementById('kpi-ironing-records').innerText = data.metrics.total_ironing_records;
+                    document.getElementById('kpi-appliances').innerText = data.metrics.total_appliances;
+                    document.getElementById('kpi-service-spend').innerText = Number(data.metrics.total_service_spend).toLocaleString();
+
+                    currentRoster = data.users;
+                    renderRosterTable(currentRoster);
+
+                    // Pre-fill testing context user if empty
+                    if (currentRoster.length > 0 && !document.getElementById('globalTestUserId').value) {
+                        document.getElementById('globalTestUserId').value = currentRoster[0].id;
+                    }
+                }
+            } catch (err) {
+                console.error('Fetch error:', err);
+            }
+        }
+
+        function setPlanFilter(filter, el) {
+            currentFilter = filter;
+            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            filterRoster();
+        }
+
+        function filterRoster() {
+            const query = document.getElementById('rosterSearchInput').value.toLowerCase().trim();
+            const now = new Date();
+
+            const filtered = currentRoster.filter(u => {
+                const matchQuery = u.username.toLowerCase().includes(query) || u.id.toLowerCase().includes(query);
+                if (!matchQuery) return false;
+
+                if (currentFilter === 'active-trial') {
+                    return u.userType === 'guest' && (!u.expiresAt || new Date(u.expiresAt) > now);
+                } else if (currentFilter === 'expired') {
+                    return u.userType === 'guest' && u.expiresAt && new Date(u.expiresAt) <= now;
+                } else if (currentFilter === 'premium') {
+                    return u.userType === 'registered';
+                }
+                return true;
+            });
+
+            renderRosterTable(filtered);
+        }
+
+        function renderRosterTable(users) {
+            const tbody = document.getElementById('rosterTableBody');
+            tbody.innerHTML = '';
+
+            if (users.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:36px; color:var(--text-muted);">No users match criteria</td></tr>`;
+                return;
+            }
+
+            const now = new Date();
+
+            users.forEach(u => {
+                const tr = document.createElement('tr');
+                const createdDate = new Date(u.createdAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'});
+
+                let expiryHtml = '<span style="color:var(--accent-emerald); font-weight:600;"><i class="fa-solid fa-infinity"></i> Lifetime</span>';
+                if (u.userType === 'guest') {
+                    if (u.expiresAt) {
+                        const diffDays = Math.ceil((new Date(u.expiresAt) - now) / (1000 * 60 * 60 * 24));
+                        if (diffDays > 0) {
+                            expiryHtml = `<span style="color:var(--accent-amber); font-weight:600;"><i class="fa-regular fa-clock"></i> ${diffDays} days remaining</span>`;
+                        } else {
+                            expiryHtml = `<span style="color:var(--accent-rose); font-weight:700;"><i class="fa-solid fa-circle-exclamation"></i> Expired</span>`;
                         }
-                        
-                        const profilePicSrc = user.profilePic 
-                            ? (user.profilePic.startsWith('http') ? user.profilePic : `${origin}/${user.profilePic}`)
-                            : null;
-                            
-                        const profileAvatar = profilePicSrc
-                            ? `<img src="${profilePicSrc}" style="width:36px; height:36px; border-radius:50%; object-fit:cover; margin-right:12px; border: 1.5px solid var(--primary);">`
-                            : `<div style="width:36px; height:36px; border-radius:50%; background:var(--primary); color:#fff; display:flex; align-items:center; justify-content:center; font-weight:bold; margin-right:12px; font-size: 14px;">${user.username[0].toUpperCase()}</div>`;
-                        
-                        tr.innerHTML = `
-                            <td>
-                                <div style="display:flex; align-items:center;">
-                                    ${profileAvatar}
-                                    <div style="font-weight:600;">${user.username}</div>
+                    } else {
+                        expiryHtml = `<span style="color:var(--text-muted);">No Expiry Set</span>`;
+                    }
+                }
+
+                const avatarLetter = u.username ? u.username[0].toUpperCase() : 'U';
+                const avatarContent = u.profilePic 
+                    ? `<img src="${u.profilePic.startsWith('http') ? u.profilePic : window.location.origin + '/' + u.profilePic}">`
+                    : avatarLetter;
+
+                tr.innerHTML = `
+                    <td>
+                        <div class="user-cell">
+                            <div class="avatar">${avatarContent}</div>
+                            <div>
+                                <div class="user-meta-name">${u.username}</div>
+                                <div class="user-meta-created">Joined ${createdDate}</div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="id-badge" onclick="copyText('${u.id}')" title="Click to copy User ID">
+                            ${u.id} <i class="fa-regular fa-copy"></i>
+                        </span>
+                    </td>
+                    <td>
+                        <span class="plan-tag ${u.userType === 'guest' ? 'trial' : 'premium'}">
+                            ${u.userType === 'guest' ? '<i class="fa-regular fa-hourglass"></i> Free Trial' : '<i class="fa-solid fa-crown"></i> Premium'}
+                        </span>
+                    </td>
+                    <td>${expiryHtml}</td>
+                    <td style="text-align:center;"><span class="count-pill">${u.employee_count}</span></td>
+                    <td style="text-align:center;"><span class="count-pill">${u.ironing_worker_count}</span></td>
+                    <td style="text-align:center;"><span class="count-pill">${u.appliance_count}</span></td>
+                    <td style="text-align:right;">
+                        <div class="action-cell" style="justify-content:flex-end;">
+                            <button class="btn-icon-action inspect" title="Inspect User Workspace" onclick="openInspector('${u.id}')">
+                                <i class="fa-solid fa-folder-open"></i>
+                            </button>
+                            <button class="btn-icon-action" title="Use as Active Test Context" onclick="setTestContext('${u.id}')">
+                                <i class="fa-solid fa-flask"></i>
+                            </button>
+                            <button class="btn-icon-action delete" title="Delete User" onclick="deleteUserPrompt('${u.id}', '${u.username}')">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function copyText(text) {
+            navigator.clipboard.writeText(text);
+            showToast(`Copied ${text} to clipboard`);
+        }
+
+        function setTestContext(userId) {
+            document.getElementById('globalTestUserId').value = userId;
+            switchNavTab('api-view');
+            showToast(`Testing context set to: ${userId}`);
+        }
+
+        // Inspector Modal
+        async function openInspector(userId) {
+            const modal = document.getElementById('inspectorModal');
+            modal.classList.add('active');
+
+            document.getElementById('modalUserName').innerText = 'Loading...';
+            document.getElementById('modalUserId').innerText = userId;
+            document.getElementById('modalHelpersContent').innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted);">Fetching workspace records...</div>';
+
+            try {
+                const res = await fetch(`${API_BASE}/admin-user-details?token=${adminToken}&userId=${userId}`);
+                const data = await res.json();
+                if (data.success) {
+                    inspectedUserObj = data.user;
+                    document.getElementById('modalUserName').innerText = data.user.username;
+                    document.getElementById('modalUserAvatar').innerText = data.user.username[0].toUpperCase();
+                    
+                    const isPremium = data.user.userType === 'registered';
+                    document.getElementById('modalPlanBadge').className = `plan-tag ${isPremium ? 'premium' : 'trial'}`;
+                    document.getElementById('modalPlanBadge').innerText = isPremium ? 'Premium Lifetime' : 'Free Trial';
+                    
+                    if (data.user.expiresAt) {
+                        document.getElementById('modalExpiryText').innerText = `(Expires: ${new Date(data.user.expiresAt).toLocaleDateString()})`;
+                    } else {
+                        document.getElementById('modalExpiryText').innerText = '(No Expiration)';
+                    }
+
+                    // Render Helpers
+                    let helperHtml = '';
+                    if (data.employees.length === 0) {
+                        helperHtml = '<div style="color:var(--text-muted); padding:20px 0;">No house helpers registered in this workspace.</div>';
+                    } else {
+                        data.employees.forEach(emp => {
+                            helperHtml += `
+                                <div class="detail-item">
+                                    <div>
+                                        <div style="font-weight:700; color:#fff;">${emp.name}</div>
+                                        <div style="font-size:12px; color:var(--text-muted);">Contact: ${emp.contact || 'N/A'} • Joined: ${emp.joiningDate || 'N/A'}</div>
+                                    </div>
+                                    <div style="font-weight:700; color:var(--primary); font-size:13.5px;">
+                                        ₹${emp.baseSalary} / ${emp.salaryBasis}
+                                    </div>
                                 </div>
-                            </td>
-                            <td><span class="user-id-badge">${user.id}</span></td>
-                            <td>
-                                <span class="plan-badge ${user.userType === 'guest' ? 'trial' : 'premium'}">
-                                    ${user.userType === 'guest' ? 'Free Trial' : 'Premium'}
-                                </span>
-                            </td>
-                            <td style="font-size:13px; color:var(--text-muted);">${expiryText}</td>
-                            <td style="font-weight:600; text-align:center;">${user.employee_count}</td>
-                            <td style="font-weight:600; text-align:center;">${user.ironing_worker_count}</td>
-                            <td style="font-weight:600; text-align:center;">${user.appliance_count}</td>
-                            <td>
-                                <button class="btn" style="padding: 6px 12px; font-size:12px;" onclick="viewUserWorkspace('${user.id}', '${user.username}')">Inspect Logs</button>
-                            </td>
-                        `;
-                        tableBody.appendChild(tr);
-                    });
+                            `;
+                        });
+                    }
+                    document.getElementById('modalHelpersContent').innerHTML = helperHtml;
+
+                    // Render Ironing
+                    let ironHtml = '';
+                    if (data.ironingWorkers.length === 0) {
+                        ironHtml = '<div style="color:var(--text-muted); padding:20px 0;">No dhobi / ironing workers registered.</div>';
+                    } else {
+                        data.ironingWorkers.forEach(w => {
+                            ironHtml += `
+                                <div class="detail-item">
+                                    <div>
+                                        <div style="font-weight:700; color:#fff;">${w.name}</div>
+                                        <div style="font-size:12px; color:var(--text-muted);">Contact: ${w.contact || 'N/A'}</div>
+                                    </div>
+                                    <div style="font-size:12px; color:var(--text-secondary);">Worker ID: <code style="font-family:monospace;">${w.id}</code></div>
+                                </div>
+                            `;
+                        });
+                    }
+                    document.getElementById('modalIroningContent').innerHTML = ironHtml;
+
+                    // Render Appliances
+                    let appHtml = '';
+                    if (data.appliances.length === 0) {
+                        appHtml = '<div style="color:var(--text-muted); padding:20px 0;">No appliances or warranty items registered.</div>';
+                    } else {
+                        data.appliances.forEach(a => {
+                            appHtml += `
+                                <div class="detail-item">
+                                    <div>
+                                        <div style="font-weight:700; color:#fff;">${a.name} <span style="font-size:12px; color:var(--text-muted);">(${a.brand || 'Generic'})</span></div>
+                                        <div style="font-size:12px; color:var(--text-muted);">Type: ${a.type || 'N/A'} • S/N: ${a.serialNumber || 'N/A'}</div>
+                                    </div>
+                                    <div style="font-size:12px; color:var(--accent-emerald);">Warranty: ${a.warrantyEnd || 'N/A'}</div>
+                                </div>
+                            `;
+                        });
+                    }
+                    document.getElementById('modalAppliancesContent').innerHTML = appHtml;
+
+                    // Raw JSON
+                    document.getElementById('modalRawJson').innerText = JSON.stringify(data, null, 2);
                 }
             } catch (err) {
                 console.error(err);
             }
         }
 
-        async function viewUserWorkspace(userId, username) {
-            const modal = document.getElementById('detailsModal');
-            const modalTitle = document.getElementById('modalUserTitle');
-            const modalContent = document.getElementById('modalUserContent');
-            
-            modalTitle.innerText = `Workspace Log: ${username}`;
-            modalContent.innerHTML = '<div style="text-align:center; padding: 40px; color:var(--text-muted);">Fetching workspace records...</div>';
-            modal.classList.add('active');
-            
-            try {
-                const response = await fetch(`${origin}/api/admin-user-details?token=${adminToken}&userId=${userId}`);
-                const data = await response.json();
-                
-                if (data.success) {
-                    let html = '';
-                    
-                    // Helpers section
-                    html += `<h4 style="font-size:14px; margin-bottom:12px; color:var(--primary); font-weight:700;">Scoped Helper Registry (${data.employees.length})</h4>`;
-                    if (data.employees.length === 0) {
-                        html += '<div style="color:var(--text-muted); font-size:13px; margin-bottom:24px; padding-left:12px;">No helpers registered</div>';
-                    } else {
-                        html += '<div style="margin-bottom:24px;">';
-                        data.employees.forEach(emp => {
-                            html += `
-                                <div class="detail-item-card">
-                                    <div>
-                                        <div style="font-weight:600; font-size:14px;">${emp.name}</div>
-                                        <div style="font-size:12px; color:var(--text-muted);">Contact: ${emp.contact || 'N/A'}</div>
-                                    </div>
-                                    <div style="font-weight:700; color:var(--primary); font-size:13px;">₹${emp.baseSalary} / ${emp.salaryBasis}</div>
-                                </div>
-                            `;
-                        });
-                        html += '</div>';
-                    }
-                    
-                    // Ironing Workers section
-                    html += `<h4 style="font-size:14px; margin-bottom:12px; color:var(--primary); font-weight:700;">Ironing Registers (${data.ironingWorkers.length})</h4>`;
-                    if (data.ironingWorkers.length === 0) {
-                        html += '<div style="color:var(--text-muted); font-size:13px; margin-bottom:24px; padding-left:12px;">No ironing workers registered</div>';
-                    } else {
-                        html += '<div style="margin-bottom:24px;">';
-                        data.ironingWorkers.forEach(worker => {
-                            html += `
-                                <div class="detail-item-card">
-                                    <div>
-                                        <div style="font-weight:600; font-size:14px;">${worker.name}</div>
-                                        <div style="font-size:12px; color:var(--text-muted);">Contact: ${worker.contact || 'N/A'}</div>
-                                    </div>
-                                    <div style="font-size:12px; color:var(--text-muted);">Joined: ${new Date(worker.joiningDate).toLocaleDateString()}</div>
-                                </div>
-                            `;
-                        });
-                        html += '</div>';
-                    }
-                    
-                    // Appliances section
-                    html += `<h4 style="font-size:14px; margin-bottom:12px; color:var(--primary); font-weight:700;">Appliance Trackers (${data.appliances.length})</h4>`;
-                    if (data.appliances.length === 0) {
-                        html += '<div style="color:var(--text-muted); font-size:13px; padding-left:12px;">No appliance trackers registered</div>';
-                    } else {
-                        html += '<div>';
-                        data.appliances.forEach(app => {
-                            html += `
-                                <div class="detail-item-card">
-                                    <div>
-                                        <div style="font-weight:600; font-size:14px;">${app.name} (${app.brand})</div>
-                                        <div style="font-size:12px; color:var(--text-muted);">Serial Number: ${app.serialNumber || 'N/A'}</div>
-                                    </div>
-                                    <div style="font-size:12px; color:var(--text-muted);">Type: ${app.type}</div>
-                                </div>
-                            `;
-                        });
-                        html += '</div>';
-                    }
-                    
-                    modalContent.innerHTML = html;
-                }
-            } catch (err) {
-                modalContent.innerHTML = `<div style="text-align:center; padding: 40px; color:var(--delete-color);">Failed to fetch details: ${err.message}</div>`;
+        function closeInspector() {
+            document.getElementById('inspectorModal').classList.remove('active');
+        }
+
+        function switchModalSubtab(subtabId, el) {
+            document.querySelectorAll('.modal-subtab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.modal-subtab-content').forEach(c => c.style.display = 'none');
+            el.classList.add('active');
+            document.getElementById(subtabId).style.display = 'block';
+        }
+
+        async function extendModalUserTrial() {
+            if (!inspectedUserObj) return;
+            const res = await fetch(`${API_BASE}/admin-update-user?token=${adminToken}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: inspectedUserObj.id, extendDays: 30 })
+            });
+            const data = await res.json();
+            if (data.success) {
+                showToast('Trial extended by +30 days');
+                openInspector(inspectedUserObj.id);
+                fetchAdminData();
             }
         }
 
-        function closeDetailsModal() {
-            document.getElementById('detailsModal').classList.remove('active');
+        async function upgradeModalUserPremium() {
+            if (!inspectedUserObj) return;
+            const res = await fetch(`${API_BASE}/admin-update-user?token=${adminToken}`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: inspectedUserObj.id, userType: 'registered' })
+            });
+            const data = await res.json();
+            if (data.success) {
+                showToast('User upgraded to Lifetime Premium');
+                openInspector(inspectedUserObj.id);
+                fetchAdminData();
+            }
         }
 
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            event.target.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
+        async function deleteModalUser() {
+            if (!inspectedUserObj) return;
+            if (confirm(`Are you sure you want to completely purge user ${inspectedUserObj.username} (${inspectedUserObj.id}) and all records?`)) {
+                const res = await fetch(`${API_BASE}/admin-delete-user?token=${adminToken}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId: inspectedUserObj.id })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('User purged successfully');
+                    closeInspector();
+                    fetchAdminData();
+                }
+            }
         }
 
-        function toggleDetails(header) {
-            const card = header.parentElement;
-            const details = card.querySelector('.endpoint-details');
+        async function deleteUserPrompt(userId, username) {
+            if (confirm(`Purge user account ${username} (${userId})? This will delete all scoped data.`)) {
+                const res = await fetch(`${API_BASE}/admin-delete-user?token=${adminToken}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ userId })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showToast('User purged successfully');
+                    fetchAdminData();
+                }
+            }
+        }
+
+        // Diagnostics
+        async function fetchDiagnostics() {
+            try {
+                const res = await fetch(`${API_BASE}/admin-system-health?token=${adminToken}`);
+                const data = await res.json();
+                if (data.success) {
+                    document.getElementById('diag-db-latency').innerText = data.system.db_latency_ms;
+                    document.getElementById('diag-upload-size').innerText = data.system.uploads.total_size_mb;
+                    document.getElementById('diag-upload-files').innerText = data.system.uploads.file_count;
+                    document.getElementById('diag-php-version').innerText = `PHP ${data.system.php_version}`;
+
+                    const tableContainer = document.getElementById('diagTablesList');
+                    tableContainer.innerHTML = '';
+                    for (const [tbl, count] of Object.entries(data.system.tables)) {
+                        const item = document.createElement('div');
+                        item.className = 'detail-item';
+                        item.innerHTML = `
+                            <div>
+                                <div style="font-weight:700; color:#fff;">${tbl}</div>
+                                <div style="font-size:11px; color:var(--text-muted);">Indexed MySQL Table</div>
+                            </div>
+                            <div class="count-pill" style="font-size:13px; color:var(--primary);">${count} rows</div>
+                        `;
+                        tableContainer.appendChild(item);
+                    }
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        // API Studio Console
+        function toggleEndpoint(header) {
+            const details = header.nextElementSibling;
             details.classList.toggle('active');
         }
 
-        function showConsole(url, status, statusText, data) {
-            document.getElementById('liveResponsePanel').style.display = 'block';
-            document.getElementById('consoleRequestUrl').innerText = url;
-            document.getElementById('consoleResponseStatus').innerText = status + ' ' + statusText;
-            
-            const codeEl = document.getElementById('consoleResponseCode');
-            codeEl.innerText = JSON.stringify(data, null, 2);
-            document.getElementById('liveResponsePanel').scrollIntoView({ behavior: 'smooth' });
-        }
-
-        async function makeRequest(method, path, body = null, userIdHeader = null) {
-            const url = origin + path;
+        async function executeApiCall(method, path, payloadTextareaId = null, requireScoped = false) {
+            const startTime = performance.now();
             const headers = { 'Content-Type': 'application/json' };
-            if (userIdHeader) {
-                headers['X-User-Id'] = userIdHeader;
+            
+            if (requireScoped) {
+                const userId = document.getElementById('globalTestUserId').value.trim();
+                if (!userId) {
+                    alert('Please select or provide a User ID context in the top banner');
+                    return;
+                }
+                headers['X-User-Id'] = userId;
             }
+
             const options = { method, headers };
-            if (body) {
-                options.body = typeof body === 'string' ? body : JSON.stringify(body);
-            }
-
-            try {
-                const response = await fetch(url, options);
-                const data = await response.json();
-                showConsole(path, response.status, response.statusText, data);
-            } catch (err) {
-                showConsole(path, 0, 'Connection Refused', { error: err.message });
-            }
-        }
-
-        function testRequest(method, path, bodyTextareaId = null) {
-            let body = null;
-            if (bodyTextareaId) {
-                const rawText = document.getElementById(bodyTextareaId).value;
+            if (payloadTextareaId) {
                 try {
-                    body = eval('(' + rawText + ')');
-                } catch(e) {
-                    body = JSON.parse(rawText);
+                    const raw = document.getElementById(payloadTextareaId).value;
+                    options.body = JSON.stringify(JSON.parse(raw));
+                } catch (e) {
+                    alert('Invalid JSON in request payload');
+                    return;
                 }
             }
-            makeRequest(method, path, body);
+
+            const consolePanel = document.getElementById('apiConsoleOutput');
+            consolePanel.style.display = 'block';
+            document.getElementById('consoleTargetUrl').innerText = path;
+
+            try {
+                const res = await fetch(API_BASE + path, options);
+                const elapsed = Math.round(performance.now() - startTime);
+                const resData = await res.json();
+
+                document.getElementById('consoleTiming').innerText = `${elapsed} ms`;
+                const badge = document.getElementById('consoleStatusBadge');
+                badge.innerText = `${res.status} ${res.statusText || ''}`;
+                badge.style.color = res.ok ? '#10b981' : '#f43f5e';
+                badge.style.borderColor = res.ok ? '#10b98140' : '#f43f5e40';
+
+                document.getElementById('consoleJsonBody').innerText = JSON.stringify(resData, null, 2);
+                consolePanel.scrollIntoView({ behavior: 'smooth' });
+            } catch (err) {
+                document.getElementById('consoleStatusBadge').innerText = 'Network Error';
+                document.getElementById('consoleJsonBody').innerText = JSON.stringify({ error: err.message }, null, 2);
+            }
         }
 
-        function testRequestWithHeader(method, path, bodyTextareaId, headerInputId) {
-            const headerVal = document.getElementById(headerInputId).value.trim();
-            if (!headerVal) {
-                alert('Please provide an X-User-Id for scoped endpoints');
-                return;
-            }
-            makeRequest(method, path, null, headerVal);
+        function copyConsoleJson() {
+            const text = document.getElementById('consoleJsonBody').innerText;
+            navigator.clipboard.writeText(text);
+            showToast('JSON response copied');
         }
     </script>
 </body>

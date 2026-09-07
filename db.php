@@ -10,6 +10,7 @@ $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     PDO::ATTR_EMULATE_PREPARES   => false,
+    PDO::ATTR_TIMEOUT            => 5,
 ];
 
 try {
@@ -25,21 +26,34 @@ function createTable($pdo, $sql) {
     try {
         $pdo->exec($sql);
     } catch (\PDOException $e) {
-        // Log or handle table creation errors
+        // Table creation handled gracefully
     }
 }
 
-// Helper to add userId column to existing tables if missing
-function addUserIdColumnIfNeeded($pdo, $tableName) {
+// Helper to add column if missing
+function addColumnIfNeeded($pdo, $tableName, $columnName, $columnDefinition) {
     try {
-        $stmt = $pdo->query("SHOW COLUMNS FROM `$tableName` LIKE 'userId'");
+        $stmt = $pdo->query("SHOW COLUMNS FROM `$tableName` LIKE '$columnName'");
         $exists = $stmt->fetch();
         if (!$exists) {
-            $pdo->exec("ALTER TABLE `$tableName` ADD COLUMN userId VARCHAR(50) NULL");
-            $pdo->exec("ALTER TABLE `$tableName` ADD INDEX (userId)");
+            $pdo->exec("ALTER TABLE `$tableName` ADD COLUMN `$columnName` $columnDefinition");
         }
     } catch (\PDOException $e) {
-        // Table might not exist yet; createTable will handle it
+        // Handled gracefully
+    }
+}
+
+// Helper to add index if missing
+function addIndexIfNeeded($pdo, $tableName, $indexColumn, $indexName = null) {
+    $indexName = $indexName ?? "idx_{$tableName}_{$indexColumn}";
+    try {
+        $stmt = $pdo->query("SHOW INDEX FROM `$tableName` WHERE Key_name = '$indexName'");
+        $exists = $stmt->fetch();
+        if (!$exists) {
+            $pdo->exec("ALTER TABLE `$tableName` ADD INDEX `$indexName` (`$indexColumn`)");
+        }
+    } catch (\PDOException $e) {
+        // Handled gracefully
     }
 }
 
@@ -48,7 +62,8 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS users (
     id VARCHAR(50) PRIMARY KEY,
     username VARCHAR(100) UNIQUE NOT NULL,
     password VARCHAR(255) NULL,
-    userType VARCHAR(20) NOT NULL,
+    userType VARCHAR(20) NOT NULL DEFAULT 'guest',
+    profilePic VARCHAR(255) NULL,
     createdAt VARCHAR(30) NOT NULL,
     expiresAt VARCHAR(30) NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
@@ -60,8 +75,10 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS employees (
     name VARCHAR(100) NOT NULL,
     contact VARCHAR(20),
     joiningDate VARCHAR(30),
-    baseSalary DECIMAL(10,2),
-    salaryBasis VARCHAR(20)
+    relievingDate VARCHAR(30) NULL,
+    photoPath VARCHAR(255) NULL,
+    baseSalary DECIMAL(10,2) DEFAULT 0.00,
+    salaryBasis VARCHAR(20) DEFAULT 'monthly'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
 // 2. Attendance Table
@@ -73,7 +90,7 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS attendance (
     status VARCHAR(20) NOT NULL,
     checkInTime VARCHAR(20),
     checkOutTime VARCHAR(20),
-    amountGiven DECIMAL(10,2),
+    amountGiven DECIMAL(10,2) DEFAULT 0.00,
     paymentDescription TEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
@@ -92,7 +109,7 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS ironing_rates (
     userId VARCHAR(50) NULL,
     workerId VARCHAR(50) NOT NULL,
     clothingType VARCHAR(50) NOT NULL,
-    rate DECIMAL(10,2) NOT NULL,
+    rate DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     date VARCHAR(30)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
@@ -103,7 +120,7 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS ironing_records (
     workerId VARCHAR(50) NOT NULL,
     date VARCHAR(30) NOT NULL,
     clothesCount TEXT,
-    totalWage DECIMAL(10,2) NOT NULL,
+    totalWage DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     createdAt VARCHAR(30)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
@@ -113,7 +130,7 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS ironing_payments (
     userId VARCHAR(50) NULL,
     workerId VARCHAR(50) NOT NULL,
     date VARCHAR(30) NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
+    amount DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     description TEXT,
     createdAt VARCHAR(30)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
@@ -138,13 +155,13 @@ createTable($pdo, "CREATE TABLE IF NOT EXISTS service_records (
     userId VARCHAR(50) NULL,
     applianceId VARCHAR(50) NOT NULL,
     serviceDate VARCHAR(30) NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
+    price DECIMAL(10,2) NOT NULL DEFAULT 0.00,
     remarks TEXT,
     billPath VARCHAR(255),
     createdAt VARCHAR(30)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
 
-// Run Migrations for existing databases to ensure they have the userId column
+// Schema Columns & Indexes Self-Healing
 $tables = [
     'employees',
     'attendance',
@@ -155,6 +172,18 @@ $tables = [
     'appliances',
     'service_records'
 ];
+
 foreach ($tables as $t) {
-    addUserIdColumnIfNeeded($pdo, $t);
+    addColumnIfNeeded($pdo, $t, 'userId', 'VARCHAR(50) NULL');
+    addIndexIfNeeded($pdo, $t, 'userId');
 }
+
+// Ensure specific extra columns exist
+addColumnIfNeeded($pdo, 'users', 'profilePic', 'VARCHAR(255) NULL');
+addColumnIfNeeded($pdo, 'employees', 'photoPath', 'VARCHAR(255) NULL');
+addColumnIfNeeded($pdo, 'employees', 'relievingDate', 'VARCHAR(30) NULL');
+addIndexIfNeeded($pdo, 'attendance', 'employeeId');
+addIndexIfNeeded($pdo, 'ironing_rates', 'workerId');
+addIndexIfNeeded($pdo, 'ironing_records', 'workerId');
+addIndexIfNeeded($pdo, 'ironing_payments', 'workerId');
+addIndexIfNeeded($pdo, 'service_records', 'applianceId');
