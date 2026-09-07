@@ -933,26 +933,7 @@
             box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
-        .quick-cred-box {
-            background: var(--primary-subtle);
-            border: 1px dashed rgba(220, 38, 38, 0.3);
-            border-radius: var(--radius-sm);
-            padding: 10px 12px;
-            margin-bottom: 18px;
-            font-size: 11.5px;
-            color: var(--text-secondary);
-        }
 
-        .quick-cred-btn {
-            background: transparent;
-            border: none;
-            color: var(--primary);
-            font-weight: 700;
-            cursor: pointer;
-            text-decoration: underline;
-            padding: 0;
-            font-size: 11.5px;
-        }
 
         .error-alert {
             background: #FEE2E2;
@@ -1006,16 +987,7 @@
                 <p>Enter your credentials to access system control</p>
             </div>
 
-            <div class="quick-cred-box">
-                <div style="font-weight:600; margin-bottom:2px; color:var(--text-main);">Demo Administrator Credentials:</div>
-                <div>Email: <b>admin@mytask.com</b></div>
-                <div>Password: <b>Admin@102030</b></div>
-                <div style="margin-top:4px;">
-                    <button type="button" class="quick-cred-btn" onclick="fillAdminCreds()">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> One-Click Auto Fill
-                    </button>
-                </div>
-            </div>
+
 
             <div class="input-group">
                 <label class="input-label" for="loginEmail">Email Address</label>
@@ -1421,10 +1393,7 @@
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        function fillAdminCreds() {
-            document.getElementById('loginEmail').value = 'admin@mytask.com';
-            document.getElementById('loginPass').value = 'Admin@102030';
-        }
+
 
         async function attemptLogin() {
             const email = document.getElementById('loginEmail').value.trim();
