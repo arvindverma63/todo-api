@@ -702,7 +702,7 @@ switch ($route) {
                 if (!$input || empty($input['id']) || empty($input['name'])) {
                     sendError('Employee ID and Name are required');
                 }
-                $stmt = $pdo->prepare("INSERT INTO employees (id, userId, name, contact, joiningDate, relievingDate, photoPath, baseSalary, salaryBasis) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt = $pdo->prepare("REPLACE INTO employees (id, userId, name, contact, joiningDate, relievingDate, photoPath, baseSalary, salaryBasis) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
                     $input['id'],
                     $userId,
@@ -761,7 +761,7 @@ switch ($route) {
                 if (!$input || empty($input['id']) || empty($input['employeeId']) || empty($input['date']) || empty($input['status'])) {
                     sendError('ID, employeeId, date, and status are required');
                 }
-                $stmt = $pdo->prepare("INSERT INTO attendance (id, userId, employeeId, date, status, checkInTime, checkOutTime, amountGiven, paymentDescription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt = $pdo->prepare("REPLACE INTO attendance (id, userId, employeeId, date, status, checkInTime, checkOutTime, amountGiven, paymentDescription) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
                     $input['id'],
                     $userId,
@@ -819,7 +819,7 @@ switch ($route) {
                 if (!$input || empty($input['id']) || empty($input['name'])) {
                     sendError('Worker ID and Name are required');
                 }
-                $stmt = $pdo->prepare("INSERT INTO ironing_workers (id, userId, name, contact, joiningDate) VALUES (?, ?, ?, ?, ?)");
+                $stmt = $pdo->prepare("REPLACE INTO ironing_workers (id, userId, name, contact, joiningDate) VALUES (?, ?, ?, ?, ?)");
                 $stmt->execute([
                     $input['id'],
                     $userId,
@@ -860,7 +860,7 @@ switch ($route) {
                 if (!$input || empty($input['id']) || empty($input['workerId']) || empty($input['date'])) {
                     sendError('Record ID, workerId, and date are required');
                 }
-                $stmt = $pdo->prepare("INSERT INTO ironing_records (id, userId, workerId, date, clothesCount, totalWage, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt = $pdo->prepare("REPLACE INTO ironing_records (id, userId, workerId, date, clothesCount, totalWage, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
                     $input['id'],
                     $userId,
@@ -899,7 +899,7 @@ switch ($route) {
                 if (!$input || empty($input['id']) || empty($input['workerId']) || empty($input['date'])) {
                     sendError('Payment ID, workerId, and date are required');
                 }
-                $stmt = $pdo->prepare("INSERT INTO ironing_payments (id, userId, workerId, date, amount, description, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)");
+                $stmt = $pdo->prepare("REPLACE INTO ironing_payments (id, userId, workerId, date, amount, description, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
                     $input['id'],
                     $userId,
@@ -932,7 +932,7 @@ switch ($route) {
                 if (!$input || empty($input['id']) || empty($input['name'])) {
                     sendError('Appliance ID and Name are required');
                 }
-                $stmt = $pdo->prepare("INSERT INTO appliances (id, userId, name, type, brand, serialNumber, warrantyStart, warrantyEnd, invoicePath, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt = $pdo->prepare("REPLACE INTO appliances (id, userId, name, type, brand, serialNumber, warrantyStart, warrantyEnd, invoicePath, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
                     $input['id'],
                     $userId,
@@ -993,7 +993,7 @@ switch ($route) {
                 if (!$input || empty($input['id']) || empty($input['applianceId']) || empty($input['serviceDate'])) {
                     sendError('Service ID, applianceId, and serviceDate are required');
                 }
-                $stmt = $pdo->prepare("INSERT INTO service_records (id, userId, applianceId, serviceDate, price, remarks, billPath, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt = $pdo->prepare("REPLACE INTO service_records (id, userId, applianceId, serviceDate, price, remarks, billPath, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
                 $stmt->execute([
                     $input['id'],
                     $userId,
