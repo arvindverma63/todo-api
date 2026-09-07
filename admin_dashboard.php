@@ -3,47 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My-Task Enterprise Management & API Console</title>
-    <!-- Modern Google Fonts -->
+    <title>My-Task Enterprise Admin Portal</title>
+    <!-- Roboto Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- FontAwesome 6 Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600&family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
         :root {
-            --bg-base: #090d16;
-            --bg-surface: #0f172a;
-            --bg-card: #141e33;
-            --bg-card-hover: #1a2744;
-            --bg-input: #0b1120;
+            --primary: #DC2626; /* Crimson Red */
+            --primary-hover: #B91C1C;
+            --primary-light: #FEE2E2;
+            --primary-subtle: #FEF2F2;
             
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --border-focus: rgba(6, 182, 212, 0.5);
+            --bg-base: #F8FAFC;
+            --bg-surface: #FFFFFF;
+            --bg-input: #FFFFFF;
+            --bg-hover: #F1F5F9;
             
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
+            --border: #E2E8F0;
+            --border-focus: #DC2626;
             
-            --primary: #06b6d4;
-            --primary-glow: rgba(6, 182, 212, 0.25);
-            --primary-dark: #0891b2;
+            --text-main: #0F172A;
+            --text-secondary: #475569;
+            --text-muted: #94A3B8;
             
-            --accent-indigo: #6366f1;
-            --accent-emerald: #10b981;
-            --accent-amber: #f59e0b;
-            --accent-rose: #f43f5e;
+            --success: #16A34A;
+            --success-light: #DCFCE7;
+            --warning: #EA580C;
+            --warning-light: #FFEDD5;
+            --danger: #DC2626;
+            --danger-light: #FEE2E2;
+            --info: #2563EB;
+            --info-light: #DBEAFE;
             
-            --method-get: #38bdf8;
-            --method-post: #10b981;
-            --method-put: #f59e0b;
-            --method-delete: #f43f5e;
-            
-            --radius-sm: 8px;
-            --radius-md: 14px;
-            --radius-lg: 20px;
-            --radius-xl: 26px;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
 
         * {
@@ -53,391 +54,394 @@
         }
 
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-color: var(--bg-base);
-            color: var(--text-primary);
-            line-height: 1.5;
+            color: var(--text-main);
+            line-height: 1.45;
             min-height: 100vh;
-            padding: 24px;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(6, 182, 212, 0.07) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.07) 0%, transparent 40%);
-            background-attachment: fixed;
+            padding: 20px;
+            font-size: 13.5px;
         }
 
         .container {
-            max-width: 1320px;
+            max-width: 1360px;
             margin: 0 auto;
         }
 
-        /* Glass App Header */
+        /* Top Brand App Bar */
         header {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-top: 3.5px solid var(--primary);
+            border-radius: var(--radius-md);
+            padding: 12px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 26px;
-            background: rgba(15, 23, 42, 0.75);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-            margin-bottom: 24px;
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 20px;
         }
 
-        .logo-wrap {
+        .brand-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 38px;
+            height: 38px;
+            background: var(--primary);
+            color: #FFFFFF;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 900;
+            box-shadow: 0 2px 8px rgba(220, 38, 38, 0.3);
+        }
+
+        .brand-text h1 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .role-tag {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: var(--primary-light);
+            color: var(--primary);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .brand-text p {
+            font-size: 11.5px;
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .header-meta {
             display: flex;
             align-items: center;
             gap: 14px;
         }
 
-        .logo-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, #06b6d4, #6366f1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: #fff;
-            box-shadow: 0 0 20px var(--primary-glow);
-        }
-
-        .logo-text h1 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 22px;
-            font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #f8fafc, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .version-badge {
-            font-size: 10px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            background: rgba(6, 182, 212, 0.15);
-            border: 1px solid rgba(6, 182, 212, 0.3);
-            color: var(--primary);
-            padding: 2px 8px;
-            border-radius: 6px;
-            -webkit-text-fill-color: var(--primary);
-        }
-
-        .logo-text p {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .status-pill {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 7px 14px;
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid rgba(16, 185, 129, 0.25);
-            border-radius: 30px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--accent-emerald);
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background-color: var(--accent-emerald);
-            box-shadow: 0 0 10px var(--accent-emerald);
-            animation: pulseAnim 2s infinite;
-        }
-
-        @keyframes pulseAnim {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.6; }
-        }
-
-        .btn-logout {
-            background: rgba(244, 63, 94, 0.12);
-            border: 1px solid rgba(244, 63, 94, 0.25);
-            color: var(--accent-rose);
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 600;
+        .server-badge {
             display: flex;
             align-items: center;
             gap: 6px;
+            background: var(--success-light);
+            color: var(--success);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11.5px;
+            font-weight: 600;
+        }
+
+        .pulse {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--success);
+            box-shadow: 0 0 6px var(--success);
+        }
+
+        .admin-profile-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-hover);
+            padding: 4px 10px 4px 6px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .admin-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .btn-logout {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
             transition: all 0.2s ease;
         }
 
         .btn-logout:hover {
-            background: rgba(244, 63, 94, 0.22);
-            transform: translateY(-1px);
+            background: var(--primary-light);
+            color: var(--primary);
+            border-color: var(--primary-light);
         }
 
-        /* Top Navigation Tabs */
+        /* Navigation Bar */
         .nav-tabs {
             display: flex;
-            gap: 8px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid var(--border-subtle);
-            padding: 6px;
+            gap: 6px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
             border-radius: var(--radius-md);
-            margin-bottom: 24px;
+            padding: 5px;
+            margin-bottom: 20px;
             width: fit-content;
+            box-shadow: var(--shadow-sm);
         }
 
         .nav-tab-btn {
             background: transparent;
             border: none;
             color: var(--text-secondary);
-            padding: 9px 20px;
+            padding: 8px 16px;
             border-radius: var(--radius-sm);
             cursor: pointer;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 13.5px;
+            font-family: inherit;
+            font-size: 12.5px;
             font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.25s ease;
+            gap: 6px;
+            transition: all 0.2s ease;
         }
 
         .nav-tab-btn:hover {
-            color: var(--text-primary);
-            background: rgba(255, 255, 255, 0.04);
+            background: var(--bg-hover);
+            color: var(--text-main);
         }
 
         .nav-tab-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: #fff;
-            box-shadow: 0 4px 14px var(--primary-glow);
+            background: var(--primary);
+            color: #FFFFFF;
+            box-shadow: 0 2px 6px rgba(220, 38, 38, 0.25);
         }
 
-        /* View Sections */
-        .tab-view {
+        /* Tab Views */
+        .view-pane {
             display: none;
-            animation: viewFadeIn 0.3s ease;
+            animation: fadeIn 0.25s ease;
         }
 
-        .tab-view.active {
+        .view-pane.active {
             display: block;
         }
 
-        @keyframes viewFadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Metrics KPI Grid */
+        /* Compact KPI Grid */
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-bottom: 24px;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 14px;
+            margin-bottom: 20px;
         }
 
         .kpi-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-            padding: 20px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 14px 16px;
+            box-shadow: var(--shadow-sm);
             display: flex;
             flex-direction: column;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.2s ease, border-color 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .kpi-card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .kpi-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--kpi-accent, var(--primary));
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
         .kpi-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .kpi-title {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
+            font-size: 11.5px;
             font-weight: 600;
             color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
         }
 
         .kpi-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--kpi-accent, var(--primary));
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 13px;
         }
 
+        .kpi-card.red .kpi-icon { background: var(--primary-light); color: var(--primary); }
+        .kpi-card.orange .kpi-icon { background: var(--warning-light); color: var(--warning); }
+        .kpi-card.green .kpi-icon { background: var(--success-light); color: var(--success); }
+        .kpi-card.blue .kpi-icon { background: var(--info-light); color: var(--info); }
+
         .kpi-value {
-            font-family: 'Outfit', sans-serif;
-            font-size: 30px;
+            font-size: 24px;
             font-weight: 800;
-            color: #fff;
-            line-height: 1;
-            margin-bottom: 6px;
+            color: var(--text-main);
+            line-height: 1.1;
+            margin-bottom: 4px;
         }
 
         .kpi-sub {
-            font-size: 11.5px;
+            font-size: 11px;
             color: var(--text-muted);
             display: flex;
             align-items: center;
             gap: 4px;
         }
 
-        /* Filter Toolbar */
-        .table-toolbar {
+        /* Action Toolbar */
+        .toolbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 16px;
-            margin-bottom: 16px;
+            gap: 12px;
+            margin-bottom: 14px;
         }
 
-        .search-box {
+        .search-wrap {
             position: relative;
             flex: 1;
-            max-width: 400px;
+            max-width: 360px;
         }
 
-        .search-box i {
+        .search-wrap i {
             position: absolute;
-            left: 14px;
+            left: 12px;
             top: 50%;
             transform: translateY(-50%);
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
         }
 
-        .search-input {
+        .search-field {
             width: 100%;
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            color: #fff;
-            padding: 10px 14px 10px 38px;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 12px 8px 34px;
             border-radius: var(--radius-sm);
-            font-size: 13.5px;
+            font-size: 12.5px;
             font-family: inherit;
-            transition: all 0.2s ease;
-        }
-
-        .search-input:focus {
             outline: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-field:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 12px var(--primary-glow);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
-        .filter-group {
+        .filter-row {
             display: flex;
-            gap: 8px;
             align-items: center;
+            gap: 6px;
         }
 
-        .filter-chip {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
+        .filter-pill {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
             color: var(--text-secondary);
-            padding: 7px 14px;
+            padding: 6px 12px;
             border-radius: 20px;
-            font-size: 12px;
+            font-size: 11.5px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .filter-chip:hover {
-            color: var(--text-primary);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .filter-chip.active {
-            background: rgba(6, 182, 212, 0.15);
+        .filter-pill:hover {
             border-color: var(--primary);
             color: var(--primary);
         }
 
-        .btn-action {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            color: var(--text-primary);
-            padding: 8px 16px;
+        .filter-pill.active {
+            background: var(--primary-light);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .btn {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 7px 14px;
             border-radius: var(--radius-sm);
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 5px;
             transition: all 0.2s ease;
         }
 
-        .btn-action:hover {
-            background: var(--bg-card-hover);
-            border-color: rgba(255, 255, 255, 0.2);
+        .btn:hover {
+            background: var(--bg-hover);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            color: #fff;
-            border: none;
-            box-shadow: 0 4px 14px var(--primary-glow);
+            background: var(--primary);
+            color: #FFFFFF;
+            border-color: var(--primary);
         }
 
         .btn-primary:hover {
-            filter: brightness(1.1);
-            transform: translateY(-1px);
+            background: var(--primary-hover);
+            border-color: var(--primary-hover);
+            color: #FFFFFF;
         }
 
-        /* Glass Table */
-        .glass-panel {
+        /* Clean White Table */
+        .table-card {
             background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-sm);
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            margin-bottom: 30px;
+            margin-bottom: 24px;
         }
 
-        .table-responsive {
+        .table-wrap {
             overflow-x: auto;
         }
 
@@ -448,24 +452,23 @@
         }
 
         thead {
-            background: rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid var(--border-subtle);
+            background: #F1F5F9;
+            border-bottom: 1px solid var(--border);
         }
 
         th {
-            padding: 14px 20px;
-            font-size: 11.5px;
+            padding: 10px 16px;
+            font-size: 11px;
             font-weight: 700;
             color: var(--text-secondary);
             text-transform: uppercase;
-            letter-spacing: 0.6px;
+            letter-spacing: 0.5px;
         }
 
         td {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border-subtle);
-            font-size: 13.5px;
-            color: var(--text-primary);
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border);
+            font-size: 12.5px;
             vertical-align: middle;
         }
 
@@ -474,61 +477,60 @@
         }
 
         tr:hover td {
-            background: rgba(255, 255, 255, 0.02);
+            background: var(--bg-subtle, #FAFAFA);
         }
 
-        .user-cell {
+        .user-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
         }
 
-        .avatar {
-            width: 38px;
-            height: 38px;
+        .user-avatar {
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--accent-indigo));
-            color: #fff;
+            background: var(--primary-light);
+            color: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             flex-shrink: 0;
-            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--primary);
         }
 
-        .avatar img {
+        .user-avatar img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
             border-radius: 50%;
+            object-fit: cover;
         }
 
-        .user-meta-name {
+        .user-name {
             font-weight: 600;
-            color: #fff;
-            font-size: 14px;
+            color: var(--text-main);
+            font-size: 13px;
         }
 
-        .user-meta-created {
-            font-size: 11.5px;
+        .user-sub {
+            font-size: 11px;
             color: var(--text-muted);
         }
 
         .id-badge {
-            font-family: 'JetBrains Mono', monospace;
+            font-family: 'Roboto Mono', monospace;
             font-size: 11px;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 4px 8px;
-            border-radius: 6px;
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            padding: 3px 6px;
+            border-radius: 4px;
             color: var(--text-secondary);
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             cursor: pointer;
-            border: 1px solid transparent;
-            transition: all 0.2s ease;
         }
 
         .id-badge:hover {
@@ -539,330 +541,304 @@
         .plan-tag {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 11px;
+            gap: 4px;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 10.5px;
             font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.4px;
         }
 
         .plan-tag.trial {
-            background: rgba(148, 163, 184, 0.12);
-            border: 1px solid rgba(148, 163, 184, 0.25);
-            color: #cbd5e1;
+            background: var(--warning-light);
+            color: var(--warning);
         }
 
         .plan-tag.premium {
-            background: rgba(245, 158, 11, 0.15);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            color: var(--accent-amber);
+            background: var(--primary-light);
+            color: var(--primary);
         }
 
-        .count-pill {
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-subtle);
-            padding: 3px 10px;
-            border-radius: 12px;
+        .count-badge {
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            padding: 2px 8px;
+            border-radius: 10px;
             font-weight: 700;
-            font-size: 12px;
+            font-size: 11.5px;
             color: var(--text-secondary);
-            display: inline-block;
         }
 
-        .action-cell {
+        .action-btns {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
+            justify-content: flex-end;
         }
 
-        .btn-icon-action {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid var(--border-subtle);
+        .icon-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 4px;
+            border: 1px solid var(--border);
+            background: var(--bg-surface);
             color: var(--text-secondary);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 11.5px;
             cursor: pointer;
-            font-size: 12px;
             transition: all 0.2s ease;
         }
 
-        .btn-icon-action:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: var(--text-primary);
+        .icon-btn:hover {
+            background: var(--bg-hover);
+            color: var(--text-main);
         }
 
-        .btn-icon-action.inspect:hover {
-            background: rgba(6, 182, 212, 0.2);
+        .icon-btn.inspect:hover {
+            background: var(--primary-light);
             color: var(--primary);
             border-color: var(--primary);
         }
 
-        .btn-icon-action.delete:hover {
-            background: rgba(244, 63, 94, 0.2);
-            color: var(--accent-rose);
-            border-color: var(--accent-rose);
+        .icon-btn.delete:hover {
+            background: #FEE2E2;
+            color: #DC2626;
+            border-color: #DC2626;
         }
 
         /* Modal Overlays */
-        .modal-backdrop {
+        .modal-bg {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: rgba(9, 13, 22, 0.85);
-            backdrop-filter: blur(12px);
+            background: rgba(15, 23, 42, 0.5);
+            backdrop-filter: blur(4px);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 1000;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
-            padding: 20px;
+            transition: opacity 0.25s ease;
+            padding: 16px;
         }
 
-        .modal-backdrop.active {
+        .modal-bg.active {
             opacity: 1;
             pointer-events: auto;
         }
 
-        .modal-window {
+        .modal-box {
             background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-xl);
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--primary);
+            border-radius: var(--radius-md);
             width: 100%;
-            max-width: 860px;
-            max-height: 88vh;
+            max-width: 820px;
+            max-height: 85vh;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
-            transform: scale(0.95);
-            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.96);
+            transition: transform 0.25s ease;
             overflow: hidden;
         }
 
-        .modal-backdrop.active .modal-window {
+        .modal-bg.active .modal-box {
             transform: scale(1);
         }
 
-        .modal-header {
-            padding: 20px 26px;
-            border-bottom: 1px solid var(--border-subtle);
+        .modal-head {
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(255, 255, 255, 0.02);
+            background: #FAFAFA;
         }
 
-        .modal-header h3 {
-            font-family: 'Outfit', sans-serif;
-            font-size: 18px;
+        .modal-head h3 {
+            font-size: 16px;
             font-weight: 700;
+            color: var(--text-main);
         }
 
-        .modal-close-btn {
+        .close-btn {
             background: transparent;
             border: none;
-            color: var(--text-muted);
             font-size: 18px;
+            color: var(--text-muted);
             cursor: pointer;
-            padding: 4px;
-            transition: color 0.2s ease;
         }
 
-        .modal-close-btn:hover {
-            color: var(--text-primary);
+        .close-btn:hover {
+            color: var(--text-main);
         }
 
-        .modal-body {
-            padding: 24px 26px;
+        .modal-actions-bar {
+            padding: 10px 20px;
+            background: #F8FAFC;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .modal-content {
+            padding: 18px 20px;
             overflow-y: auto;
         }
 
-        /* Modal Subtabs */
-        .modal-subtabs {
+        .subtabs-bar {
             display: flex;
-            gap: 6px;
-            border-bottom: 1px solid var(--border-subtle);
-            margin-bottom: 20px;
-            padding-bottom: 10px;
+            gap: 4px;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 16px;
+            padding-bottom: 8px;
         }
 
-        .modal-subtab-btn {
+        .subtab-btn {
             background: transparent;
             border: none;
             color: var(--text-secondary);
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: var(--radius-sm);
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
         }
 
-        .modal-subtab-btn.active {
-            background: rgba(6, 182, 212, 0.15);
+        .subtab-btn.active {
+            background: var(--primary-light);
             color: var(--primary);
         }
 
-        .detail-item {
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            padding: 14px 18px;
-            margin-bottom: 12px;
+        .item-card {
+            background: #FAFAFA;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            margin-bottom: 10px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        /* Interactive API Studio */
-        .api-studio-wrap {
+        /* API Studio Console */
+        .api-studio {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 16px;
         }
 
-        .context-selector-card {
+        .endpoint-item {
             background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-lg);
-            padding: 16px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 20px;
-        }
-
-        .endpoint-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-md);
-            margin-bottom: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            margin-bottom: 10px;
             overflow: hidden;
-            transition: border-color 0.2s ease;
         }
 
-        .endpoint-card:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-
-        .endpoint-header {
-            padding: 14px 20px;
+        .endpoint-bar {
+            padding: 12px 16px;
             display: flex;
             align-items: center;
             cursor: pointer;
+            gap: 12px;
             user-select: none;
-            gap: 14px;
         }
 
-        .method-badge {
-            font-family: 'JetBrains Mono', monospace;
+        .method-tag {
+            font-family: 'Roboto Mono', monospace;
             font-weight: 800;
             font-size: 11px;
-            padding: 4px 10px;
-            border-radius: 6px;
-            min-width: 68px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            min-width: 60px;
             text-align: center;
-            color: #fff;
+            color: #FFFFFF;
         }
 
-        .method-badge.get { background-color: var(--method-get); }
-        .method-badge.post { background-color: var(--method-post); }
-        .method-badge.put { background-color: var(--method-put); }
-        .method-badge.delete { background-color: var(--method-delete); }
+        .method-tag.get { background: var(--info); }
+        .method-tag.post { background: var(--success); }
+        .method-tag.put { background: var(--warning); }
+        .method-tag.delete { background: var(--danger); }
 
-        .endpoint-path {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13.5px;
+        .endpoint-route {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12.5px;
             font-weight: 600;
-            color: #fff;
+            color: var(--text-main);
             flex: 1;
         }
 
-        .endpoint-summary {
-            font-size: 12.5px;
-            color: var(--text-secondary);
+        .endpoint-info {
+            font-size: 12px;
+            color: var(--text-muted);
         }
 
-        .endpoint-details {
+        .endpoint-body {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease;
-            background: rgba(0, 0, 0, 0.2);
+            transition: max-height 0.25s ease;
+            background: #F8FAFC;
             border-top: 1px solid transparent;
         }
 
-        .endpoint-details.active {
-            max-height: 1200px;
-            border-top-color: var(--border-subtle);
-            padding: 20px;
+        .endpoint-body.open {
+            max-height: 1000px;
+            border-top-color: var(--border);
+            padding: 16px;
         }
 
-        .code-textarea {
+        .code-box {
             width: 100%;
-            height: 100px;
-            background: var(--bg-input);
-            border: 1px solid var(--border-subtle);
-            color: #38bdf8;
-            padding: 12px;
+            height: 90px;
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px;
             border-radius: var(--radius-sm);
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12.5px;
-            margin-bottom: 12px;
-            resize: vertical;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            margin-bottom: 10px;
+            outline: none;
         }
 
-        .code-textarea:focus {
-            outline: none;
+        .code-box:focus {
             border-color: var(--primary);
         }
 
-        .response-console {
-            background: #000;
-            border: 1px solid var(--border-subtle);
+        .console-output-box {
+            background: #0F172A;
+            color: #FFFFFF;
             border-radius: var(--radius-md);
             padding: 16px;
-            margin-top: 24px;
-            position: relative;
-        }
-
-        .console-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 12px;
-            color: var(--text-secondary);
+            margin-top: 20px;
         }
 
         pre code {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12.5px;
-            color: #34d399;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            color: #34D399;
             white-space: pre-wrap;
             word-break: break-all;
         }
 
-        /* Login Overlay */
-        .auth-gate-overlay {
+        /* Proper Login Screen (Red & White Theme) */
+        .login-gate {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            background: var(--bg-base);
+            background: #F8FAFC;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -870,261 +846,319 @@
             padding: 20px;
         }
 
-        .auth-gate-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-subtle);
-            border-radius: var(--radius-xl);
-            padding: 40px;
+        .login-panel {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-top: 4.5px solid var(--primary);
+            border-radius: var(--radius-md);
+            padding: 36px 32px;
             width: 100%;
-            max-width: 440px;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            text-align: left;
+        }
+
+        .login-head {
             text-align: center;
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
-            position: relative;
+            margin-bottom: 24px;
         }
 
-        .auth-gate-card::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 140px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-        }
-
-        .auth-gate-icon {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            background: rgba(6, 182, 212, 0.15);
+        .login-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--primary-light);
             color: var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            margin: 0 auto 20px;
-            box-shadow: 0 0 24px var(--primary-glow);
+            font-size: 22px;
+            margin: 0 auto 12px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 12px;
+        .login-head h2 {
+            font-size: 20px;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
+            color: var(--text-main);
+            margin-bottom: 4px;
         }
 
-        .form-control {
+        .login-head p {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        .input-field-wrap {
+            position: relative;
+        }
+
+        .input-field-wrap i.prefix-icon {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        .input-control {
             width: 100%;
-            background: var(--bg-input);
-            border: 1px solid var(--border-subtle);
-            color: #fff;
-            padding: 12px 16px;
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 10px 12px 10px 36px;
             border-radius: var(--radius-sm);
-            font-size: 14px;
+            font-size: 13px;
             font-family: inherit;
+            outline: none;
             transition: all 0.2s ease;
         }
 
-        .form-control:focus {
-            outline: none;
+        .input-control:focus {
             border-color: var(--primary);
-            box-shadow: 0 0 12px var(--primary-glow);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
         }
 
-        /* Toast notification */
+        .quick-cred-box {
+            background: var(--primary-subtle);
+            border: 1px dashed rgba(220, 38, 38, 0.3);
+            border-radius: var(--radius-sm);
+            padding: 10px 12px;
+            margin-bottom: 18px;
+            font-size: 11.5px;
+            color: var(--text-secondary);
+        }
+
+        .quick-cred-btn {
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: underline;
+            padding: 0;
+            font-size: 11.5px;
+        }
+
+        .error-alert {
+            background: #FEE2E2;
+            border: 1px solid #FCA5A5;
+            color: #B91C1C;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 14px;
+            display: none;
+        }
+
+        /* Toast Component */
         #toast {
             position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-subtle);
-            color: #fff;
-            padding: 12px 20px;
-            border-radius: var(--radius-md);
-            font-size: 13.5px;
+            bottom: 20px;
+            right: 20px;
+            background: var(--text-main);
+            color: #FFFFFF;
+            padding: 10px 18px;
+            border-radius: var(--radius-sm);
+            font-size: 12.5px;
             font-weight: 600;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
-            transform: translateY(100px);
+            box-shadow: var(--shadow-lg);
+            transform: translateY(80px);
             opacity: 0;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 0.25s ease;
             z-index: 10000;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         #toast.show {
             transform: translateY(0);
             opacity: 1;
         }
-
-        @media (max-width: 768px) {
-            body { padding: 12px; }
-            header { flex-direction: column; gap: 16px; align-items: flex-start; }
-            .header-actions { width: 100%; justify-content: space-between; }
-            .table-toolbar { flex-direction: column; align-items: stretch; }
-            .search-box { max-width: 100%; }
-        }
     </style>
 </head>
 <body>
 
-    <!-- Security Gate Login Overlay -->
-    <div id="authGate" class="auth-gate-overlay">
-        <div class="auth-gate-card">
-            <div class="auth-gate-icon">
-                <i class="fa-solid fa-shield-halved"></i>
-            </div>
-            <h2 style="font-family:'Outfit', sans-serif; font-size:24px; font-weight:800; margin-bottom:8px;">Admin Security Gate</h2>
-            <p style="color:var(--text-secondary); font-size:13px; margin-bottom:28px;">Authenticate with system credentials to access user registries, telemetry & API consoles.</p>
-            
-            <div class="form-group">
-                <label for="adminTokenInput">Administrator Key</label>
-                <input type="password" id="adminTokenInput" class="form-control" placeholder="Enter Token Key (e.g. TodoAdmin102030)" onkeydown="if(event.key === 'Enter') loginAdmin()">
+    <!-- Proper Administrator Login Gate (Red & White Theme) -->
+    <div id="loginGate" class="login-gate">
+        <div class="login-panel">
+            <div class="login-head">
+                <div class="login-icon">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <h2>Admin Management Portal</h2>
+                <p>Enter your credentials to access system control</p>
             </div>
 
-            <button class="btn-action btn-primary" style="width:100%; justify-content:center; padding:12px;" onclick="loginAdmin()">
-                <i class="fa-solid fa-key"></i> Authenticate & Enter
+            <div class="quick-cred-box">
+                <div style="font-weight:600; margin-bottom:2px; color:var(--text-main);">Demo Administrator Credentials:</div>
+                <div>Email: <b>admin@mytask.com</b></div>
+                <div>Password: <b>Admin@102030</b></div>
+                <div style="margin-top:4px;">
+                    <button type="button" class="quick-cred-btn" onclick="fillAdminCreds()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> One-Click Auto Fill
+                    </button>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="loginEmail">Email Address</label>
+                <div class="input-field-wrap">
+                    <i class="fa-regular fa-envelope prefix-icon"></i>
+                    <input type="email" id="loginEmail" class="input-control" placeholder="admin@mytask.com" onkeydown="if(event.key==='Enter') attemptLogin()">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label" for="loginPass">Password</label>
+                <div class="input-field-wrap">
+                    <i class="fa-solid fa-lock prefix-icon"></i>
+                    <input type="password" id="loginPass" class="input-control" placeholder="••••••••••••" onkeydown="if(event.key==='Enter') attemptLogin()">
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" style="width:100%; justify-content:center; padding:10px; font-size:13px;" onclick="attemptLogin()">
+                <i class="fa-solid fa-right-to-bracket"></i> Sign In to Portal
             </button>
 
-            <div id="authErrorMsg" style="color:var(--accent-rose); font-size:12.5px; font-weight:600; margin-top:14px; display:none;">
-                <i class="fa-solid fa-circle-exclamation"></i> Invalid administrative token.
+            <div id="loginError" class="error-alert">
+                <i class="fa-solid fa-circle-exclamation"></i> Invalid administrator email or password.
             </div>
         </div>
     </div>
 
-    <!-- Main App Container -->
+    <!-- Main Administrative Container -->
     <div class="container">
-        <!-- Top App Header -->
+        <!-- Top App Bar -->
         <header>
-            <div class="logo-wrap">
-                <div class="logo-icon">
-                    <i class="fa-solid fa-layer-group"></i>
-                </div>
-                <div class="logo-text">
-                    <h1>My-Task Hub <span class="version-badge">Enterprise Cloud</span></h1>
-                    <p>Central Operations & Multi-Tenant Registry Suite</p>
+            <div class="brand-wrap">
+                <div class="brand-logo">M</div>
+                <div class="brand-text">
+                    <h1>My-Task Console <span class="role-tag">Super Admin</span></h1>
+                    <p>Production Cloud Registry & Operations Hub</p>
                 </div>
             </div>
-            <div class="header-actions">
-                <div class="status-pill">
-                    <span class="pulse-dot"></span>
-                    <span id="headerLatencyText">Cloud Online</span>
+            <div class="header-meta">
+                <div class="server-badge">
+                    <span class="pulse"></span>
+                    <span id="headerLatency">Online • 18ms</span>
+                </div>
+                <div class="admin-profile-chip">
+                    <div class="admin-avatar">A</div>
+                    <span id="adminNameDisplay">admin@mytask.com</span>
                 </div>
                 <button class="btn-logout" onclick="logoutAdmin()">
-                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Exit
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
                 </button>
             </div>
         </header>
 
-        <!-- Top Navigation -->
+        <!-- Navigation Tabs -->
         <div class="nav-tabs">
-            <button class="nav-tab-btn active" onclick="switchNavTab('roster-view')">
+            <button class="nav-tab-btn active" onclick="switchTab('tab-roster')">
                 <i class="fa-solid fa-users"></i> Users & Roster
             </button>
-            <button class="nav-tab-btn" onclick="switchNavTab('api-view')">
-                <i class="fa-solid fa-terminal"></i> API Console Studio
+            <button class="nav-tab-btn" onclick="switchTab('tab-api')">
+                <i class="fa-solid fa-code"></i> API Studio Console
             </button>
-            <button class="nav-tab-btn" onclick="switchNavTab('diagnostics-view')">
-                <i class="fa-solid fa-chart-line"></i> Server Diagnostics
+            <button class="nav-tab-btn" onclick="switchTab('tab-health')">
+                <i class="fa-solid fa-heart-pulse"></i> System Diagnostics
             </button>
         </div>
 
-        <!-- 1. Roster & Executive View -->
-        <div id="roster-view" class="tab-view active">
-            <!-- Metrics KPI Grid -->
+        <!-- Tab 1: Users & Roster -->
+        <div id="tab-roster" class="view-pane active">
+            <!-- KPI Metrics -->
             <div class="kpi-grid">
-                <div class="kpi-card" style="--kpi-accent: #06b6d4;">
+                <div class="kpi-card red">
                     <div class="kpi-top">
                         <span class="kpi-title">Total Users</span>
                         <div class="kpi-icon"><i class="fa-solid fa-user-group"></i></div>
                     </div>
-                    <div class="kpi-value" id="kpi-total-users">0</div>
-                    <div class="kpi-sub"><i class="fa-solid fa-arrow-trend-up"></i> Registered Accounts</div>
+                    <div class="kpi-value" id="metric-total-users">0</div>
+                    <div class="kpi-sub"><i class="fa-solid fa-arrow-trend-up"></i> Registered accounts</div>
                 </div>
 
-                <div class="kpi-card" style="--kpi-accent: #f59e0b;">
+                <div class="kpi-card orange">
                     <div class="kpi-top">
                         <span class="kpi-title">Active Trials</span>
-                        <div class="kpi-icon"><i class="fa-solid fa-hourglass-half"></i></div>
+                        <div class="kpi-icon"><i class="fa-regular fa-clock"></i></div>
                     </div>
-                    <div class="kpi-value" id="kpi-trial-users">0</div>
-                    <div class="kpi-sub"><span id="kpi-expired-trials">0</span> Expired</div>
+                    <div class="kpi-value" id="metric-active-trials">0</div>
+                    <div class="kpi-sub"><span id="metric-expired-trials">0</span> Expired</div>
                 </div>
 
-                <div class="kpi-card" style="--kpi-accent: #10b981;">
+                <div class="kpi-card red">
                     <div class="kpi-top">
-                        <span class="kpi-title">Premium Lifetime</span>
+                        <span class="kpi-title">Lifetime Premium</span>
                         <div class="kpi-icon"><i class="fa-solid fa-crown"></i></div>
                     </div>
-                    <div class="kpi-value" id="kpi-premium-users">0</div>
-                    <div class="kpi-sub">Uncapped Members</div>
+                    <div class="kpi-value" id="metric-premium-users">0</div>
+                    <div class="kpi-sub">Uncapped memberships</div>
                 </div>
 
-                <div class="kpi-card" style="--kpi-accent: #6366f1;">
+                <div class="kpi-card green">
                     <div class="kpi-top">
-                        <span class="kpi-title">Helpers & Attendance</span>
+                        <span class="kpi-title">Helpers & Workers</span>
                         <div class="kpi-icon"><i class="fa-solid fa-user-nurse"></i></div>
                     </div>
-                    <div class="kpi-value" id="kpi-total-helpers">0</div>
-                    <div class="kpi-sub"><span id="kpi-total-attendance">0</span> Logs recorded</div>
+                    <div class="kpi-value" id="metric-total-helpers">0</div>
+                    <div class="kpi-sub"><span id="metric-total-attendance">0</span> attendance logs</div>
                 </div>
 
-                <div class="kpi-card" style="--kpi-accent: #38bdf8;">
+                <div class="kpi-card blue">
                     <div class="kpi-top">
-                        <span class="kpi-title">Ironing Registry</span>
-                        <div class="kpi-icon"><i class="fa-solid fa-shirt"></i></div>
-                    </div>
-                    <div class="kpi-value" id="kpi-ironing-workers">0</div>
-                    <div class="kpi-sub"><span id="kpi-ironing-records">0</span> Work logs</div>
-                </div>
-
-                <div class="kpi-card" style="--kpi-accent: #ec4899;">
-                    <div class="kpi-top">
-                        <span class="kpi-title">Appliances & Repairs</span>
+                        <span class="kpi-title">Appliances Tracked</span>
                         <div class="kpi-icon"><i class="fa-solid fa-plug"></i></div>
                     </div>
-                    <div class="kpi-value" id="kpi-appliances">0</div>
-                    <div class="kpi-sub">₹<span id="kpi-service-spend">0</span> Maintenance</div>
+                    <div class="kpi-value" id="metric-total-appliances">0</div>
+                    <div class="kpi-sub">₹<span id="metric-total-spend">0</span> maintenance</div>
                 </div>
             </div>
 
-            <!-- Table & Filters Section -->
-            <div class="table-toolbar">
-                <div class="search-box">
+            <!-- Roster Search & Filter Toolbar -->
+            <div class="toolbar">
+                <div class="search-wrap">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="rosterSearchInput" class="search-input" placeholder="Search by username, user ID or date..." oninput="filterRoster()">
+                    <input type="text" id="rosterSearch" class="search-field" placeholder="Search by username or user ID..." oninput="filterRoster()">
                 </div>
-                <div class="filter-group">
-                    <button class="filter-chip active" onclick="setPlanFilter('all', this)">All</button>
-                    <button class="filter-chip" onclick="setPlanFilter('active-trial', this)">Active Trial</button>
-                    <button class="filter-chip" onclick="setPlanFilter('expired', this)">Expired</button>
-                    <button class="filter-chip" onclick="setPlanFilter('premium', this)">Premium</button>
-                    <button class="btn-action" onclick="fetchAdminData()">
+                <div class="filter-row">
+                    <button class="filter-pill active" onclick="setFilter('all', this)">All</button>
+                    <button class="filter-pill" onclick="setFilter('trial', this)">Active Trial</button>
+                    <button class="filter-pill" onclick="setFilter('expired', this)">Expired</button>
+                    <button class="filter-pill" onclick="setFilter('premium', this)">Premium</button>
+                    <button class="btn btn-primary" onclick="loadAdminData()">
                         <i class="fa-solid fa-rotate"></i> Refresh
                     </button>
                 </div>
             </div>
 
-            <!-- Roster Table Panel -->
-            <div class="glass-panel">
-                <div class="table-responsive">
+            <!-- Clean Table Card -->
+            <div class="table-card">
+                <div class="table-wrap">
                     <table>
                         <thead>
                             <tr>
                                 <th>User Account</th>
-                                <th>Account ID</th>
-                                <th>Tier Class</th>
-                                <th>Validity & Expiry</th>
+                                <th>User ID</th>
+                                <th>Membership Plan</th>
+                                <th>Validity / Remaining</th>
                                 <th style="text-align:center;">Helpers</th>
                                 <th style="text-align:center;">Ironing</th>
                                 <th style="text-align:center;">Appliances</th>
@@ -1139,265 +1173,165 @@
             </div>
         </div>
 
-        <!-- 2. Interactive API Studio Console -->
-        <div id="api-view" class="tab-view">
-            <div class="api-studio-wrap">
-                <!-- Context Injector Banner -->
-                <div class="context-selector-card">
-                    <div>
-                        <div style="font-size:12px; font-weight:700; text-transform:uppercase; color:var(--text-secondary); margin-bottom:4px;">
-                            Active Testing Context (<code style="color:var(--primary);">X-User-Id</code>)
-                        </div>
-                        <div style="font-size:13px; color:var(--text-muted);">Select or enter a User ID from the roster to test scoped endpoints:</div>
+        <!-- Tab 2: API Studio Console -->
+        <div id="tab-api" class="view-pane">
+            <div class="table-card" style="padding:14px 20px; margin-bottom:16px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+                <div>
+                    <div style="font-weight:700; color:var(--text-main); font-size:13px;">Active Scoped Context Header (<code>X-User-Id</code>)</div>
+                    <div style="font-size:11.5px; color:var(--text-muted);">Scoped endpoints will inject this user context automatically:</div>
+                </div>
+                <input type="text" id="activeTestUserId" class="search-field" style="max-width:280px; font-family:'Roboto Mono', monospace;" placeholder="user_... / guest_...">
+            </div>
+
+            <div class="api-studio">
+                <!-- Group 1: Authentication -->
+                <h4 style="font-size:12.5px; font-weight:700; color:var(--primary); text-transform:uppercase; margin-bottom:4px;">1. Authentication & Sessions</h4>
+                
+                <div class="endpoint-item">
+                    <div class="endpoint-bar" onclick="toggleApiAccordion(this)">
+                        <span class="method-tag post">POST</span>
+                        <span class="endpoint-route">/api/register-guest</span>
+                        <span class="endpoint-info">Create 30-day Free Trial guest session</span>
                     </div>
-                    <div style="display:flex; gap:8px;">
-                        <input type="text" id="globalTestUserId" class="form-control" style="width:280px; padding:8px 12px; font-family:'JetBrains Mono', monospace;" placeholder="user_60a... / guest_...">
+                    <div class="endpoint-body">
+                        <button class="btn btn-primary" onclick="runApiCall('POST', '/api/register-guest')">
+                            <i class="fa-solid fa-play"></i> Execute Sandbox Request
+                        </button>
                     </div>
                 </div>
 
-                <!-- Endpoint Groups Accordion -->
-                <div id="endpointsAccordion">
-                    
-                    <!-- Group: Authentication -->
-                    <h3 style="font-size:14px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.6px; margin: 18px 0 10px;">
-                        <i class="fa-solid fa-lock"></i> 1. Authentication & Accounts
-                    </h3>
-
-                    <!-- POST /api/register-guest -->
-                    <div class="endpoint-card">
-                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
-                            <span class="method-badge post">POST</span>
-                            <span class="endpoint-path">/api/register-guest</span>
-                            <span class="endpoint-summary">Initiates a 30-day Free Trial guest session</span>
-                        </div>
-                        <div class="endpoint-details">
-                            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">No payload required. Generates an instant guest ID with 30-day trial expiry timestamp.</p>
-                            <button class="btn-action btn-primary" onclick="executeApiCall('POST', '/api/register-guest')">
-                                <i class="fa-solid fa-play"></i> Run Sandbox Test
-                            </button>
-                        </div>
+                <div class="endpoint-item">
+                    <div class="endpoint-bar" onclick="toggleApiAccordion(this)">
+                        <span class="method-tag post">POST</span>
+                        <span class="endpoint-route">/api/login</span>
+                        <span class="endpoint-info">Authenticate registered user credentials</span>
                     </div>
-
-                    <!-- POST /api/login -->
-                    <div class="endpoint-card">
-                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
-                            <span class="method-badge post">POST</span>
-                            <span class="endpoint-path">/api/login</span>
-                            <span class="endpoint-summary">Standard user login with username & password</span>
-                        </div>
-                        <div class="endpoint-details">
-                            <label style="font-size:12px; font-weight:700; color:var(--text-secondary);">Request Payload (JSON):</label>
-                            <textarea id="payload-login" class="code-textarea">{
+                    <div class="endpoint-body">
+                        <textarea id="payload-login" class="code-box">{
   "username": "arvind",
   "password": "password123"
 }</textarea>
-                            <button class="btn-action btn-primary" onclick="executeApiCall('POST', '/api/login', 'payload-login')">
-                                <i class="fa-solid fa-play"></i> Run Sandbox Test
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- POST /api/login-google -->
-                    <div class="endpoint-card">
-                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
-                            <span class="method-badge post">POST</span>
-                            <span class="endpoint-path">/api/login-google</span>
-                            <span class="endpoint-summary">Google OAuth authentication & sync</span>
-                        </div>
-                        <div class="endpoint-details">
-                            <label style="font-size:12px; font-weight:700; color:var(--text-secondary);">Request Payload (JSON):</label>
-                            <textarea id="payload-google" class="code-textarea">{
-  "googleId": "109823741982734",
-  "email": "user@gmail.com"
-}</textarea>
-                            <button class="btn-action btn-primary" onclick="executeApiCall('POST', '/api/login-google', 'payload-google')">
-                                <i class="fa-solid fa-play"></i> Run Sandbox Test
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Group: Profile & Subscriptions -->
-                    <h3 style="font-size:14px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.6px; margin: 24px 0 10px;">
-                        <i class="fa-solid fa-id-card"></i> 2. Profile & Plan Management
-                    </h3>
-
-                    <!-- GET /api/get-profile -->
-                    <div class="endpoint-card">
-                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
-                            <span class="method-badge get">GET</span>
-                            <span class="endpoint-path">/api/get-profile</span>
-                            <span class="endpoint-summary">Fetch active profile info, validity, and plan</span>
-                        </div>
-                        <div class="endpoint-details">
-                            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">Requires <code>X-User-Id</code> header.</p>
-                            <button class="btn-action btn-primary" onclick="executeApiCall('GET', '/api/get-profile', null, true)">
-                                <i class="fa-solid fa-play"></i> Run Scoped Test
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- POST /api/update-subscription -->
-                    <div class="endpoint-card">
-                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
-                            <span class="method-badge post">POST</span>
-                            <span class="endpoint-path">/api/update-subscription</span>
-                            <span class="endpoint-summary">Upgrade active account to Lifetime Premium</span>
-                        </div>
-                        <div class="endpoint-details">
-                            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">Upgrades the scoped user context to <code>registered</code> tier with no expiration date.</p>
-                            <button class="btn-action btn-primary" onclick="executeApiCall('POST', '/api/update-subscription', null, true)">
-                                <i class="fa-solid fa-play"></i> Run Scoped Test
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Group: House Helpers -->
-                    <h3 style="font-size:14px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.6px; margin: 24px 0 10px;">
-                        <i class="fa-solid fa-user-nurse"></i> 3. House Helpers & Attendance
-                    </h3>
-
-                    <!-- GET /api/employees -->
-                    <div class="endpoint-card">
-                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
-                            <span class="method-badge get">GET</span>
-                            <span class="endpoint-path">/api/employees</span>
-                            <span class="endpoint-summary">List all helpers registered in user workspace</span>
-                        </div>
-                        <div class="endpoint-details">
-                            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">Returns helper cards with wage details, joining dates, and photos.</p>
-                            <button class="btn-action btn-primary" onclick="executeApiCall('GET', '/api/employees', null, true)">
-                                <i class="fa-solid fa-play"></i> Run Scoped Test
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- GET /api/attendance -->
-                    <div class="endpoint-card">
-                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
-                            <span class="method-badge get">GET</span>
-                            <span class="endpoint-path">/api/attendance</span>
-                            <span class="endpoint-summary">Retrieve attendance history and advances</span>
-                        </div>
-                        <div class="endpoint-details">
-                            <p style="font-size:13px; color:var(--text-secondary); margin-bottom:14px;">Query parameter <code>?employeeId=...</code> can be appended to filter by helper.</p>
-                            <button class="btn-action btn-primary" onclick="executeApiCall('GET', '/api/attendance', null, true)">
-                                <i class="fa-solid fa-play"></i> Run Scoped Test
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Group: Ironing Hub -->
-                    <h3 style="font-size:14px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.6px; margin: 24px 0 10px;">
-                        <i class="fa-solid fa-shirt"></i> 4. Ironing Registry & Logs
-                    </h3>
-
-                    <!-- GET /api/ironing-workers -->
-                    <div class="endpoint-card">
-                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
-                            <span class="method-badge get">GET</span>
-                            <span class="endpoint-path">/api/ironing-workers</span>
-                            <span class="endpoint-summary">List all registered dhobi / ironing workers</span>
-                        </div>
-                        <div class="endpoint-details">
-                            <button class="btn-action btn-primary" onclick="executeApiCall('GET', '/api/ironing-workers', null, true)">
-                                <i class="fa-solid fa-play"></i> Run Scoped Test
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Group: Appliances Hub -->
-                    <h3 style="font-size:14px; font-weight:700; color:var(--primary); text-transform:uppercase; letter-spacing:0.6px; margin: 24px 0 10px;">
-                        <i class="fa-solid fa-plug"></i> 5. Appliances & Service Records
-                    </h3>
-
-                    <!-- GET /api/appliances -->
-                    <div class="endpoint-card">
-                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
-                            <span class="method-badge get">GET</span>
-                            <span class="endpoint-path">/api/appliances</span>
-                            <span class="endpoint-summary">List appliances, warranty details, and bills</span>
-                        </div>
-                        <div class="endpoint-details">
-                            <button class="btn-action btn-primary" onclick="executeApiCall('GET', '/api/appliances', null, true)">
-                                <i class="fa-solid fa-play"></i> Run Scoped Test
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- GET /api/service-records -->
-                    <div class="endpoint-card">
-                        <div class="endpoint-header" onclick="toggleEndpoint(this)">
-                            <span class="method-badge get">GET</span>
-                            <span class="endpoint-path">/api/service-records</span>
-                            <span class="endpoint-summary">List appliance service logs and repair prices</span>
-                        </div>
-                        <div class="endpoint-details">
-                            <button class="btn-action btn-primary" onclick="executeApiCall('GET', '/api/service-records', null, true)">
-                                <i class="fa-solid fa-play"></i> Run Scoped Test
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Live Response Inspector Console -->
-                <div id="apiConsoleOutput" class="response-console" style="display:none;">
-                    <div class="console-top">
-                        <div>
-                            <span style="font-weight:700; color:#fff;">Target:</span> <code id="consoleTargetUrl" style="color:var(--primary);">/api/...</code>
-                        </div>
-                        <div>
-                            <span style="margin-right:12px;" id="consoleTiming">0 ms</span>
-                            <span id="consoleStatusBadge" class="plan-tag" style="background:#10b98120; color:#10b981; border:1px solid #10b98140;">200 OK</span>
-                        </div>
-                    </div>
-                    <div style="display:flex; justify-content:flex-end; margin-bottom:8px;">
-                        <button class="btn-action" style="padding:4px 10px; font-size:11px;" onclick="copyConsoleJson()">
-                            <i class="fa-solid fa-copy"></i> Copy JSON
+                        <button class="btn btn-primary" onclick="runApiCall('POST', '/api/login', 'payload-login')">
+                            <i class="fa-solid fa-play"></i> Execute Request
                         </button>
                     </div>
-                    <pre><code id="consoleJsonBody">{}</code></pre>
                 </div>
+
+                <!-- Group 2: User Profile & Plans -->
+                <h4 style="font-size:12.5px; font-weight:700; color:var(--primary); text-transform:uppercase; margin: 12px 0 4px;">2. Profile & Subscriptions</h4>
+
+                <div class="endpoint-item">
+                    <div class="endpoint-bar" onclick="toggleApiAccordion(this)">
+                        <span class="method-tag get">GET</span>
+                        <span class="endpoint-route">/api/get-profile</span>
+                        <span class="endpoint-info">Fetch profile & remaining subscription validity</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <button class="btn btn-primary" onclick="runApiCall('GET', '/api/get-profile', null, true)">
+                            <i class="fa-solid fa-play"></i> Execute Scoped Request
+                        </button>
+                    </div>
+                </div>
+
+                <div class="endpoint-item">
+                    <div class="endpoint-bar" onclick="toggleApiAccordion(this)">
+                        <span class="method-tag post">POST</span>
+                        <span class="endpoint-route">/api/update-subscription</span>
+                        <span class="endpoint-info">Upgrade account to Lifetime Premium tier</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <button class="btn btn-primary" onclick="runApiCall('POST', '/api/update-subscription', null, true)">
+                            <i class="fa-solid fa-play"></i> Execute Scoped Request
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Group 3: Helpers & Attendance -->
+                <h4 style="font-size:12.5px; font-weight:700; color:var(--primary); text-transform:uppercase; margin: 12px 0 4px;">3. Helpers & Attendance</h4>
+
+                <div class="endpoint-item">
+                    <div class="endpoint-bar" onclick="toggleApiAccordion(this)">
+                        <span class="method-tag get">GET</span>
+                        <span class="endpoint-route">/api/employees</span>
+                        <span class="endpoint-info">List all house helpers & wage rates</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <button class="btn btn-primary" onclick="runApiCall('GET', '/api/employees', null, true)">
+                            <i class="fa-solid fa-play"></i> Execute Scoped Request
+                        </button>
+                    </div>
+                </div>
+
+                <div class="endpoint-item">
+                    <div class="endpoint-bar" onclick="toggleApiAccordion(this)">
+                        <span class="method-tag get">GET</span>
+                        <span class="endpoint-route">/api/attendance</span>
+                        <span class="endpoint-info">Retrieve attendance records and advance history</span>
+                    </div>
+                    <div class="endpoint-body">
+                        <button class="btn btn-primary" onclick="runApiCall('GET', '/api/attendance', null, true)">
+                            <i class="fa-solid fa-play"></i> Execute Scoped Request
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Console Output Box -->
+            <div id="apiConsoleOutput" class="console-output-box" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid rgba(255,255,255,0.1); padding-bottom:6px;">
+                    <div>
+                        <span style="font-weight:700; color:#fff;">Target:</span> <code id="consoleTargetUrl" style="color:#38BDF8;">/api/...</code>
+                    </div>
+                    <div>
+                        <span style="font-size:11px; color:#94A3B8; margin-right:10px;" id="consoleTiming">0 ms</span>
+                        <span id="consoleStatus" class="plan-tag" style="background:#10B98125; color:#10B981;">200 OK</span>
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:flex-end; margin-bottom:6px;">
+                    <button class="btn" style="background:rgba(255,255,255,0.05); color:#fff; padding:3px 8px; font-size:11px; border:1px solid rgba(255,255,255,0.1);" onclick="copyConsoleJson()">
+                        <i class="fa-regular fa-copy"></i> Copy JSON
+                    </button>
+                </div>
+                <pre><code id="consoleResponse">{}</code></pre>
             </div>
         </div>
 
-        <!-- 3. Server & Database Diagnostics View -->
-        <div id="diagnostics-view" class="tab-view">
-            <div class="kpi-grid" style="margin-bottom:24px;">
-                <div class="kpi-card" style="--kpi-accent: #10b981;">
+        <!-- Tab 3: System Diagnostics -->
+        <div id="tab-health" class="view-pane">
+            <div class="kpi-grid">
+                <div class="kpi-card green">
                     <div class="kpi-top">
                         <span class="kpi-title">Database Latency</span>
                         <div class="kpi-icon"><i class="fa-solid fa-bolt"></i></div>
                     </div>
-                    <div class="kpi-value"><span id="diag-db-latency">0</span> <span style="font-size:16px;">ms</span></div>
-                    <div class="kpi-sub">Hostinger MySQL Direct Ping</div>
+                    <div class="kpi-value"><span id="diag-latency">0</span> <span style="font-size:14px;">ms</span></div>
+                    <div class="kpi-sub">Hostinger Remote MySQL</div>
                 </div>
 
-                <div class="kpi-card" style="--kpi-accent: #6366f1;">
+                <div class="kpi-card red">
                     <div class="kpi-top">
                         <span class="kpi-title">Upload Storage</span>
                         <div class="kpi-icon"><i class="fa-solid fa-hard-drive"></i></div>
                     </div>
-                    <div class="kpi-value"><span id="diag-upload-size">0</span> <span style="font-size:16px;">MB</span></div>
-                    <div class="kpi-sub"><span id="diag-upload-files">0</span> Invoices & Photos</div>
+                    <div class="kpi-value"><span id="diag-storage">0</span> <span style="font-size:14px;">MB</span></div>
+                    <div class="kpi-sub"><span id="diag-files">0</span> Invoices & photos</div>
                 </div>
 
-                <div class="kpi-card" style="--kpi-accent: #38bdf8;">
+                <div class="kpi-card blue">
                     <div class="kpi-top">
                         <span class="kpi-title">PHP Runtime</span>
                         <div class="kpi-icon"><i class="fa-brands fa-php"></i></div>
                     </div>
-                    <div class="kpi-value" id="diag-php-version" style="font-size:22px;">PHP 8.2</div>
+                    <div class="kpi-value" id="diag-php" style="font-size:20px;">PHP 8.2</div>
                     <div class="kpi-sub">PDO MySQL Driver Active</div>
                 </div>
             </div>
 
-            <!-- Database Tables Matrix Panel -->
-            <div class="glass-panel" style="padding:24px;">
-                <h3 style="font-family:'Outfit', sans-serif; font-size:18px; font-weight:700; margin-bottom:16px;">
-                    <i class="fa-solid fa-database" style="color:var(--primary); margin-right:8px;"></i>
-                    Cloud Database Table Breakdown
-                </h3>
-                <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(200px, 1fr)); gap:14px;" id="diagTablesList">
+            <div class="table-card" style="padding:16px 20px;">
+                <h4 style="font-size:14px; font-weight:700; color:var(--text-main); margin-bottom:12px;">
+                    <i class="fa-solid fa-database" style="color:var(--primary); margin-right:6px;"></i> Indexed Database Tables
+                </h4>
+                <div id="diagTableGrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); gap:10px;">
                     <!-- Dynamic Table Stats -->
                 </div>
             </div>
@@ -1405,175 +1339,202 @@
     </div>
 
     <!-- Workspace Deep Inspector Modal -->
-    <div id="inspectorModal" class="modal-backdrop" onclick="if(event.target === this) closeInspector()">
-        <div class="modal-window">
-            <div class="modal-header">
-                <div style="display:flex; align-items:center; gap:12px;">
-                    <div class="avatar" id="modalUserAvatar">U</div>
+    <div id="inspectorModal" class="modal-bg" onclick="if(event.target===this) closeInspector()">
+        <div class="modal-box">
+            <div class="modal-head">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div class="user-avatar" id="modalAvatar">U</div>
                     <div>
                         <h3 id="modalUserName">User Workspace</h3>
-                        <div style="font-size:12px; color:var(--text-muted); font-family:monospace;" id="modalUserId">user_id</div>
+                        <div style="font-family:'Roboto Mono', monospace; font-size:11px; color:var(--text-muted);" id="modalUserId">user_id</div>
                     </div>
                 </div>
-                <button class="modal-close-btn" onclick="closeInspector()"><i class="fa-solid fa-xmark"></i></button>
+                <button class="close-btn" onclick="closeInspector()">&times;</button>
             </div>
 
-            <!-- Modal Quick Action Ribbon -->
-            <div style="padding:12px 26px; background:rgba(0,0,0,0.25); border-bottom:1px solid var(--border-subtle); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                <div style="font-size:13px; color:var(--text-secondary);">
-                    Current Plan: <span id="modalPlanBadge" class="plan-tag">Trial</span> 
-                    <span id="modalExpiryText" style="margin-left:8px; font-size:12px; color:var(--text-muted);"></span>
+            <div class="modal-actions-bar">
+                <div style="font-size:12px; color:var(--text-secondary);">
+                    Plan: <span id="modalPlanTag" class="plan-tag">Trial</span> <span id="modalExpiryLabel" style="color:var(--text-muted); margin-left:4px;"></span>
                 </div>
-                <div style="display:flex; gap:8px;">
-                    <button class="btn-action" style="padding:5px 12px; font-size:12px;" onclick="extendModalUserTrial()">
-                        <i class="fa-solid fa-calendar-plus"></i> +30 Days
+                <div style="display:flex; gap:6px;">
+                    <button class="btn" style="padding:4px 10px; font-size:11.5px;" onclick="extendTrialModal()">
+                        <i class="fa-solid fa-plus"></i> +30 Days Trial
                     </button>
-                    <button class="btn-action btn-primary" style="padding:5px 12px; font-size:12px;" onclick="upgradeModalUserPremium()">
+                    <button class="btn btn-primary" style="padding:4px 10px; font-size:11.5px;" onclick="upgradePremiumModal()">
                         <i class="fa-solid fa-crown"></i> Make Lifetime
                     </button>
-                    <button class="btn-action" style="padding:5px 12px; font-size:12px; color:var(--accent-rose);" onclick="deleteModalUser()">
+                    <button class="btn" style="padding:4px 10px; font-size:11.5px; color:var(--danger); border-color:var(--danger-light);" onclick="deleteUserModal()">
                         <i class="fa-solid fa-trash"></i> Purge
                     </button>
                 </div>
             </div>
 
-            <div class="modal-body">
-                <div class="modal-subtabs">
-                    <button class="modal-subtab-btn active" onclick="switchModalSubtab('subtab-helpers', this)">Helpers & Wages</button>
-                    <button class="modal-subtab-btn" onclick="switchModalSubtab('subtab-ironing', this)">Ironing Hub</button>
-                    <button class="modal-subtab-btn" onclick="switchModalSubtab('subtab-appliances', this)">Appliances & Bills</button>
-                    <button class="modal-subtab-btn" onclick="switchModalSubtab('subtab-json', this)">Raw Workspace JSON</button>
+            <div class="modal-content">
+                <div class="subtabs-bar">
+                    <button class="subtab-btn active" onclick="switchSubtab('sub-helpers', this)">Helpers & Wages</button>
+                    <button class="subtab-btn" onclick="switchSubtab('sub-ironing', this)">Ironing Registry</button>
+                    <button class="subtab-btn" onclick="switchSubtab('sub-appliances', this)">Appliances & Bills</button>
+                    <button class="subtab-btn" onclick="switchSubtab('sub-raw', this)">Raw Schema JSON</button>
                 </div>
 
-                <div id="subtab-helpers" class="modal-subtab-content">
-                    <div id="modalHelpersContent">Loading helper data...</div>
+                <div id="sub-helpers" class="subtab-pane">
+                    <div id="modalHelperList">Loading helpers...</div>
                 </div>
 
-                <div id="subtab-ironing" class="modal-subtab-content" style="display:none;">
-                    <div id="modalIroningContent">Loading ironing records...</div>
+                <div id="sub-ironing" class="subtab-pane" style="display:none;">
+                    <div id="modalIroningList">Loading ironing workers...</div>
                 </div>
 
-                <div id="subtab-appliances" class="modal-subtab-content" style="display:none;">
-                    <div id="modalAppliancesContent">Loading appliance assets...</div>
+                <div id="sub-appliances" class="subtab-pane" style="display:none;">
+                    <div id="modalApplianceList">Loading appliances...</div>
                 </div>
 
-                <div id="subtab-json" class="modal-subtab-content" style="display:none;">
-                    <pre style="background:#000; padding:16px; border-radius:12px; max-height:400px; overflow:auto;"><code id="modalRawJson" style="color:#38bdf8;">{}</code></pre>
+                <div id="sub-raw" class="subtab-pane" style="display:none;">
+                    <pre style="background:#0F172A; padding:14px; border-radius:6px; max-height:350px; overflow:auto;"><code id="modalRawJson">{}</code></pre>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Toast Component -->
-    <div id="toast"><i class="fa-solid fa-circle-check" style="color:var(--accent-emerald);"></i> <span id="toastMsg">Action complete</span></div>
+    <!-- Toast Notification -->
+    <div id="toast"><i class="fa-solid fa-circle-check" style="color:#22C55E;"></i> <span id="toastText">Action complete</span></div>
 
-    <!-- Application Script -->
     <script>
         const API_BASE = window.location.origin + '/api';
         let adminToken = localStorage.getItem('todo_admin_token') || '';
-        let currentRoster = [];
+        let adminEmail = localStorage.getItem('todo_admin_email') || 'admin@mytask.com';
+        let fullRoster = [];
         let currentFilter = 'all';
-        let inspectedUserObj = null;
+        let activeInspectedUser = null;
 
-        // Initialize
         if (adminToken) {
-            document.getElementById('authGate').style.display = 'none';
-            fetchAdminData();
-            fetchDiagnostics();
+            document.getElementById('loginGate').style.display = 'none';
+            document.getElementById('adminNameDisplay').innerText = adminEmail;
+            loadAdminData();
+            loadDiagnostics();
         }
 
         function showToast(msg) {
             const toast = document.getElementById('toast');
-            document.getElementById('toastMsg').innerText = msg;
+            document.getElementById('toastText').innerText = msg;
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
-        function loginAdmin() {
-            const tokenInput = document.getElementById('adminTokenInput').value.trim();
-            if (!tokenInput) return;
-            adminToken = tokenInput;
-            fetchAdminData(true);
+        function fillAdminCreds() {
+            document.getElementById('loginEmail').value = 'admin@mytask.com';
+            document.getElementById('loginPass').value = 'Admin@102030';
+        }
+
+        async function attemptLogin() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const pass = document.getElementById('loginPass').value.trim();
+            const errBox = document.getElementById('loginError');
+
+            if (!email || !pass) {
+                errBox.innerText = 'Please enter both email and password';
+                errBox.style.display = 'block';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${API_BASE}/admin-login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password: pass })
+                });
+
+                const data = await res.json();
+                if (res.ok && data.success) {
+                    adminToken = data.token;
+                    adminEmail = data.admin.email;
+                    localStorage.setItem('todo_admin_token', adminToken);
+                    localStorage.setItem('todo_admin_email', adminEmail);
+                    document.getElementById('adminNameDisplay').innerText = adminEmail;
+                    document.getElementById('loginGate').style.display = 'none';
+                    errBox.style.display = 'none';
+                    loadAdminData();
+                    loadDiagnostics();
+                } else {
+                    errBox.innerText = data.error || 'Invalid administrator email or password';
+                    errBox.style.display = 'block';
+                }
+            } catch (err) {
+                errBox.innerText = 'Server connection failed: ' + err.message;
+                errBox.style.display = 'block';
+            }
         }
 
         function logoutAdmin() {
             localStorage.removeItem('todo_admin_token');
+            localStorage.removeItem('todo_admin_email');
             window.location.reload();
         }
 
-        function switchNavTab(viewId) {
-            document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-view').forEach(view => view.classList.remove('active'));
+        function switchTab(tabId) {
+            document.querySelectorAll('.nav-tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.view-pane').forEach(p => p.classList.remove('active'));
             
             event.currentTarget.classList.add('active');
-            document.getElementById(viewId).classList.add('active');
+            document.getElementById(tabId).classList.add('active');
 
-            if (viewId === 'diagnostics-view') {
-                fetchDiagnostics();
+            if (tabId === 'tab-health') {
+                loadDiagnostics();
             }
         }
 
-        async function fetchAdminData(isLoginAttempt = false) {
-            const startTime = performance.now();
+        async function loadAdminData() {
+            const t0 = performance.now();
             try {
                 const res = await fetch(`${API_BASE}/admin-overview?token=${adminToken}`);
                 if (res.status === 401) {
-                    localStorage.removeItem('todo_admin_token');
-                    document.getElementById('authGate').style.display = 'flex';
-                    if (isLoginAttempt) {
-                        document.getElementById('authErrorMsg').style.display = 'block';
-                    }
+                    logoutAdmin();
                     return;
                 }
 
                 const data = await res.json();
                 if (data.success) {
-                    const elapsed = Math.round(performance.now() - startTime);
-                    document.getElementById('headerLatencyText').innerText = `Cloud Online (${elapsed}ms)`;
-                    localStorage.setItem('todo_admin_token', adminToken);
-                    document.getElementById('authGate').style.display = 'none';
+                    const elapsed = Math.round(performance.now() - t0);
+                    document.getElementById('headerLatency').innerText = `Online • ${elapsed}ms`;
 
                     // Update KPIs
-                    document.getElementById('kpi-total-users').innerText = data.metrics.total_users;
-                    document.getElementById('kpi-trial-users').innerText = data.metrics.active_trials;
-                    document.getElementById('kpi-expired-trials').innerText = data.metrics.expired_trials;
-                    document.getElementById('kpi-premium-users').innerText = data.metrics.premium_users;
-                    document.getElementById('kpi-total-helpers').innerText = data.metrics.total_employees;
-                    document.getElementById('kpi-total-attendance').innerText = data.metrics.total_attendance;
-                    document.getElementById('kpi-ironing-workers').innerText = data.metrics.total_ironing_workers;
-                    document.getElementById('kpi-ironing-records').innerText = data.metrics.total_ironing_records;
-                    document.getElementById('kpi-appliances').innerText = data.metrics.total_appliances;
-                    document.getElementById('kpi-service-spend').innerText = Number(data.metrics.total_service_spend).toLocaleString();
+                    document.getElementById('metric-total-users').innerText = data.metrics.total_users;
+                    document.getElementById('metric-active-trials').innerText = data.metrics.active_trials;
+                    document.getElementById('metric-expired-trials').innerText = data.metrics.expired_trials;
+                    document.getElementById('metric-premium-users').innerText = data.metrics.premium_users;
+                    document.getElementById('metric-total-helpers').innerText = data.metrics.total_employees;
+                    document.getElementById('metric-total-attendance').innerText = data.metrics.total_attendance;
+                    document.getElementById('metric-total-appliances').innerText = data.metrics.total_appliances;
+                    document.getElementById('metric-total-spend').innerText = Number(data.metrics.total_service_spend).toLocaleString();
 
-                    currentRoster = data.users;
-                    renderRosterTable(currentRoster);
+                    fullRoster = data.users;
+                    renderRoster(fullRoster);
 
-                    // Pre-fill testing context user if empty
-                    if (currentRoster.length > 0 && !document.getElementById('globalTestUserId').value) {
-                        document.getElementById('globalTestUserId').value = currentRoster[0].id;
+                    if (fullRoster.length > 0 && !document.getElementById('activeTestUserId').value) {
+                        document.getElementById('activeTestUserId').value = fullRoster[0].id;
                     }
                 }
             } catch (err) {
-                console.error('Fetch error:', err);
+                console.error(err);
             }
         }
 
-        function setPlanFilter(filter, el) {
+        function setFilter(filter, el) {
             currentFilter = filter;
-            document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
             el.classList.add('active');
             filterRoster();
         }
 
         function filterRoster() {
-            const query = document.getElementById('rosterSearchInput').value.toLowerCase().trim();
+            const q = document.getElementById('rosterSearch').value.toLowerCase().trim();
             const now = new Date();
 
-            const filtered = currentRoster.filter(u => {
-                const matchQuery = u.username.toLowerCase().includes(query) || u.id.toLowerCase().includes(query);
-                if (!matchQuery) return false;
+            const filtered = fullRoster.filter(u => {
+                const matches = u.username.toLowerCase().includes(q) || u.id.toLowerCase().includes(q);
+                if (!matches) return false;
 
-                if (currentFilter === 'active-trial') {
+                if (currentFilter === 'trial') {
                     return u.userType === 'guest' && (!u.expiresAt || new Date(u.expiresAt) > now);
                 } else if (currentFilter === 'expired') {
                     return u.userType === 'guest' && u.expiresAt && new Date(u.expiresAt) <= now;
@@ -1583,15 +1544,15 @@
                 return true;
             });
 
-            renderRosterTable(filtered);
+            renderRoster(filtered);
         }
 
-        function renderRosterTable(users) {
+        function renderRoster(users) {
             const tbody = document.getElementById('rosterTableBody');
             tbody.innerHTML = '';
 
             if (users.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:36px; color:var(--text-muted);">No users match criteria</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:28px; color:var(--text-muted);">No user accounts found</td></tr>`;
                 return;
             }
 
@@ -1599,61 +1560,61 @@
 
             users.forEach(u => {
                 const tr = document.createElement('tr');
-                const createdDate = new Date(u.createdAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'});
+                const createdDate = new Date(u.createdAt).toLocaleDateString();
 
-                let expiryHtml = '<span style="color:var(--accent-emerald); font-weight:600;"><i class="fa-solid fa-infinity"></i> Lifetime</span>';
+                let validityText = '<span style="color:var(--primary); font-weight:700;"><i class="fa-solid fa-infinity"></i> Lifetime</span>';
                 if (u.userType === 'guest') {
                     if (u.expiresAt) {
-                        const diffDays = Math.ceil((new Date(u.expiresAt) - now) / (1000 * 60 * 60 * 24));
-                        if (diffDays > 0) {
-                            expiryHtml = `<span style="color:var(--accent-amber); font-weight:600;"><i class="fa-regular fa-clock"></i> ${diffDays} days remaining</span>`;
+                        const days = Math.ceil((new Date(u.expiresAt) - now) / (1000 * 60 * 60 * 24));
+                        if (days > 0) {
+                            validityText = `<span style="color:var(--warning); font-weight:600;"><i class="fa-regular fa-clock"></i> ${days} days left</span>`;
                         } else {
-                            expiryHtml = `<span style="color:var(--accent-rose); font-weight:700;"><i class="fa-solid fa-circle-exclamation"></i> Expired</span>`;
+                            validityText = `<span style="color:var(--danger); font-weight:700;"><i class="fa-solid fa-circle-exclamation"></i> Expired</span>`;
                         }
                     } else {
-                        expiryHtml = `<span style="color:var(--text-muted);">No Expiry Set</span>`;
+                        validityText = '<span style="color:var(--text-muted);">No expiry set</span>';
                     }
                 }
 
-                const avatarLetter = u.username ? u.username[0].toUpperCase() : 'U';
-                const avatarContent = u.profilePic 
+                const initial = u.username ? u.username[0].toUpperCase() : 'U';
+                const avatar = u.profilePic 
                     ? `<img src="${u.profilePic.startsWith('http') ? u.profilePic : window.location.origin + '/' + u.profilePic}">`
-                    : avatarLetter;
+                    : initial;
 
                 tr.innerHTML = `
                     <td>
-                        <div class="user-cell">
-                            <div class="avatar">${avatarContent}</div>
+                        <div class="user-item">
+                            <div class="user-avatar">${avatar}</div>
                             <div>
-                                <div class="user-meta-name">${u.username}</div>
-                                <div class="user-meta-created">Joined ${createdDate}</div>
+                                <div class="user-name">${u.username}</div>
+                                <div class="user-sub">Joined ${createdDate}</div>
                             </div>
                         </div>
                     </td>
                     <td>
-                        <span class="id-badge" onclick="copyText('${u.id}')" title="Click to copy User ID">
+                        <span class="id-badge" onclick="copyId('${u.id}')" title="Click to copy ID">
                             ${u.id} <i class="fa-regular fa-copy"></i>
                         </span>
                     </td>
                     <td>
                         <span class="plan-tag ${u.userType === 'guest' ? 'trial' : 'premium'}">
-                            ${u.userType === 'guest' ? '<i class="fa-regular fa-hourglass"></i> Free Trial' : '<i class="fa-solid fa-crown"></i> Premium'}
+                            ${u.userType === 'guest' ? 'Free Trial' : 'Premium'}
                         </span>
                     </td>
-                    <td>${expiryHtml}</td>
-                    <td style="text-align:center;"><span class="count-pill">${u.employee_count}</span></td>
-                    <td style="text-align:center;"><span class="count-pill">${u.ironing_worker_count}</span></td>
-                    <td style="text-align:center;"><span class="count-pill">${u.appliance_count}</span></td>
+                    <td>${validityText}</td>
+                    <td style="text-align:center;"><span class="count-badge">${u.employee_count}</span></td>
+                    <td style="text-align:center;"><span class="count-badge">${u.ironing_worker_count}</span></td>
+                    <td style="text-align:center;"><span class="count-badge">${u.appliance_count}</span></td>
                     <td style="text-align:right;">
-                        <div class="action-cell" style="justify-content:flex-end;">
-                            <button class="btn-icon-action inspect" title="Inspect User Workspace" onclick="openInspector('${u.id}')">
+                        <div class="action-btns">
+                            <button class="icon-btn inspect" title="Inspect Workspace" onclick="inspectUser('${u.id}')">
                                 <i class="fa-solid fa-folder-open"></i>
                             </button>
-                            <button class="btn-icon-action" title="Use as Active Test Context" onclick="setTestContext('${u.id}')">
+                            <button class="icon-btn" title="Set Active Testing Context" onclick="setContextUser('${u.id}')">
                                 <i class="fa-solid fa-flask"></i>
                             </button>
-                            <button class="btn-icon-action delete" title="Delete User" onclick="deleteUserPrompt('${u.id}', '${u.username}')">
-                                <i class="fa-solid fa-trash-can"></i>
+                            <button class="icon-btn delete" title="Purge User" onclick="deleteUser('${u.id}', '${u.username}')">
+                                <i class="fa-solid fa-trash"></i>
                             </button>
                         </div>
                     </td>
@@ -1662,102 +1623,94 @@
             });
         }
 
-        function copyText(text) {
-            navigator.clipboard.writeText(text);
-            showToast(`Copied ${text} to clipboard`);
+        function copyId(id) {
+            navigator.clipboard.writeText(id);
+            showToast(`Copied ${id}`);
         }
 
-        function setTestContext(userId) {
-            document.getElementById('globalTestUserId').value = userId;
-            switchNavTab('api-view');
-            showToast(`Testing context set to: ${userId}`);
+        function setContextUser(userId) {
+            document.getElementById('activeTestUserId').value = userId;
+            switchTab('tab-api');
+            showToast(`Context set to: ${userId}`);
         }
 
-        // Inspector Modal
-        async function openInspector(userId) {
+        // Inspector Modal Logic
+        async function inspectUser(userId) {
             const modal = document.getElementById('inspectorModal');
             modal.classList.add('active');
 
             document.getElementById('modalUserName').innerText = 'Loading...';
             document.getElementById('modalUserId').innerText = userId;
-            document.getElementById('modalHelpersContent').innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted);">Fetching workspace records...</div>';
+            document.getElementById('modalHelperList').innerText = 'Loading helper records...';
 
             try {
                 const res = await fetch(`${API_BASE}/admin-user-details?token=${adminToken}&userId=${userId}`);
                 const data = await res.json();
                 if (data.success) {
-                    inspectedUserObj = data.user;
+                    activeInspectedUser = data.user;
                     document.getElementById('modalUserName').innerText = data.user.username;
-                    document.getElementById('modalUserAvatar').innerText = data.user.username[0].toUpperCase();
-                    
-                    const isPremium = data.user.userType === 'registered';
-                    document.getElementById('modalPlanBadge').className = `plan-tag ${isPremium ? 'premium' : 'trial'}`;
-                    document.getElementById('modalPlanBadge').innerText = isPremium ? 'Premium Lifetime' : 'Free Trial';
-                    
-                    if (data.user.expiresAt) {
-                        document.getElementById('modalExpiryText').innerText = `(Expires: ${new Date(data.user.expiresAt).toLocaleDateString()})`;
-                    } else {
-                        document.getElementById('modalExpiryText').innerText = '(No Expiration)';
-                    }
+                    document.getElementById('modalAvatar').innerText = data.user.username[0].toUpperCase();
 
-                    // Render Helpers
+                    const isPrem = data.user.userType === 'registered';
+                    document.getElementById('modalPlanTag').className = `plan-tag ${isPrem ? 'premium' : 'trial'}`;
+                    document.getElementById('modalPlanTag').innerText = isPrem ? 'Premium Lifetime' : 'Free Trial';
+                    document.getElementById('modalExpiryLabel').innerText = data.user.expiresAt ? `(Expires: ${new Date(data.user.expiresAt).toLocaleDateString()})` : '';
+
+                    // Helpers
                     let helperHtml = '';
                     if (data.employees.length === 0) {
-                        helperHtml = '<div style="color:var(--text-muted); padding:20px 0;">No house helpers registered in this workspace.</div>';
+                        helperHtml = '<div style="color:var(--text-muted); padding:10px 0;">No house helpers recorded.</div>';
                     } else {
                         data.employees.forEach(emp => {
                             helperHtml += `
-                                <div class="detail-item">
+                                <div class="item-card">
                                     <div>
-                                        <div style="font-weight:700; color:#fff;">${emp.name}</div>
-                                        <div style="font-size:12px; color:var(--text-muted);">Contact: ${emp.contact || 'N/A'} • Joined: ${emp.joiningDate || 'N/A'}</div>
+                                        <div style="font-weight:700; color:var(--text-main);">${emp.name}</div>
+                                        <div style="font-size:11.5px; color:var(--text-muted);">Contact: ${emp.contact || 'N/A'} • Joined: ${emp.joiningDate || 'N/A'}</div>
                                     </div>
-                                    <div style="font-weight:700; color:var(--primary); font-size:13.5px;">
-                                        ₹${emp.baseSalary} / ${emp.salaryBasis}
-                                    </div>
+                                    <div style="font-weight:700; color:var(--primary);">₹${emp.baseSalary} / ${emp.salaryBasis}</div>
                                 </div>
                             `;
                         });
                     }
-                    document.getElementById('modalHelpersContent').innerHTML = helperHtml;
+                    document.getElementById('modalHelperList').innerHTML = helperHtml;
 
-                    // Render Ironing
+                    // Ironing
                     let ironHtml = '';
                     if (data.ironingWorkers.length === 0) {
-                        ironHtml = '<div style="color:var(--text-muted); padding:20px 0;">No dhobi / ironing workers registered.</div>';
+                        ironHtml = '<div style="color:var(--text-muted); padding:10px 0;">No ironing workers registered.</div>';
                     } else {
                         data.ironingWorkers.forEach(w => {
                             ironHtml += `
-                                <div class="detail-item">
+                                <div class="item-card">
                                     <div>
-                                        <div style="font-weight:700; color:#fff;">${w.name}</div>
-                                        <div style="font-size:12px; color:var(--text-muted);">Contact: ${w.contact || 'N/A'}</div>
+                                        <div style="font-weight:700;">${w.name}</div>
+                                        <div style="font-size:11.5px; color:var(--text-muted);">Contact: ${w.contact || 'N/A'}</div>
                                     </div>
-                                    <div style="font-size:12px; color:var(--text-secondary);">Worker ID: <code style="font-family:monospace;">${w.id}</code></div>
+                                    <div style="font-family:'Roboto Mono', monospace; font-size:11.5px; color:var(--text-secondary);">${w.id}</div>
                                 </div>
                             `;
                         });
                     }
-                    document.getElementById('modalIroningContent').innerHTML = ironHtml;
+                    document.getElementById('modalIroningList').innerHTML = ironHtml;
 
-                    // Render Appliances
+                    // Appliances
                     let appHtml = '';
                     if (data.appliances.length === 0) {
-                        appHtml = '<div style="color:var(--text-muted); padding:20px 0;">No appliances or warranty items registered.</div>';
+                        appHtml = '<div style="color:var(--text-muted); padding:10px 0;">No appliances recorded.</div>';
                     } else {
                         data.appliances.forEach(a => {
                             appHtml += `
-                                <div class="detail-item">
+                                <div class="item-card">
                                     <div>
-                                        <div style="font-weight:700; color:#fff;">${a.name} <span style="font-size:12px; color:var(--text-muted);">(${a.brand || 'Generic'})</span></div>
-                                        <div style="font-size:12px; color:var(--text-muted);">Type: ${a.type || 'N/A'} • S/N: ${a.serialNumber || 'N/A'}</div>
+                                        <div style="font-weight:700;">${a.name} <span style="font-size:11px; color:var(--text-muted);">(${a.brand || 'Generic'})</span></div>
+                                        <div style="font-size:11.5px; color:var(--text-muted);">S/N: ${a.serialNumber || 'N/A'} • Warranty: ${a.warrantyEnd || 'N/A'}</div>
                                     </div>
-                                    <div style="font-size:12px; color:var(--accent-emerald);">Warranty: ${a.warrantyEnd || 'N/A'}</div>
                                 </div>
                             `;
                         });
                     }
-                    document.getElementById('modalAppliancesContent').innerHTML = appHtml;
+                    document.getElementById('modalApplianceList').innerHTML = appHtml;
 
                     // Raw JSON
                     document.getElementById('modalRawJson').innerText = JSON.stringify(data, null, 2);
@@ -1771,62 +1724,62 @@
             document.getElementById('inspectorModal').classList.remove('active');
         }
 
-        function switchModalSubtab(subtabId, el) {
-            document.querySelectorAll('.modal-subtab-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.modal-subtab-content').forEach(c => c.style.display = 'none');
+        function switchSubtab(paneId, el) {
+            document.querySelectorAll('.subtab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.subtab-pane').forEach(p => p.style.display = 'none');
             el.classList.add('active');
-            document.getElementById(subtabId).style.display = 'block';
+            document.getElementById(paneId).style.display = 'block';
         }
 
-        async function extendModalUserTrial() {
-            if (!inspectedUserObj) return;
+        async function extendTrialModal() {
+            if (!activeInspectedUser) return;
             const res = await fetch(`${API_BASE}/admin-update-user?token=${adminToken}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId: inspectedUserObj.id, extendDays: 30 })
+                body: JSON.stringify({ userId: activeInspectedUser.id, extendDays: 30 })
             });
             const data = await res.json();
             if (data.success) {
-                showToast('Trial extended by +30 days');
-                openInspector(inspectedUserObj.id);
-                fetchAdminData();
+                showToast('Trial extended +30 days');
+                inspectUser(activeInspectedUser.id);
+                loadAdminData();
             }
         }
 
-        async function upgradeModalUserPremium() {
-            if (!inspectedUserObj) return;
+        async function upgradePremiumModal() {
+            if (!activeInspectedUser) return;
             const res = await fetch(`${API_BASE}/admin-update-user?token=${adminToken}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ userId: inspectedUserObj.id, userType: 'registered' })
+                body: JSON.stringify({ userId: activeInspectedUser.id, userType: 'registered' })
             });
             const data = await res.json();
             if (data.success) {
-                showToast('User upgraded to Lifetime Premium');
-                openInspector(inspectedUserObj.id);
-                fetchAdminData();
+                showToast('Upgraded to Lifetime Premium');
+                inspectUser(activeInspectedUser.id);
+                loadAdminData();
             }
         }
 
-        async function deleteModalUser() {
-            if (!inspectedUserObj) return;
-            if (confirm(`Are you sure you want to completely purge user ${inspectedUserObj.username} (${inspectedUserObj.id}) and all records?`)) {
+        async function deleteUserModal() {
+            if (!activeInspectedUser) return;
+            if (confirm(`Purge user account ${activeInspectedUser.username} and all records?`)) {
                 const res = await fetch(`${API_BASE}/admin-delete-user?token=${adminToken}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ userId: inspectedUserObj.id })
+                    body: JSON.stringify({ userId: activeInspectedUser.id })
                 });
                 const data = await res.json();
                 if (data.success) {
-                    showToast('User purged successfully');
+                    showToast('User purged');
                     closeInspector();
-                    fetchAdminData();
+                    loadAdminData();
                 }
             }
         }
 
-        async function deleteUserPrompt(userId, username) {
-            if (confirm(`Purge user account ${username} (${userId})? This will delete all scoped data.`)) {
+        async function deleteUser(userId, username) {
+            if (confirm(`Purge user account ${username} (${userId})?`)) {
                 const res = await fetch(`${API_BASE}/admin-delete-user?token=${adminToken}`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -1834,36 +1787,36 @@
                 });
                 const data = await res.json();
                 if (data.success) {
-                    showToast('User purged successfully');
-                    fetchAdminData();
+                    showToast('User purged');
+                    loadAdminData();
                 }
             }
         }
 
         // Diagnostics
-        async function fetchDiagnostics() {
+        async function loadDiagnostics() {
             try {
                 const res = await fetch(`${API_BASE}/admin-system-health?token=${adminToken}`);
                 const data = await res.json();
                 if (data.success) {
-                    document.getElementById('diag-db-latency').innerText = data.system.db_latency_ms;
-                    document.getElementById('diag-upload-size').innerText = data.system.uploads.total_size_mb;
-                    document.getElementById('diag-upload-files').innerText = data.system.uploads.file_count;
-                    document.getElementById('diag-php-version').innerText = `PHP ${data.system.php_version}`;
+                    document.getElementById('diag-latency').innerText = data.system.db_latency_ms;
+                    document.getElementById('diag-storage').innerText = data.system.uploads.total_size_mb;
+                    document.getElementById('diag-files').innerText = data.system.uploads.file_count;
+                    document.getElementById('diag-php').innerText = `PHP ${data.system.php_version}`;
 
-                    const tableContainer = document.getElementById('diagTablesList');
-                    tableContainer.innerHTML = '';
+                    const grid = document.getElementById('diagTableGrid');
+                    grid.innerHTML = '';
                     for (const [tbl, count] of Object.entries(data.system.tables)) {
-                        const item = document.createElement('div');
-                        item.className = 'detail-item';
-                        item.innerHTML = `
+                        const div = document.createElement('div');
+                        div.className = 'item-card';
+                        div.innerHTML = `
                             <div>
-                                <div style="font-weight:700; color:#fff;">${tbl}</div>
-                                <div style="font-size:11px; color:var(--text-muted);">Indexed MySQL Table</div>
+                                <div style="font-weight:700;">${tbl}</div>
+                                <div style="font-size:11px; color:var(--text-muted);">Table records</div>
                             </div>
-                            <div class="count-pill" style="font-size:13px; color:var(--primary);">${count} rows</div>
+                            <div class="count-badge" style="color:var(--primary); font-size:12px;">${count}</div>
                         `;
-                        tableContainer.appendChild(item);
+                        grid.appendChild(div);
                     }
                 }
             } catch (err) {
@@ -1871,63 +1824,59 @@
             }
         }
 
-        // API Studio Console
-        function toggleEndpoint(header) {
-            const details = header.nextElementSibling;
-            details.classList.toggle('active');
+        // API Studio Logic
+        function toggleApiAccordion(bar) {
+            const body = bar.nextElementSibling;
+            body.classList.toggle('open');
         }
 
-        async function executeApiCall(method, path, payloadTextareaId = null, requireScoped = false) {
-            const startTime = performance.now();
+        async function runApiCall(method, path, payloadId = null, scoped = false) {
+            const t0 = performance.now();
             const headers = { 'Content-Type': 'application/json' };
-            
-            if (requireScoped) {
-                const userId = document.getElementById('globalTestUserId').value.trim();
-                if (!userId) {
-                    alert('Please select or provide a User ID context in the top banner');
+
+            if (scoped) {
+                const uid = document.getElementById('activeTestUserId').value.trim();
+                if (!uid) {
+                    alert('Please provide a User ID in the active context input');
                     return;
                 }
-                headers['X-User-Id'] = userId;
+                headers['X-User-Id'] = uid;
             }
 
             const options = { method, headers };
-            if (payloadTextareaId) {
+            if (payloadId) {
                 try {
-                    const raw = document.getElementById(payloadTextareaId).value;
-                    options.body = JSON.stringify(JSON.parse(raw));
+                    options.body = JSON.stringify(JSON.parse(document.getElementById(payloadId).value));
                 } catch (e) {
-                    alert('Invalid JSON in request payload');
+                    alert('Invalid JSON in payload');
                     return;
                 }
             }
 
-            const consolePanel = document.getElementById('apiConsoleOutput');
-            consolePanel.style.display = 'block';
+            const consoleBox = document.getElementById('apiConsoleOutput');
+            consoleBox.style.display = 'block';
             document.getElementById('consoleTargetUrl').innerText = path;
 
             try {
                 const res = await fetch(API_BASE + path, options);
-                const elapsed = Math.round(performance.now() - startTime);
+                const elapsed = Math.round(performance.now() - t0);
                 const resData = await res.json();
 
                 document.getElementById('consoleTiming').innerText = `${elapsed} ms`;
-                const badge = document.getElementById('consoleStatusBadge');
-                badge.innerText = `${res.status} ${res.statusText || ''}`;
-                badge.style.color = res.ok ? '#10b981' : '#f43f5e';
-                badge.style.borderColor = res.ok ? '#10b98140' : '#f43f5e40';
+                const st = document.getElementById('consoleStatus');
+                st.innerText = `${res.status} ${res.statusText || ''}`;
+                st.style.color = res.ok ? '#10B981' : '#DC2626';
 
-                document.getElementById('consoleJsonBody').innerText = JSON.stringify(resData, null, 2);
-                consolePanel.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('consoleResponse').innerText = JSON.stringify(resData, null, 2);
+                consoleBox.scrollIntoView({ behavior: 'smooth' });
             } catch (err) {
-                document.getElementById('consoleStatusBadge').innerText = 'Network Error';
-                document.getElementById('consoleJsonBody').innerText = JSON.stringify({ error: err.message }, null, 2);
+                document.getElementById('consoleResponse').innerText = JSON.stringify({ error: err.message }, null, 2);
             }
         }
 
         function copyConsoleJson() {
-            const text = document.getElementById('consoleJsonBody').innerText;
-            navigator.clipboard.writeText(text);
-            showToast('JSON response copied');
+            navigator.clipboard.writeText(document.getElementById('consoleResponse').innerText);
+            showToast('JSON copied');
         }
     </script>
 </body>
